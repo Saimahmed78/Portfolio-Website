@@ -1,0 +1,23 @@
+.hero {
+  /* display: flex; */
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 100px;
+  min-height: 80vh;
+  background: linear-gradient(to right, #f0f4f8, #ffffff);
+}
+
+.hero-left {
+  max-width: 50%;
+}
+
+.hero-left h1 {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.hero-left p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
