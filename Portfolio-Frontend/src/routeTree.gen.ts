@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as ProjectRouteImport } from './routes/project'
 import { Route as MainRouteImport } from './routes/main'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 
 const SkillsRoute = SkillsRouteImport.update({
@@ -29,6 +30,11 @@ const MainRoute = MainRouteImport.update({
   path: '/main',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -37,12 +43,14 @@ const AboutRoute = AboutRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/main': typeof MainRoute
   '/project': typeof ProjectRoute
   '/skills': typeof SkillsRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/main': typeof MainRoute
   '/project': typeof ProjectRoute
   '/skills': typeof SkillsRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/main': typeof MainRoute
   '/project': typeof ProjectRoute
   '/skills': typeof SkillsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/about' | '/main' | '/project' | '/skills'
+  fullPaths: '/about' | '/contact' | '/main' | '/project' | '/skills'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/main' | '/project' | '/skills'
-  id: '__root__' | '/about' | '/main' | '/project' | '/skills'
+  to: '/about' | '/contact' | '/main' | '/project' | '/skills'
+  id: '__root__' | '/about' | '/contact' | '/main' | '/project' | '/skills'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   MainRoute: typeof MainRoute
   ProjectRoute: typeof ProjectRoute
   SkillsRoute: typeof SkillsRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   MainRoute: MainRoute,
   ProjectRoute: ProjectRoute,
   SkillsRoute: SkillsRoute,
