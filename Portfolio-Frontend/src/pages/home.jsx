@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { CTAButton } from "../component/buttons";
-import "../styles/home.css"
+import "../styles/home.css";
 export function Mainpage() {
   return (
     <>
@@ -16,8 +16,6 @@ export function Mainpage() {
 
           <CTAButton to="/project">Project</CTAButton>
           <CTAButton to="/about">About me</CTAButton>
-          
-            
         </div>
       </main>
     </>
