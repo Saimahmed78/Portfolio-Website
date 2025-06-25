@@ -109,3 +109,54 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .hero-left {
+    max-width: 100%;
+    animation: none; /* Optional: animations can feel janky on mobile */
+    opacity: 1;
+  }
+
+  .hero-left h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero-left p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero-left .cta-button {
+    display: inline-block;
+    margin: 10px 8px;
+    width: 80%;
+    max-width: 260px;
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+
+  .hero-right {
+    margin-top: 40px;
+    animation: none;
+    opacity: 1;
+  }
+
+  .profile-img-wrapper {
+    width: 90%;
+    height: auto;
+    max-width: 320px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+}
