@@ -2,24 +2,39 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0;
+  padding: 1.7rem 2rem;
   position: sticky;
   top: 0;
   z-index: 100;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius:  1rem 1rem;
 }
 
 .navbar a {
-  margin: 0 20px;
   text-decoration: none;
-  color: #222;
-  font-weight: 600;
-  font-size: 16px;
-  transition: color 0.3s ease;
+  color: #f1f5f9;
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
 }
 
 .navbar a:hover {
-  color: #1e90ff;
+  background: rgba(59, 130, 246, 0.25); /* Tailwind blue glass */
+  color: #93c5fd;
+  transform: scale(1.05);
+}
+
+.navbar a.active {
+  background: rgba(59, 130, 246, 0.35);
+  color: #3b82f6;
+  font-weight: 600;
 }
