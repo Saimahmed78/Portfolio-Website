@@ -8,18 +8,41 @@ import Clock from "../assets/SmartClock.png";
 import { Projectcomp } from "../component/projectList";
 export function Project() {
   const Projects = [
-    { title: "Quote Generator", img: countdown },
-    { title: "Ebook Store", img: ebook },
-    { title: "Simple Calculator", img: calculator },
-    { title: "Tip Calculator", img: tipCalculator },
-    { title: "Markdown Previwer", img: markdown },
-    { title: "Quote Generator", img: quoteGenerator },
-    { title: "Digital Clock", img: Clock },
+    {
+      title: "Quote Generator",
+      img: quoteGenerator,
+      link: "/project/quote-generator",
+    },
+    { title: "Ebook Store", img: ebook, link: "/project/ebook-store" },
+    {
+      title: "Simple Calculator",
+      img: calculator,
+      link: "/project/simple-calculator",
+    },
+    {
+      title: "Tip Calculator",
+      img: tipCalculator,
+      link: "/project/tip-calculator",
+    },
+
+    {
+      title: "Markdown Previwer",
+      img: markdown,
+      link: "/project/markdown-previewer",
+    },
+    {
+      title: "CountDown Timer",
+      img: countdown,
+      link: "/project/countdown-timer",
+    },
+    { title: "Digital Clock", img: Clock, link: "/project/smart-clock" },
   ];
 
   return (
-    <div>
-      <Projectcomp details={Projects} />
-    </div>
+    <>
+      <div>
+        <Projectcomp details={Projects} />
+      </div>
+    </>
   );
 }
