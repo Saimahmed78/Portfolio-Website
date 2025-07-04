@@ -8,12 +8,12 @@
 }
 
 .about-card {
-  background: rgba(255, 255, 255, 0.05); /* translucent glass */
+  background: rgb(255 255 255 / 5%); /* translucent glass */
   backdrop-filter: blur(14px);
   padding: 2rem 2.5rem;
   border-radius: 1.2rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+  border: 1px solid rgb(255 255 255 / 8%);
   color: #f1f5f9;
   max-width: 900px;
   margin: 0 auto;
@@ -24,7 +24,7 @@
   font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #60a5fa;
-  text-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+  text-shadow: 0 0 8px rgb(96 165 250 / 40%);
 }
 
 /* Skill Tags (like badges) */
@@ -37,19 +37,30 @@
 }
 
 .skill-tags li {
-  background: rgba(56, 189, 248, 0.15); /* soft tailwind blue */
+  background: rgb(56 189 248 / 15%); /* soft tailwind blue */
   color: #bae6fd;
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
   font-weight: 500;
   font-size: 0.95rem;
   list-style: none;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgb(59 130 246 / 30%);
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
+.project-list li {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  background: rgb(255 255 255 / 4%);
+  border-radius: 8px;
+  border: 1px solid rgb(255 255 255 / 7%);
+  color: #e2e8f0;
+  transition: background 0.3s ease;
+}
+
 .skill-tags li:hover {
-  background: rgba(56, 189, 248, 0.3);
+  background: rgb(56 189 248 / 30%);
   transform: scale(1.05);
 }
 
@@ -60,17 +71,59 @@
   margin-top: 1rem;
 }
 
-.project-list li {
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-  padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  color: #e2e8f0;
-  transition: background 0.3s ease;
-}
+
 
 .project-list li:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgb(255 255 255 / 7%);
+}
+
+@media (width <= 768px) {
+  .about-container {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .about-card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .skill-tags {
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .skill-tags li {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .project-list li {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+@media (width <= 480px) {
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .about-card {
+    padding: 1rem;
+  }
+
+  .skill-tags li {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .project-list li {
+    font-size: 0.9rem;
+  }
 }

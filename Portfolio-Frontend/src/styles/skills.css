@@ -1,6 +1,6 @@
 .skills-page {
   padding: 2rem;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, sans-serif;
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   color: #f1f5f9;
   min-height: 100vh;
@@ -14,7 +14,7 @@
   text-align: center;
   margin-bottom: 2.5rem;
   color: #60a5fa;
-  text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+  text-shadow: 0 0 10px rgb(96 165 250 / 30%);
 }
 
 .skills-grid {
@@ -27,19 +27,19 @@
 }
 
 .skill-section {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgb(255 255 255 / 6%);
   backdrop-filter: blur(14px);
   padding: 2rem;
   border-radius: 1.2rem;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 50%);
+  border: 1px solid rgb(255 255 255 / 8%);
   color: #e2e8f0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .skill-section:hover {
   transform: scale(1.03);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 60%);
 }
 
 .skill-section h2 {
@@ -65,14 +65,14 @@
   flex-direction: column;
   gap: 0.3rem;
   padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(255 255 255 / 4%);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgb(255 255 255 / 5%);
   transition: background 0.3s ease;
 }
 
 .skill-list li:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgb(255 255 255 / 7%);
 }
 
 .skill-list li span {
@@ -93,7 +93,7 @@
 }
 
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .page-title {
     font-size: 2rem;
   }
