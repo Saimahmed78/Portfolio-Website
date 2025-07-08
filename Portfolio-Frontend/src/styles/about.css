@@ -109,7 +109,7 @@
   }
 }
 
-@media (width <= 480px) {
+@media (max-width :480px) {
   .section-title {
     font-size: 1.25rem;
   }

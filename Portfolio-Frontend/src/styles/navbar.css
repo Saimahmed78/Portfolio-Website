@@ -52,7 +52,7 @@
 }
 
 /* MOBILE STYLES */
-@media (width <= 768px) {
+@media (max-width :480px) {
   .nav-links {
     position: absolute;
     top: 64px;

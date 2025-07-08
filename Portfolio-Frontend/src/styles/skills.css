@@ -93,7 +93,7 @@
 }
 
 
-@media (width <= 480px) {
+@media (max-width :480px) {
   .page-title {
     font-size: 2rem;
   }
