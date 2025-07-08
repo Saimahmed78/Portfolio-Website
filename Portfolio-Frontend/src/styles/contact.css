@@ -108,3 +108,35 @@
 .contact-info-container p:last-child {
   margin-bottom: 0;
 }
+
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.95rem;
+    padding: 0.9rem;
+  }
+
+  .contact-form label {
+    font-size: 1rem;
+  }
+
+  .submit-btn {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .contact-info-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .contact-info-container p {
+    font-size: 1rem;
+    line-height: 1.7;
+    gap: 0.75rem;
+  }
+}

@@ -113,7 +113,7 @@
   }
 }
 
-@media (width <= 768px) {
+@media (max-width:480px) {
   .hero {
     flex-direction: column;
     padding: 40px 20px;
