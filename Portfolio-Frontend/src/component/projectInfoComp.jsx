@@ -22,14 +22,14 @@ export function ProjectInfoComp({ project }) {
           />
           <figcaption className="preview-card-caption">Dark Mode</figcaption>
         </figure>
-        <figure className="preview-card">
+        {/* <figure className="preview-card">
           <img
             src={project.lightMode}
             alt={`${project.title} light mode`}
             className="preview-card-img"
           />
           <figcaption className="preview-card-caption">Light Mode</figcaption>
-        </figure>
+        </figure> */}
       </section>
 
       <section className="project-detail-info">
