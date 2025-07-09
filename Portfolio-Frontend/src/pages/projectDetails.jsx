@@ -1,6 +1,7 @@
 import { ProjectInfoComp } from "../component/projectInfoComp";
 import { projectDetails } from "../hooks/Projectdetails";
 import { Route } from "../routes/project/$id";
+import "../styles/projectInfo.css"
 
 export function projectInfo() {
   const { id } = Route.useParams();
