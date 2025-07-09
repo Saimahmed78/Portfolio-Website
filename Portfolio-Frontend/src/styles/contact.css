@@ -21,7 +21,7 @@
   min-width: 320px;
 }
 
-.contact-form-container h2{
+.contact-form-container h2 {
   color: white;
 }
 
@@ -34,7 +34,8 @@
 .contact-form label {
   margin-top: 1.2rem;
   font-weight: 600;
-  color: #e2e8f0; /* Softer light gray */
+  color: #e2e8f0;
+  /* Softer light gray */
   font-size: 1.05rem;
 }
 
@@ -145,4 +146,10 @@
     line-height: 1.7;
     gap: 0.5rem;
   }
+
+  .contact-info-container {
+    padding-left: 0;
+    border: none
+  }
+
 }
