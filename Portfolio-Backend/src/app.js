@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import dbConnection from "./db/dbConnection.js";
 
 dotenv.config({
   path: ".env", // relative path is /home/saimahmed/Desktop/Folder/.env
