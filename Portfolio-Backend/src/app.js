@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dbConnection from "./db/dbConnection.js";
+import { ApiError } from "./utils/ApiError.js";
+
 
 dotenv.config({
   path: ".env", // relative path is /home/saimahmed/Desktop/Folder/.env
@@ -22,5 +24,27 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+app.use((err, req, res, next) => {
+  console.error("💥 Error Middleware Triggered:", err);
+
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json({
+      success: err.success,
+      message: err.message,
+      statusCode: err.statusCode,
+      errors: err.errors || [],
+    });
+  }
+
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+    statusCode: 500,
+  });
+});
+
+
 
 export default app;
