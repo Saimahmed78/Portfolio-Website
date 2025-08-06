@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dbConnection from "./db/dbConnection.js";
 import { ApiError } from "./utils/ApiError.js";
+import healthCheck from "./controllers/healthcheck.Controllers.js";
 
 
 dotenv.config({
@@ -24,6 +25,7 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use("/api/v1/healthCheck", healthCheck);
 
 
 app.use((err, req, res, next) => {
