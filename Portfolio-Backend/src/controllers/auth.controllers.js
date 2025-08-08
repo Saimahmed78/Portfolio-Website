@@ -6,6 +6,7 @@ import asyncHandler from "../utils/asynchandler.js";
 import {
   emailVerificationConfirmationContent,
   emailVerificationContent,
+  resetPasswordEmailContent,
   sendMail,
 } from "../utils/mail.js";
 const userRegister = asyncHandler(async (req, res) => {
@@ -195,4 +196,61 @@ const loginUser = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, " User is logged In"));
 });
 
-export { userRegister, verifyUser, resendverificationemail, loginUser };
+
+const logOut = asyncHandler(async (req, res) => {
+  //  find the user by id
+  console.log("Request reacher logOut");
+  const loggedinUser = await User.findById(req.user.id);
+  console.log(loggedinUser);
+  // if user not found throw error
+  if (!loggedinUser) {
+    throw new ApiError(404, "User not found");
+  }
+  // if find then delete the cookies
+  const accessTokenCookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  };
+  res.clearCookie("AccessToken", accessTokenCookieOptions);
+  const refreshTokenCookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  };
+  res.clearCookie("RefreshToken", refreshTokenCookieOptions);
+
+  // delete the refresh token from db
+  loggedinUser.refreshToken = undefined;
+  // save the user
+  loggedinUser.save();
+  return res.status(200).json(new ApiResponse(200, "User is loggedOut"));
+});
+const forgotPass = asyncHandler(async (req, res) => {
+  // get email from req.body
+  const { email } = req.body;
+  // find user by email
+  const user = await User.findOne({ email });
+  // if user not exist throw error
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  const name = user.name;
+  // if exist generate tokens
+  const { token, hashedToken, tokenExpiry } = await user.generateTempToken();
+  // save in db
+  user.forgotPasswordToken = hashedToken;
+  user.forgotPasswordExpiry = tokenExpiry;
+  await user.save();
+  // send email
+  console.log(token);
+  const resetPassUrl = `${process.env.BASE_URL}/api/v1/users/forgotPass/${token}`;
+  await sendMail({
+    email: user.email,
+    subject: " Reset Password Email",
+    mailGenContent: resetPasswordEmailContent(name, resetPassUrl),
+  });
+  res.status(200).json(new ApiResponse(200, "Email send Successfully"));
+});
+
+export { userRegister, verifyUser, resendverificationemail, loginUser ,logOut , forgotPass};
