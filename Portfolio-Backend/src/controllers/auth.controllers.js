@@ -4,64 +4,69 @@ import crypto from "crypto";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asynchandler.js";
 import {
+  accountDeletionEmailContent,
   emailVerificationConfirmationContent,
   emailVerificationContent,
+  forgotPasswordEmailContent,
   resetPasswordEmailContent,
+  resetcurrentPasswordEmailContent,
   sendMail,
 } from "../utils/mail.js";
+import bcrypt from "bcryptjs";
 const userRegister = asyncHandler(async (req, res) => {
   // get email and password from the user
-  try{
-  const { name, email, password } = req.body;
-  // then find the user by email
-  const existingUser = await User.findOne({ email });
-  // if user exist then send error
-  if (existingUser)
-    throw new ApiError(409, "Validation failed", ["User already exist"]);
-  //Create a user
-  const newUser = await User.create({
-    name,
-    email,
-    password,
-  });
-  // if not exist then create verification token and verification
-  const { token, hashedToken, tokenExpiry } = await newUser.generateVerificationToken();
-  // save in db
-  console.log("token =", token);
-  console.log("hashedToken =", hashedToken);
-  newUser.verificationToken = hashedToken;
-  newUser.verificationTokenExpiry = tokenExpiry;
-  console.log("newUser.verificationToken =", newUser.verificationToken);
-  //Check if the tokens are generated ,
-  if (!newUser.verificationToken && !newUser.verificationTokenExpiry) {
-    throw new ApiError(400, "User registration is failed", [
-      "Verification token failed",
-      "Verifcation Token expiry failed",
-    ]);
-  }
-  //if yes,  save user
-  await newUser.save();
-  //send Mail
-  const verificationURL = `${process.env.BASE_URL}/api/v1/users/verify/${token}`;
   try {
-    await sendMail({
-      email: newUser.email,
-      subject: "User Verification Email",
-      mailGenContent: emailVerificationContent(name, verificationURL),
+    const { name, email, password } = req.body;
+    // then find the user by email
+    const existingUser = await User.findOne({ email });
+    // if user exist then send error
+    if (existingUser)
+      throw new ApiError(409, "Validation failed", ["User already exist"]);
+    //Create a user
+    const newUser = await User.create({
+      name,
+      email,
+      password,
     });
+    // if not exist then create verification token and verification
+    const { token, hashedToken, tokenExpiry } =
+      await newUser.generateVerificationToken();
+    // save in db
+    console.log("token =", token);
+    console.log("hashedToken =", hashedToken);
+    newUser.verificationToken = hashedToken;
+    newUser.verificationTokenExpiry = tokenExpiry;
+    console.log("newUser.verificationToken =", newUser.verificationToken);
+    //Check if the tokens are generated ,
+    if (!newUser.verificationToken && !newUser.verificationTokenExpiry) {
+      throw new ApiError(400, "User registration is failed", [
+        "Verification token failed",
+        "Verifcation Token expiry failed",
+      ]);
+    }
+    //if yes,  save user
+    await newUser.save();
+    //send Mail
+    const verificationURL = `${process.env.BASE_URL}/api/v1/users/verify/${token}`;
+    try {
+      await sendMail({
+        email: newUser.email,
+        subject: "User Verification Email",
+        mailGenContent: emailVerificationContent(name, verificationURL),
+      });
+    } catch (err) {
+      throw new ApiError(400, "Email Verification failed", err);
+    }
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          "User is registered and Verification Email sent successfully",
+        ),
+      );
   } catch (err) {
-    throw new ApiError(400, "Email Verification failed", err);
-  }
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        "User is registered and Verification Email sent successfully",
-      ),
-    );
-  } catch(err){
-     throw new ApiError(400, "There is problem in user Registration", err)
+    throw new ApiError(400, "There is problem in user Registration", err);
   }
 });
 const verifyUser = asyncHandler(async (req, res) => {
@@ -196,7 +201,6 @@ const loginUser = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, " User is logged In"));
 });
 
-
 const logOut = asyncHandler(async (req, res) => {
   //  find the user by id
   console.log("Request reacher logOut");
@@ -237,20 +241,149 @@ const forgotPass = asyncHandler(async (req, res) => {
   }
   const name = user.name;
   // if exist generate tokens
-  const { token, hashedToken, tokenExpiry } = await user.generateTempToken();
+  const { token, hashedToken, tokenExpiry } =
+    await user.generateVerificationToken();
   // save in db
   user.forgotPasswordToken = hashedToken;
   user.forgotPasswordExpiry = tokenExpiry;
   await user.save();
   // send email
   console.log(token);
-  const resetPassUrl = `${process.env.BASE_URL}/api/v1/users/forgotPass/${token}`;
+  const forgotPassUrl = `${process.env.BASE_URL}/api/v1/users/forgotPass/${token}`;
   await sendMail({
     email: user.email,
     subject: " Reset Password Email",
-    mailGenContent: resetPasswordEmailContent(name, resetPassUrl),
+    mailGenContent: forgotPasswordEmailContent(name, forgotPassUrl),
   });
   res.status(200).json(new ApiResponse(200, "Email send Successfully"));
 });
 
-export { userRegister, verifyUser, resendverificationemail, loginUser ,logOut , forgotPass};
+const resetPass = asyncHandler(async (req, res) => {
+  // get token from req.params
+  const { token } = req.params;
+  // get password,confirm Password from req.body
+  const { password, confirmPassword } = req.body;
+
+  if (!token) {
+    throw new ApiError(404, "Token not found");
+  }
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  const resetPassUser = await User.findOne({
+    forgotPasswordToken: hashedToken,
+    forgotPasswordExpiry: { $gt: Date.now() },
+  });
+  if (!resetPassUser) {
+    throw new ApiError(404, "User not found");
+  }
+  resetPassUser.forgotPasswordToken = undefined;
+  resetPassUser.forgotPasswordExpiry = undefined;
+  resetPassUser.password = password;
+  let name = "saim";
+  await resetPassUser.save();
+  await sendMail({
+    email: "s@gmail.com",
+    subject: " Reset Password Email",
+    mailGenContent: resetPasswordEmailContent(name),
+  });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Password changed Successfully"));
+});
+const changePass = asyncHandler(async (req, res) => {
+  // get passwords from req.body
+  const { oldPassword, newPassword } = req.body;
+  //find user by req.user.id
+  const loggedinUser = await User.findById(req.user.id);
+  //if user no found show error
+  let name = loggedinUser.name;
+  if (!loggedinUser) {
+    throw new ApiError(404, "User not found");
+  }
+  // verify the old password
+  let isMatch = await bcrypt.compare(oldPassword, loggedinUser.password);
+  if (!isMatch) {
+    throw new ApiError(404, "old password is wrong");
+  }
+  // validate that old password and new Password are different
+  if (oldPassword == newPassword) {
+    throw new ApiError(
+      404,
+      "New Password should be different from Old Password",
+    );
+  }
+  // Update the user
+  loggedinUser.password = newPassword;
+  //clear all the cookies
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  };
+  res.clearCookie("AccessToken", cookieOptions);
+
+  res.clearCookie("RefreshToken", cookieOptions);
+  // delete refresh Token from databases
+  loggedinUser.refreshToken = undefined;
+  // Save the User
+  await loggedinUser.save();
+  await sendMail({
+    email: loggedinUser.email,
+    subject: " Reset Password Email",
+    mailGenContent: resetcurrentPasswordEmailContent(name),
+  });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Password Changed Successfully"));
+});
+
+const deleteAccount = asyncHandler(async (req, res) => {
+  const userToDelete = await User.findById(req.user.id);
+  if (!userToDelete) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const { password } = req.body;
+  console.log("password",password)
+  console.log("orginal password", userToDelete.password)
+  const isMatch = await bcrypt.compare(password, userToDelete.password);
+  if (!isMatch) {
+    throw new ApiError(400, "Password is incorrect");
+  }
+
+  // Delete user
+  await User.findByIdAndDelete(req.user.id);
+
+  // Clear cookies
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  };
+  res.clearCookie("AccessToken", cookieOptions);
+  res.clearCookie("RefreshToken", cookieOptions);
+
+  // Send farewell email
+  await sendMail({
+    email: userToDelete.email,
+    subject: "Account Deleted",
+    mailGenContent: accountDeletionEmailContent(userToDelete.name),
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Account deleted successfully"));
+});
+
+
+export {
+  userRegister,
+  verifyUser,
+  resendverificationemail,
+  loginUser,
+  logOut,
+  forgotPass,
+  resetPass,
+  changePass,
+  deleteAccount,
+};
