@@ -45,7 +45,7 @@ const emailVerificationContent = (username, verificationURL) => {
     body: {
       name: username,
       intro:
-        "Welcome to Project Management System! We're very excited to have you on board.",
+        "Welcome to My Portfolio Website! We're very excited to have you on board.",
       action: {
         instructions: "To get started with US, please click here:",
         button: {
@@ -69,7 +69,7 @@ const emailVerificationConfirmationContent = (username) => {
         instructions: "To get started with US, please click here:",
         button: {
           color: "#22BC66", // Optional action button color
-          text: "Confirm your account",
+          text: "Verify your account",
         },
       },
       outro:
@@ -77,7 +77,7 @@ const emailVerificationConfirmationContent = (username) => {
     },
   };
 };
-const resetPasswordEmailContent = (username, resetPassUrl) => {
+const forgotPasswordEmailContent = (username, resetPassUrl) => {
   return {
     body: {
       name: username,
@@ -96,9 +96,73 @@ const resetPasswordEmailContent = (username, resetPassUrl) => {
     },
   };
 };
+
+const resetPasswordEmailContent = (username, resetPassUrl) => {
+  return {
+    body: {
+      name: username,
+      intro:
+        "Welcome to Project Management System! You have successfully changed your password.",
+      action: {
+        instructions: "To get started with US, please click here:",
+        button: {
+          color: "#22BC66", // Optional action button color
+          text: "Confirm your account",
+          link: resetPassUrl,
+        },
+      },
+      outro:
+        "Need help, or have questions? Just reply to this email, we'd love to help.",
+    },
+  };
+};
+const changePasswordEmailContent = (username, resetPassUrl) => {
+  return {
+    body: {
+      name: username,
+      intro:
+        "Welcome to Project Management System! You have successfully changed your password.",
+      action: {
+        instructions: "To get started with US, please click here:",
+        button: {
+          color: "#22BC66", // Optional action button color
+          text: "Confirm your account",
+          link: resetPassUrl,
+        },
+      },
+      outro:
+        "Need help, or have questions? Just reply to this email, we'd love to help.",
+    },
+  };
+};
+
+
+const accountDeletionEmailContent = (username, resetPassUrl) => {
+  return {
+    body: {
+      name: username,
+      intro:
+        "You have Successfully deleted your account",
+      action: {
+        instructions: "To get started with US, please click here:",
+        button: {
+          color: "#22BC66", // Optional action button color
+          text: "Confirm your account",
+          link: resetPassUrl,
+        },
+      },
+      outro:
+        "Need help, or have questions? Just reply to this email, we'd love to help.",
+    },
+  };
+};
+
 export {
   sendMail,
   emailVerificationContent,
   emailVerificationConfirmationContent,
+  forgotPasswordEmailContent,
   resetPasswordEmailContent,
+  changePasswordEmailContent,
+  accountDeletionEmailContent
 };
