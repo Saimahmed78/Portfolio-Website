@@ -180,7 +180,7 @@ const loginUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 10 * 60 * 1000, // 1 day
+    maxAge: 15 * 60 * 1000, // 15 minutes
   };
 
   res.cookie("AccessToken", accessToken, accessTokenCookieOptions);
@@ -190,12 +190,10 @@ const loginUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 20 * 60 * 1000, // 1 hour
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
   };
 
   res.cookie("RefreshToken", refreshToken, refreshTokenCookieOptions);
-  //save refresh token in database
-  loggedinUser.refreshToken = refreshToken;
 
   // save the user
   await loggedinUser.save();
