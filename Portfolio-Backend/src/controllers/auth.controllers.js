@@ -86,7 +86,7 @@ const verifyUser = asyncHandler(async (req, res) => {
   });
   // if user do not exist send error
   if (!userToVerify) {
-    throw new ApiError(404, "User not found. Maybe Token is Expired");
+    throw new ApiError(404, "Token is Expired");
   }
   // if user exist empty the tokens
   userToVerify.verificationToken = undefined;
@@ -112,6 +112,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "User is verified Successfully"));
 });
+
 const resendverificationemail = asyncHandler(async (req, res) => {
   // get token from req.params
   const { email } = req.body;
