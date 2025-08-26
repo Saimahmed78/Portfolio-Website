@@ -138,7 +138,7 @@ const resendverificationemail = asyncHandler(async (req, res) => {
   // save the user
   await userToVerify.save();
   // send email to User
-  const verificationURL = `${process.env.BASE_URL}/api/v1/users/verify/${token}`;
+  const verificationURL = `http://localhost:5173/verify/${token}`;
   try {
     await sendMail({
       email: userToVerify.email,
@@ -151,7 +151,7 @@ const resendverificationemail = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, "User verification Email Sent Successfully"));
-});
+})
 
 const loginUser = asyncHandler(async (req, res) => {
   // get email and password from the req.body
