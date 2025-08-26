@@ -13,6 +13,7 @@ import {
   sendMail,
 } from "../utils/mail.js";
 import bcrypt from "bcryptjs";
+
 const userRegister = asyncHandler(async (req, res) => {
   // get email and password from the user
   try {
@@ -29,25 +30,18 @@ const userRegister = asyncHandler(async (req, res) => {
       password,
     });
     // if not exist then create verification token and verification
-    const { token, hashedToken, tokenExpiry } =
-      await newUser.generateVerificationToken();
-    // save in db
-    console.log("token =", token);
-    console.log("hashedToken =", hashedToken);
-    newUser.verificationToken = hashedToken;
-    newUser.verificationTokenExpiry = tokenExpiry;
-    console.log("newUser.verificationToken =", newUser.verificationToken);
+    const token = newUser.generateVerificationToken();
     //Check if the tokens are generated ,
-    if (!newUser.verificationToken && !newUser.verificationTokenExpiry) {
+    if (!newUser.verificationToken || !newUser.verificationTokenExpiry) {
       throw new ApiError(400, "User registration is failed", [
-        "Verification token failed",
+        "Verification token generation failed",
         "Verifcation Token expiry failed",
       ]);
     }
     //if yes,  save user
     await newUser.save();
     //send Mail
-    const verificationURL = `${process.env.BASE_URL}/api/v1/users/verify/${token}`;
+    const verificationURL = `http://localhost:5173/verify/${token}`;
     try {
       await sendMail({
         email: newUser.email,
@@ -55,7 +49,7 @@ const userRegister = asyncHandler(async (req, res) => {
         mailGenContent: emailVerificationContent(name, verificationURL),
       });
     } catch (err) {
-      throw new ApiError(400, "Email Verification failed", err);
+      throw new ApiError(500, "Email Verification failed", err);
     }
     return res
       .status(200)
@@ -66,9 +60,15 @@ const userRegister = asyncHandler(async (req, res) => {
         ),
       );
   } catch (err) {
-    throw new ApiError(400, "There is problem in user Registration", err);
+    if (err instanceof ApiError) {
+      // Already a known error → forward it
+      throw err;
+    }
+    // Unknown error → wrap as 500
+    throw new ApiError(500, "Something went wrong on our end", err);
   }
 });
+
 const verifyUser = asyncHandler(async (req, res) => {
   // get token from req.params
   const { token } = req.params;
