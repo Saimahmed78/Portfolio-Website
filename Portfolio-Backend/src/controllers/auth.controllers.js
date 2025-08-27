@@ -151,7 +151,7 @@ const resendverificationemail = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, "User verification Email Sent Successfully"));
-})
+});
 
 const loginUser = asyncHandler(async (req, res) => {
   // get email and password from the req.body
@@ -274,7 +274,7 @@ const resetPass = asyncHandler(async (req, res) => {
     forgotPasswordExpiry: { $gt: Date.now() },
   });
   if (!resetPassUser) {
-    throw new ApiError(404, "User not found");
+    throw new ApiError(404, "Link is expired");
   }
   resetPassUser.forgotPasswordToken = undefined;
   resetPassUser.forgotPasswordExpiry = undefined;
@@ -292,7 +292,7 @@ const resetPass = asyncHandler(async (req, res) => {
 });
 const changePass = asyncHandler(async (req, res) => {
   // get passwords from req.body
-  const { oldPassword, newPassword } = req.body;
+  const { oldPass, newPass, confirmPass } = req.body;
   //find user by req.user.id
   const loggedinUser = await User.findById(req.user.id);
   //if user no found show error
@@ -301,19 +301,19 @@ const changePass = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
   }
   // verify the old password
-  let isMatch = await bcrypt.compare(oldPassword, loggedinUser.password);
+  let isMatch = await bcrypt.compare(oldPass, loggedinUser.password);
   if (!isMatch) {
     throw new ApiError(404, "old password is wrong");
   }
   // validate that old password and new Password are different
-  if (oldPassword == newPassword) {
+  if (oldPass == newPass) {
     throw new ApiError(
       404,
       "New Password should be different from Old Password",
     );
   }
   // Update the user
-  loggedinUser.password = newPassword;
+  loggedinUser.password = newPass;
   //clear all the cookies
 
   const cookieOptions = {
@@ -331,7 +331,7 @@ const changePass = asyncHandler(async (req, res) => {
   await sendMail({
     email: loggedinUser.email,
     subject: " Reset Password Email",
-    mailGenContent: resetcurrentPasswordEmailContent(name),
+    mailGenContent: changePasswordEmailContent(name),
   });
   return res
     .status(200)
@@ -345,8 +345,8 @@ const deleteAccount = asyncHandler(async (req, res) => {
   }
 
   const { password } = req.body;
-  console.log("password",password)
-  console.log("orginal password", userToDelete.password)
+  console.log("password", password);
+  console.log("orginal password", userToDelete.password);
   const isMatch = await bcrypt.compare(password, userToDelete.password);
   if (!isMatch) {
     throw new ApiError(400, "Password is incorrect");
@@ -375,7 +375,6 @@ const deleteAccount = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "Account deleted successfully"));
 });
-
 
 export {
   userRegister,
