@@ -1,0 +1,76 @@
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #252540);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  padding: 1rem;
+}
+
+.verify-box {
+  background: #2e2e3f;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.6s ease;
+}
+
+.verify-box h2 {
+  margin: 1rem 0;
+  font-size: 1.6rem;
+}
+
+.verify-box p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.verify-btn {
+  padding: 0.9rem 1.6rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #6366f1;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.verify-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+}
+
+.success {
+  border: 2px solid #22c55e;
+}
+
+.fail {
+  border: 2px solid #ef4444;
+}
+
+/* Loader spinner */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top: 4px solid #6366f1;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 1rem auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
