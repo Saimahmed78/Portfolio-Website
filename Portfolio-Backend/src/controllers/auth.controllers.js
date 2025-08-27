@@ -9,9 +9,10 @@ import {
   emailVerificationContent,
   forgotPasswordEmailContent,
   resetPasswordEmailContent,
-  resetcurrentPasswordEmailContent,
+  changePasswordEmailContent,
   sendMail,
 } from "../utils/mail.js";
+
 import bcrypt from "bcryptjs";
 
 const userRegister = asyncHandler(async (req, res) => {
