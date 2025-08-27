@@ -77,6 +77,7 @@ const emailVerificationConfirmationContent = (username) => {
     },
   };
 };
+
 const forgotPasswordEmailContent = (username, resetPassUrl) => {
   return {
     body: {
@@ -136,13 +137,11 @@ const changePasswordEmailContent = (username, resetPassUrl) => {
   };
 };
 
-
 const accountDeletionEmailContent = (username, resetPassUrl) => {
   return {
     body: {
       name: username,
-      intro:
-        "You have Successfully deleted your account",
+      intro: "You have Successfully deleted your account",
       action: {
         instructions: "To get started with US, please click here:",
         button: {
@@ -164,5 +163,5 @@ export {
   forgotPasswordEmailContent,
   resetPasswordEmailContent,
   changePasswordEmailContent,
-  accountDeletionEmailContent
+  accountDeletionEmailContent,
 };
