@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import dbConnection from "./db/dbConnection.js";
 import { ApiError } from "./utils/ApiError.js";
 import healthCheck from "./controllers/healthcheck.Controllers.js";
-
+import userRoutes from "./routes/auth.Routes.js";
 
 dotenv.config({
   path: ".env", // relative path is /home/saimahmed/Desktop/Folder/.env
@@ -14,10 +14,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "http://localhost:5173",
     credentials: true,
-    methods: ["PUT", "DELETE", "UPDATE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["PUT", "DELETE", "DELETE", "OPTIONS", "GET"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    exposedHeaders: ["Set-Cookie", "*"],
   }),
 );
 
@@ -25,9 +26,8 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/healthCheck", healthCheck);
-
-
 app.use((err, req, res, next) => {
   console.error("💥 Error Middleware Triggered:", err);
 
@@ -46,7 +46,5 @@ app.use((err, req, res, next) => {
     statusCode: 500,
   });
 });
-
-
 
 export default app;
