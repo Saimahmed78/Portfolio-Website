@@ -32,7 +32,7 @@ router.post(
 );
 router.get("/verify/:token", verifyUser);
 router.post(
-  "/resend-verifyemail",
+  "/resendVerifyEmail",
   resendVerifcationEmailValidators(),
   validateRequest,
   resendverificationemail,
@@ -40,7 +40,7 @@ router.post(
 
 router.post("/login", userloginValidators(), validateRequest, loginUser);
 router.get("/logOut", isloggedIn, logOut);
-router.get("/forgotPass", forgotPassValidators(), validateRequest, forgotPass);
+router.post("/forgotPass", forgotPassValidators(), validateRequest, forgotPass);
 router.post(
   "/resetPass/:token",
   resetPassValidators(),
