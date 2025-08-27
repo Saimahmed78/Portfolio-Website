@@ -229,6 +229,7 @@ const logOut = asyncHandler(async (req, res) => {
   loggedinUser.save();
   return res.status(200).json(new ApiResponse(200, "User is loggedOut"));
 });
+
 const forgotPass = asyncHandler(async (req, res) => {
   // get email from req.body
   const { email } = req.body;
@@ -248,11 +249,12 @@ const forgotPass = asyncHandler(async (req, res) => {
   await user.save();
   // send email
   console.log(token);
-  const forgotPassUrl = `${process.env.BASE_URL}/api/v1/users/forgotPass/${token}`;
+  const resetPassUrl = `http://localhost:5173/resetPass/${token}`;
+
   await sendMail({
     email: user.email,
     subject: " Reset Password Email",
-    mailGenContent: forgotPasswordEmailContent(name, forgotPassUrl),
+    mailGenContent: forgotPasswordEmailContent(name, resetPassUrl),
   });
   res.status(200).json(new ApiResponse(200, "Email send Successfully"));
 });
