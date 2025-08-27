@@ -61,11 +61,11 @@ const resetPassValidators = () => {
 };
 const changePassValidators = () => {
   return [
-    body("oldPassword")
+    body("oldPass")
       .trim()
       .notEmpty()
       .withMessage("new Password is requried"),
-    body("newPassword")
+    body("newPass")
       .trim()
       .notEmpty()
       .withMessage("Confirm Password is required"),
