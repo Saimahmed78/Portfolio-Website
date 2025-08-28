@@ -1,9 +1,9 @@
-import { About } from "../pages/aboutme";
-import { ContactPage } from "../pages/contactpage";
-import { HomePage } from "../pages/home";
-import { Project } from "../pages/projectPage";
-import ProjectInfo from "../pages/projectDetails";
-import Skills from "../pages/skills";
+import { About } from "../pages/AboutMe";
+import { ContactPage } from "../pages/ContactPage";
+import { HomePage } from "../pages/Home";
+import { Project } from "../pages/ProjectPage";
+import ProjectInfo from "../pages/ProjectDetails";
+import Skills from "../pages/Skills";
 
 export const routeObjects = [
   {
