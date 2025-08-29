@@ -2,7 +2,7 @@ import { CTAButton } from "../component/buttons";
 import "../styles/home.css";
 import profileImg from "../assets/Profile Image.jpg";
 
-export function Mainpage() {
+export function Home() {
   return (
     <main className="hero">
       <div className="hero-left">
