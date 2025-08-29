@@ -132,6 +132,27 @@
   animation: slide 1s linear infinite;
 }
 
+.register-password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.register-password-wrapper input {
+  flex: 1;
+}
+
+.register-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #58a6ff;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+
 @keyframes slide {
   0% {
     left: -100%;
