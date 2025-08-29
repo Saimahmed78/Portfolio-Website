@@ -26,55 +26,86 @@ class ApiClient {
 
       return data;
     } catch (error) {
-      console.log("Api Error = ", error);
       throw error;
     }
   }
 
-  async register(name, email, password) {
-    return this.customFetch("/users/register", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password }),
-    });
-  }
+  // Register a new user
+async register(name, email, password) {
+  return this.customFetch("/users/register", {
+    method: "POST",
+    body: JSON.stringify({ name, email, password }),
+  });
+}
 
-  async verify(token) {
-    return this.customFetch(`/users/verify/${token}`, {
-      method: "GET",
-    });
-  }
+// Verify email with token
+async verify(token) {
+  return this.customFetch(`/users/verify/${token}`, {
+    method: "GET",
+  });
+}
 
-  async login(email, password) {
-    return this.customFetch("/users/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
-  }
+// Log in with email + password
+async login(email, password) {
+  return this.customFetch("/users/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
 
-  async resendVerifyEmail(email) {
-    return this.customFetch("/users/resendVerifyEmail", {
-      method: "POST",
-      body: JSON.stringify({ email }),
-    });
-  }
-  async logOut() {
-    return;
-    this.customFetch("/users/logOut"),
-      {
-        method: "GET",
-      };
-  }
-  async getMe() {
-    return this.customFetch("/users/getMe", { method: "GET" });
-  }
+// Resend verification email
+async resendVerifyEmail(email) {
+  return this.customFetch("/users/resendVerifyEmail", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+// Log out the current user
+async logOut() {
+  return this.customFetch("/users/logOut", {
+    method: "GET",
+  });
+}
 
-  async getMe() {
-    return;
-    this.customFetch("/users/getMe"),
-      {
-        method: "GET",
-      };
-  }
+// Get details of the current user
+async getMe() {
+  return this.customFetch("/users/getMe", {
+    method: "GET",
+  });
+}
+
+// Forgot password (send reset link)
+async forgotPass(email) {
+  return this.customFetch("/users/forgotPass", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
+}
+
+// Reset password with token
+async resetPass(token, password, confirmPassword) {
+  return this.customFetch(`/users/resetPass/${token}`, {
+    method: "POST",
+    body: JSON.stringify({ password, confirmPassword }),
+  });
+}
+
+// Change password (while logged in)
+async changePass(oldPass, newPass, confirmPass) {
+  return this.customFetch("/users/changePass", {
+    method: "POST",
+    body: JSON.stringify({ oldPass, newPass, confirmPass }),
+  });
+}
+
+// Delete account
+async deleteAccount(password) {
+  return this.customFetch("/users/deleteAccount", {
+    method: "POST",
+    body: JSON.stringify({ password }),
+  });
+}
+
 }
 
 const apiClient = new ApiClient();
