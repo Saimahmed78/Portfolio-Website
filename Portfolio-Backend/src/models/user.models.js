@@ -17,25 +17,14 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       lowercase: true,
-      required: false, // optional at registration
-      unique: true, // still enforce uniqueness when provided
-      sparse: true, // important! only enforce uniqueness if value exists
+      unique: true,
+      sparse: true,
       minlength: 3,
       maxlength: 30,
       match: /^[a-zA-Z0-9_]+$/,
     },
-
-    profileImg: {
-      type: String,
-      trim: true,
-      default: "",
-    },
-    bio: {
-      type: String,
-      trim: true,
-      maxlength: [200, "Bio cannot exceed 200 characters"],
-      default: "",
-    },
+    profileImg: { type: String, trim: true, default: "" },
+    bio: { type: String, trim: true, maxlength: 200, default: "" },
     phoneNumber: {
       type: String,
       trim: true,
@@ -55,42 +44,15 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    isLoggedIn: {
-      type: Boolean,
-      default: false,
-    },
-    lastLoginAt: {
-      type: Date,
-      default: Date.now(),
-    },
-    verificationToken: {
-      type: String,
-      default: "",
-    },
-    verificationTokenExpiry: {
-      type: Date,
-    },
-    accessToken: {
-      type: String,
-      default: "",
-    },
-    refreshToken: {
-      type: String,
-      default: "",
-    },
-    forgotPasswordToken: {
-      type: String,
-      default: "",
-    },
-    forgotPasswordExpiry: {
-      type: Date,
-      default: null,
-    },
+    isVerified: { type: Boolean, default: false },
+    isLoggedIn: { type: Boolean, default: false },
+    lastLoginAt: { type: Date, default: Date.now },
+    verificationToken: { type: String, default: "" },
+    verificationTokenExpiry: { type: Date },
+    accessToken: { type: String, default: "" },
+    refreshToken: { type: String, default: "" },
+    forgotPasswordToken: { type: String, default: "" },
+    forgotPasswordExpiry: { type: Date, default: null },
   },
   { timestamps: true },
 ); // adds createdAt & updatedAt automatically
