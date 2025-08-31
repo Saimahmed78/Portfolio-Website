@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
-
 import apiClient from "../../../service/apiClient";
 import toast from "react-hot-toast";
 import { useParams } from "react-router";
@@ -28,27 +26,21 @@ function ResetPassword() {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   const onSubmit = async (data) => {
-    if (data.password !== data.confirmPassword) {
-      toast.error("Both passwords must match");
-      return;
-    }
-
     setLoading(true);
     try {
-      const response = await apiClient.resetPass(
-        token,
-        data.password,
-        data.confirmPassword,
-      );
+      const response = await apiClient.resetPass(token, data.newPass, data.confirmPass);
+
       if (response.statuscode >= 200 && response.statuscode < 300) {
         toast.success("Password reset successfully ✅");
-        reset();
         navigate("/login");
+        reset();
       } else {
         toast.error("Something went wrong ❌");
       }
     } catch (error) {
       toast.error(error.message || "Password reset failed ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,7 +49,7 @@ function ResetPassword() {
       <form
         className={`contact-form ${isSubmitting ? "loading" : ""}`}
         noValidate
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         {/* Password */}
         <label htmlFor="password">Password</label>
@@ -65,7 +57,7 @@ function ResetPassword() {
           <input
             type={showPass ? "text" : "password"}
             id="password"
-            {...register("password")}
+            {...register("newPass")}
             placeholder="Enter your password"
           />
           <button
@@ -76,7 +68,7 @@ function ResetPassword() {
             {showPass ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
-        {errors.password && <p className="error">{errors.password.message}</p>}
+        {errors.newPass && <p className="error">{errors.newPass.message}</p>}
 
         {/* Confirm Password */}
 
@@ -85,7 +77,7 @@ function ResetPassword() {
           <input
             type={showConfirmPass ? "text" : "password"}
             id="confirmPassword"
-            {...register("confirmPassword")}
+            {...register("confirmPass")}
             placeholder="Confirm your password"
           />
           <button
@@ -96,8 +88,8 @@ function ResetPassword() {
             {showConfirmPass ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
-        {errors.confirmPassword && (
-          <p className="error">{errors.confirmPassword.message}</p>
+        {errors.confirmPass && (
+          <p className="error">{errors.confirmPass.message}</p>
         )}
 
         <button type="submit" className="submit-btn" disabled={isSubmitting}>
