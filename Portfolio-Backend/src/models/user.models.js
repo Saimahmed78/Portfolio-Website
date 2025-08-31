@@ -59,10 +59,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
+
     isLoggedIn: {
       type: Boolean,
       default: false,
@@ -93,13 +90,6 @@ const userSchema = new Schema(
     forgotPasswordExpiry: {
       type: Date,
       default: null,
-    },
-    resetPasswordToken: {
-      type: String,
-      default: "",
-    },
-    resetPasswordExpiry: {
-      type: Date,
     },
   },
   { timestamps: true },
@@ -145,16 +135,22 @@ userSchema.methods.generateAccessToken = function () {
   return accessToken;
 };
 
-userSchema.methods.generateVerificationToken = function () {
+userSchema.methods.generateToken = function (type) {
   const token = crypto.randomBytes(32).toString("hex");
+  const hashed = crypto.createHash("sha256").update(token).digest("hex");
+  console.log("Generated token:", token); // Log the raw token for debugging
+  console.log("Hashed token:", hashed); // Log the hashed token for debugging"
+  if (type === "verification") {
+    this.verificationToken = hashed;
+    this.verificationTokenExpiry = Date.now() + 1000 * 60 * 60; // 1 hour
+  }
 
-  const verificationToken = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
-  this.verificationTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
-  this.verificationToken = verificationToken;
-  return token; // return plain token for emailing
+  if (type === "forgot") {
+    this.forgotPasswordToken = hashed;
+    this.forgotPasswordExpiry = Date.now() + 1000 * 60 * 15; // 15 min
+  }
+
+  return token; // send this raw token to the user via email
 };
 
 userSchema.set("toJSON", {
