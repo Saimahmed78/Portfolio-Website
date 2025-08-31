@@ -23,10 +23,9 @@ function ForgotPassword() {
   const onSubmit = async (data) => {
     try {
       const response = await apiClient.forgotPass(data.email);
-
       if (response) {
         toast.success(
-          response.data || "Forgot Password Email sent successfully ✅"
+          response.data || "Forgot Password Email sent successfully ✅",
         );
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 3000); // confetti for 3s
