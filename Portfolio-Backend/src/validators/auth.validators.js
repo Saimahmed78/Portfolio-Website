@@ -47,7 +47,7 @@ const forgotPassValidators = () => {
 const resetPassValidators = () => {
   return [
     body("password").trim().notEmpty().withMessage("Password is requried"),
-    body("confirmPassword")
+    body("confirmPass")
       .trim()
       .notEmpty()
       .withMessage("Confirm Password is required")
