@@ -15,7 +15,6 @@ const registerSchema = z.object({
 
 const resetPassSchema = z
   .object({
-    oldPass: z.string().min(6, "Old password must be at least 6 characters"),
     newPass: z.string().min(6, "New password must be at least 6 characters"),
     confirmPass: z
       .string()
