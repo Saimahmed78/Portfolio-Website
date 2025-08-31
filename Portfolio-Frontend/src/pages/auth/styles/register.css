@@ -1,11 +1,10 @@
 /* Form container */
 .register-form {
+  position: relative;
   max-width: 420px;
   margin: 4rem auto;
   padding: 2rem;
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  /* Dark background */
-
   border-radius: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   display: flex;
@@ -13,26 +12,8 @@
   gap: 1rem;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #c9d1d9;
-  /* Soft gray text */
-}
-
-/* Heading */
-.register-form h1 {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #58a6ff;
-  /* Accent Blue */
-  margin-bottom: 0.25rem;
-  text-shadow: 0 0 8px rgba(88, 166, 255, 0.5);
-}
-
-/* Subtext */
-.register-form p {
-  /* text-align: center; */
-  font-size: 0.95rem;
-  color: #8b949e;
-  margin-bottom: 1.2rem;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
 }
 
 /* Labels */
@@ -65,14 +46,13 @@
 .register-error {
   font-size: 0.85rem;
   color: #f85149;
-  /* GitHub red */
-  margin-top: -0.25rem;
+  min-height: 1.2rem;
+  margin-top: 0.25rem;
 }
 
 /* Submit button */
 .register-submit-btn {
   background: #238636;
-  /* Green */
   color: white;
   font-size: 1rem;
   padding: 0.85rem;
@@ -93,45 +73,7 @@
   cursor: not-allowed;
 }
 
-/* Footer link */
-.register-form a {
-  color: #58a6ff;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.register-form a:hover {
-  text-decoration: underline;
-}
-
-.register-form {
-  position: relative;
-  padding: 2rem;
-  /* border: 2px solid #ccc; */
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-  overflow: hidden;
-}
-
-.register-form.loading {
-  pointer-events: none;
-  /* disables clicks inside form */
-  border-color: #4cafef;
-  /* optional change */
-}
-
-.register-form.loading::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 3px;
-  /* line thickness */
-  background: linear-gradient(to right, #4cafef, #00f, #4cafef);
-  animation: slide 1s linear infinite;
-}
-
+/* Password wrapper */
 .register-password-wrapper {
   display: flex;
   align-items: center;
@@ -152,16 +94,31 @@
   align-items: center;
 }
 
+/* Loading state */
+.register-form.loading {
+  pointer-events: none;
+  border-color: #4cafef;
+}
+
+.register-form.loading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #4cafef, #00f, #4cafef);
+  animation: slide 1s linear infinite;
+  z-index: 10;
+}
 
 @keyframes slide {
   0% {
     left: -100%;
   }
-
   50% {
     left: 0%;
   }
-
   100% {
     left: 100%;
   }
