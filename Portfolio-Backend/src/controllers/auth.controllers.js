@@ -31,7 +31,7 @@ const userRegister = asyncHandler(async (req, res) => {
       password,
     });
     // if not exist then create verification token and verification
-    const token = newUser.generateVerificationToken();
+    const token = newUser.generateToken("verification");
     //Check if the tokens are generated ,
     if (!newUser.verificationToken || !newUser.verificationTokenExpiry) {
       throw new ApiError(400, "User registration is failed", [
@@ -42,7 +42,7 @@ const userRegister = asyncHandler(async (req, res) => {
     //if yes,  save user
     await newUser.save();
     //send Mail
-    const verificationURL = `http://localhost:5173/verify/${token}`;
+    const verificationURL = `${process.env.CLIENT_URL}/verify/${token}`;
     try {
       await sendMail({
         email: newUser.email,
@@ -139,7 +139,7 @@ const resendverificationemail = asyncHandler(async (req, res) => {
   // save the user
   await userToVerify.save();
   // send email to User
-  const verificationURL = `http://localhost:5173/verify/${token}`;
+  const verificationURL = `${process.env.CLIENT_URL}/verify/${token}`;
   try {
     await sendMail({
       email: userToVerify.email,
@@ -238,52 +238,58 @@ const forgotPass = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   // if user not exist throw error
   if (!user) {
-    throw new ApiError(404, "User not found");
+    throw new ApiError(404, "User not found", ["Please register your account"]);
   }
   const name = user.name;
   // if exist generate tokens
-  const { token, hashedToken, tokenExpiry } =
-    await user.generateVerificationToken();
+  const token = await user.generateToken("forgot");
   // save in db
-  user.forgotPasswordToken = hashedToken;
-  user.forgotPasswordExpiry = tokenExpiry;
   await user.save();
   // send email
   console.log(token);
-  const resetPassUrl = `http://localhost:5173/resetPass/${token}`;
-
+  const resetPassUrl = `${process.env.CLIENT_URL}/resetPass/${token}`;
+  console.log("resetPassUrl", resetPassUrl);
   await sendMail({
     email: user.email,
-    subject: " Reset Password Email",
+    subject: "Reset Password Email",
     mailGenContent: forgotPasswordEmailContent(name, resetPassUrl),
   });
   res.status(200).json(new ApiResponse(200, "Email send Successfully"));
 });
 
 const resetPass = asyncHandler(async (req, res) => {
+  console.log("Reset Password Route");
   // get token from req.params
   const { token } = req.params;
-  // get password,confirm Password from req.body
-  const { password, confirmPassword } = req.body;
+  // get password from req.body
+  const { password , confirmPass} = req.body;
 
   if (!token) {
     throw new ApiError(404, "Token not found");
   }
+  console.log("Token in controller ", token);
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  console.log("hashedToken in controller", hashedToken);
   const resetPassUser = await User.findOne({
     forgotPasswordToken: hashedToken,
     forgotPasswordExpiry: { $gt: Date.now() },
   });
+  try {
+    console.log("resetPassUser", resetPassUser);
+  } catch (error) {
+    console.log("No name found");
+  }
+  // if no user found then send error
   if (!resetPassUser) {
     throw new ApiError(404, "Link is expired");
   }
   resetPassUser.forgotPasswordToken = undefined;
   resetPassUser.forgotPasswordExpiry = undefined;
   resetPassUser.password = password;
-  let name = "saim";
+  let name = resetPassUser.name;
   await resetPassUser.save();
   await sendMail({
-    email: "s@gmail.com",
+    email: resetPassUser.email,
     subject: " Reset Password Email",
     mailGenContent: resetPasswordEmailContent(name),
   });
@@ -291,6 +297,7 @@ const resetPass = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "Password changed Successfully"));
 });
+
 const changePass = asyncHandler(async (req, res) => {
   // get passwords from req.body
   const { oldPass, newPass, confirmPass } = req.body;
