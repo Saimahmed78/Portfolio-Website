@@ -1,9 +1,11 @@
 import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
 import dotenv from "dotenv";
+
 dotenv.config({
   path: ".env",
 });
+
 const transporter = nodemailer.createTransport({
   host: process.env.BREVO_SMTP_HOST,
   port: process.env.BREVO_SMTP_PORT,
@@ -13,7 +15,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.BREVO_SMTP_PASS,
   },
 });
-
 
 const sendMail = async (options) => {
   var mailGenerator = new Mailgen({
@@ -26,13 +27,12 @@ const sendMail = async (options) => {
   const emailBody = mailGenerator.generate(options.mailGenContent);
   const emailText = mailGenerator.generatePlaintext(options.mailGenContent);
   const mailOptions = {
-  from: `"YourApp Name 👻" <${process.env.FROM_EMAIL}>`,
-  to: options.email,
-  subject: options.subject,
-  text: emailText,
-  html: emailBody,
-};
-
+    from: `Portfolio Project 👻" <${process.env.FROM_EMAIL}>`,
+    to: options.email,
+    subject: options.subject,
+    text: emailText,
+    html: emailBody,
+  };
 
   try {
     await transporter.sendMail(mailOptions);
@@ -45,7 +45,8 @@ const sendMail = async (options) => {
 const emailVerificationContent = (username, verificationURL) => ({
   body: {
     name: username,
-    intro: "Welcome to My Portfolio Website! We're thrilled to have you onboard.",
+    intro:
+      "Welcome to My Portfolio Website! We're thrilled to have you onboard.",
     action: {
       instructions: "Please verify your account by clicking the button below:",
       button: {
@@ -54,7 +55,8 @@ const emailVerificationContent = (username, verificationURL) => ({
         link: verificationURL,
       },
     },
-    outro: "Need help or have questions? Just reply to this email, we'd love to assist you.",
+    outro:
+      "Need help or have questions? Just reply to this email, we'd love to assist you.",
   },
 });
 
@@ -86,7 +88,8 @@ const resetPasswordEmailContent = (username) => ({
   body: {
     name: username,
     intro: "Your password has been successfully changed.",
-    outro: "If you did not perform this action, please contact support immediately.",
+    outro:
+      "If you did not perform this action, please contact support immediately.",
   },
 });
 
@@ -102,10 +105,10 @@ const accountDeletionEmailContent = (username) => ({
   body: {
     name: username,
     intro: "Your account has been successfully deleted.",
-    outro: "We're sorry to see you go. If this was a mistake, contact support as soon as possible.",
+    outro:
+      "We're sorry to see you go. If this was a mistake, contact support as soon as possible.",
   },
 });
-
 
 export {
   sendMail,
