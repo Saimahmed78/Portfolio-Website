@@ -50,7 +50,7 @@ export const routeObjects = [
     element: <ForgotPassword />,
   },
   {
-    path: "reset-password/:token",
+    path: "resetPass/:token",
     element: <ResetPassword />,
   },
   {
