@@ -27,19 +27,21 @@ function RegisterUser() {
       const response = await apiClient.register(
         data.name,
         data.email,
-        data.password,
+        data.password
       );
 
-      const errMsg = response.data || "Account Created Successfully ✅";
-      toast.success(errMsg);
+      const successMsg =
+        response?.data|| "Account Created Successfully ✅";
+      toast.success(successMsg);
       reset();
     } catch (error) {
-      // General error message
+
       const msg =
-        error?.errors?.[0] || "Registration failed. Please try again.";
+        error?.response?.data?.message ||
+        error?.errors?.[0] ||
+        "Registration failed. Please try again.";
       toast.error(msg);
 
-      // Field-specific error example
       if (error?.statusCode === 409) {
         setError("email", { type: "manual", message: msg });
       }
@@ -54,25 +56,38 @@ function RegisterUser() {
     >
       {/* Name */}
       <label htmlFor="name">Name</label>
-      <input type="text" {...register("name")} placeholder="Enter your Name" />
-      {errors.name && <p className="register-error">{errors.name.message}</p>}
+      <input
+        id="name"
+        type="text"
+        {...register("name")}
+        placeholder="Enter your name"
+        autoComplete="name"
+        aria-invalid={!!errors.name}
+      />
+      <p className="register-error">{errors.name?.message || " "}</p>
 
       {/* Email */}
       <label htmlFor="email">Email</label>
       <input
+        id="email"
         type="email"
         {...register("email")}
         placeholder="Enter your email"
+        autoComplete="email"
+        aria-invalid={!!errors.email}
       />
-      {errors.email && <p className="register-error">{errors.email.message}</p>}
+      <p className="register-error">{errors.email?.message || " "}</p>
 
       {/* Password */}
       <label htmlFor="password">Password</label>
       <div className="register-password-wrapper">
         <input
+          id="password"
           type={showPassword ? "text" : "password"}
           {...register("password")}
           placeholder="Enter your password"
+          autoComplete="new-password"
+          aria-invalid={!!errors.password}
         />
         <button
           type="button"
@@ -82,14 +97,13 @@ function RegisterUser() {
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
-      {errors.password && (
-        <p className="register-error">{errors.password.message}</p>
-      )}
+      <p className="register-error">{errors.password?.message || " "}</p>
 
       <p>
         <Link to="/forgotPass">Forgot Password?</Link>
       </p>
 
+      {/* Submit */}
       <button
         type="submit"
         className="register-submit-btn"
