@@ -55,7 +55,7 @@ export const routeObjects = [
     element: <ResetPassword />,
   },
   {
-    path: "resend-verification",
+    path: "resendVerifyEmail",
     element: <ResendVerification />,
   },
   {
