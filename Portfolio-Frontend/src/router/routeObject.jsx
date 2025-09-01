@@ -11,6 +11,7 @@ import ResetPassword from "../pages/auth/ResetPassword";
 import ResendVerification from "../pages/auth/ResendVerification";
 import ChangePass from "../pages/auth/changePassword";
 import AccountVerification from "../pages/auth/AccountVerification";
+import VerifyEmailPage from "../pages/auth/verifyEmailPage";
 
 export const routeObjects = [
   {
@@ -56,6 +57,10 @@ export const routeObjects = [
   {
     path: "resend-verification",
     element: <ResendVerification />,
+  },
+  {
+    path: "/verifyEmail",
+    element: <VerifyEmailPage />,
   },
   {
     path: "verify/:token",
