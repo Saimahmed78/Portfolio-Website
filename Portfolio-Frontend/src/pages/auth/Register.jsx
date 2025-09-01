@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import apiClient from "../../../service/apiClient";
 import "./styles/register.css";
@@ -10,7 +10,7 @@ import { registerSchema } from "../../schemas/authSchema";
 
 function RegisterUser() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,15 +27,16 @@ function RegisterUser() {
       const response = await apiClient.register(
         data.name,
         data.email,
-        data.password
+        data.password,
       );
 
-      const successMsg =
-        response?.data|| "Account Created Successfully ✅";
+      const successMsg = response?.data || "Account Created Successfully ✅";
       toast.success(successMsg);
       reset();
+      navigate("/verifyEmail");
+      localStorage.setItem("email", data.email);
+      localStorage.setItem("name", data.name);
     } catch (error) {
-
       const msg =
         error?.response?.data?.message ||
         error?.errors?.[0] ||
