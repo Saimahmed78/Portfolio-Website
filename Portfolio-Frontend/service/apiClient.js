@@ -1,6 +1,6 @@
 class ApiClient {
   constructor() {
-    this.baseUrl = "https://api.saim-portfolio-website.shop/api/v1";
+    this.baseUrl = `${import.meta.env.VITE_BASE_URL}/api/v1`;
     this.defaultHeaders = {
       "Content-Type": "application/json",
       Accept: "application/json",
