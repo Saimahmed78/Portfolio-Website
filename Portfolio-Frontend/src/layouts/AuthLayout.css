@@ -1,0 +1,126 @@
+/* ===== Form Styling ===== */
+.auth-form {
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Line animation when loading ===== */
+.auth-form.loading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4, #facc15);
+  animation: flow 2s linear infinite;
+}
+
+@keyframes flow {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* ===== Labels ===== */
+.auth-form label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+/* ===== Inputs ===== */
+.auth-form input {
+  padding: 12px 14px;
+  /* width: 300px; */
+
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #334155;
+  color: #f8fafc;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+}
+
+.auth-form input:focus {
+  border-color: #3b82f6;
+  background: #1e293b;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.6);
+  outline: none;
+}
+
+/* Error messages */
+.auth-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: -8px;
+}
+
+/* ===== Password Toggle ===== */
+/* Password wrapper should control positioning */
+.auth-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Input should take full width */
+.auth-password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+  /* leave space for the icon */
+}
+
+/* Toggle button sits inside, on the right */
+.auth-toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.auth-toggle-password:hover {
+  color: #f1f5f9;
+}
+
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 1.5rem;
+    gap: 12px;
+  }
+}
