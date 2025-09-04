@@ -28,7 +28,11 @@ function ResetPassword() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await apiClient.resetPass(token, data.newPass, data.confirmPass);
+      const response = await apiClient.resetPass(
+        token,
+        data.newPass,
+        data.confirmPass,
+      );
 
       if (response.statuscode >= 200 && response.statuscode < 300) {
         toast.success("Password reset successfully ✅");
@@ -46,54 +50,32 @@ function ResetPassword() {
 
   return (
     <>
-      <form
-        className={`contact-form ${isSubmitting ? "loading" : ""}`}
-        noValidate
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {/* Password */}
-        <label htmlFor="password">Password</label>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <input
-            type={showPass ? "text" : "password"}
-            id="password"
-            {...register("newPass")}
-            placeholder="Enter your password"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPass(!showPass)}
-            style={{ marginLeft: "8px", cursor: "pointer" }}
-          >
-            {showPass ? <FaEyeSlash /> : <FaEye />}
-          </button>
-        </div>
-        {errors.newPass && <p className="error">{errors.newPass.message}</p>}
 
-        {/* Confirm Password */}
-
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <input
-            type={showConfirmPass ? "text" : "password"}
-            id="confirmPassword"
-            {...register("confirmPass")}
-            placeholder="Confirm your password"
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPass(!showConfirmPass)}
-            style={{ marginLeft: "8px", cursor: "pointer" }}
-          >
-            {showConfirmPass ? <FaEyeSlash /> : <FaEye />}
-          </button>
-        </div>
-        {errors.confirmPass && (
-          <p className="error">{errors.confirmPass.message}</p>
+      <form className="auth-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <label htmlFor="oldPass">Old Password</label>
+        <input type="password" id="oldPass" {...register("oldPass")} />
+        {errors.oldPass && (
+          <p className="auth-error">{errors.oldPass.message}</p>
         )}
 
-        <button type="submit" className="submit-btn" disabled={isSubmitting}>
-          {isSubmitting ? "Resetting..." : "Reset Password"}
+        <label htmlFor="newPass">New Password</label>
+        <input type="password" id="newPass" {...register("newPass")} />
+        {errors.newPass && (
+          <p className="auth-error">{errors.newPass.message}</p>
+        )}
+
+        <label htmlFor="confirmPass">Confirm Password</label>
+        <input type="password" id="confirmPass" {...register("confirmPass")} />
+        {errors.confirmPass && (
+          <p className="auth-error">{errors.confirmPass.message}</p>
+        )}
+
+        <button
+          type="submit"
+          className="auth-submit-btn"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Sending..." : "Send"}
         </button>
       </form>
     </>
