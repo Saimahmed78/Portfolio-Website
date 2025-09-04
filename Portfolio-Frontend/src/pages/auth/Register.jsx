@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import apiClient from "../../../service/apiClient";
-import "./styles/register.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { registerSchema } from "../../schemas/authSchema";
 
@@ -50,13 +49,14 @@ function RegisterUser() {
   };
 
   return (
-    <form
-      className={`register-form ${isSubmitting ? "loading" : ""}`}
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-    >
-      {/* Name */}
-      <label htmlFor="name">Name</label>
+    <>
+      <form
+        className={`auth-form ${isSubmitting ? "loading" : ""}`}
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
+        {/* Name */}
+        <label htmlFor="name">Name</label>
       <input
         id="name"
         type="text"
@@ -67,8 +67,8 @@ function RegisterUser() {
       />
       <p className="register-error">{errors.name?.message || " "}</p>
 
-      {/* Email */}
-      <label htmlFor="email">Email</label>
+        {/* Email */}
+        <label htmlFor="email">Email</label>
       <input
         id="email"
         type="email"
@@ -79,44 +79,46 @@ function RegisterUser() {
       />
       <p className="register-error">{errors.email?.message || " "}</p>
 
-      {/* Password */}
-      <label htmlFor="password">Password</label>
-      <div className="register-password-wrapper">
-        <input
-          id="password"
+        {/* Password */}
+        <label htmlFor="password">Password</label>
+        <div className="auth-password-wrapper">
+          <input
+            id="password"
           type={showPassword ? "text" : "password"}
-          {...register("password")}
+            {...register("password")}
           placeholder="Enter your password"
           autoComplete="new-password"
           aria-invalid={!!errors.password}
-        />
+          />
+          <button
+            type="button"
+            className="auth-toggle-password"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
+        <p className="auth-error">{errors.password?.message || " "}</p>
+
+        {/* Forgot link */}
+        <p className="auth-options">
+          <Link to="/forgotPass">Forgot Password?</Link>
+        </p>
+
+        {/* Submit */}
         <button
-          type="button"
-          className="register-toggle-btn"
-          onClick={() => setShowPassword(!showPassword)}
+          type="submit"
+          className="auth-submit-btn"
+          disabled={isSubmitting}
         >
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
-      </div>
-      <p className="register-error">{errors.password?.message || " "}</p>
 
-      <p>
-        <Link to="/forgotPass">Forgot Password?</Link>
-      </p>
-
-      {/* Submit */}
-      <button
-        type="submit"
-        className="register-submit-btn"
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </button>
-
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
-    </form>
+        <p className="auth-text">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </form>
+    </>
   );
 }
 
