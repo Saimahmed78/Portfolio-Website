@@ -1,5 +1,5 @@
-import AuthFormLayout from "../layouts/AuthLayout";
-import AuthStatusLayout from "../layouts/StatusLayout";
+import AuthFormLayout from "../layouts/AuthFormLayout";
+import AuthStatusLayout from "../layouts/AuthStatusLayout";
 import AccountVerification from "../pages/auth/AccountVerification";
 import ChangePass from "../pages/auth/changePassword";
 import ForgotPassword from "../pages/auth/ForgotPassword";
