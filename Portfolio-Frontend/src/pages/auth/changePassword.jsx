@@ -25,7 +25,7 @@ function ChangePass() {
       const response = await apiClient.changePass(
         data.oldPass,
         data.newPass,
-        data.confirmPass
+        data.confirmPass,
       );
 
       if (response?.statuscode === 200) {
@@ -40,7 +40,7 @@ function ChangePass() {
   };
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="oldPass">Old Password</label>
       <input
         type="password"
@@ -48,7 +48,7 @@ function ChangePass() {
         placeholder="Enter your Old Password"
         {...register("oldPass")}
       />
-      {errors.oldPass && <p className="error">{errors.oldPass.message}</p>}
+      {errors.oldPass && <p className="auth-error">{errors.oldPass.message}</p>}
 
       <label htmlFor="newPass">New Password</label>
       <input
@@ -57,7 +57,7 @@ function ChangePass() {
         placeholder="Enter your New Password"
         {...register("newPass")}
       />
-      {errors.newPass && <p className="error">{errors.newPass.message}</p>}
+      {errors.newPass && <p className="auth-error">{errors.newPass.message}</p>}
 
       <label htmlFor="confirmPass">Confirm Password</label>
       <input
@@ -66,9 +66,11 @@ function ChangePass() {
         placeholder="Confirm your Password"
         {...register("confirmPass")}
       />
-      {errors.confirmPass && <p className="error">{errors.confirmPass.message}</p>}
+      {errors.confirmPass && (
+        <p className="auth-error">{errors.confirmPass.message}</p>
+      )}
 
-      <button type="submit" className="submit-btn" disabled={isSubmitting}>
+      <button type="submit" className="auth-btn" disabled={isSubmitting}>
         {isSubmitting ? "Sending..." : "Send"}
       </button>
     </form>
