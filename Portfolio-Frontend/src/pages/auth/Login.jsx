@@ -6,7 +6,6 @@ import apiClient from "../../../service/apiClient";
 import { useState } from "react";
 import { loginSchema } from "../../schemas/authSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import  "./styles/login.css"
 
 function Login() {
   const navigate = useNavigate();
@@ -42,12 +41,9 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">Welcome Back</h1>
-      <p className="login-subtitle">Login to your account</p>
-
+    <>
       <form
-        className={`login-form ${isSubmitting ? "loading" : ""}`}
+        className={`auth-form ${isSubmitting ? "loading" : ""}`}
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
@@ -63,7 +59,7 @@ function Login() {
 
         {/* Password */}
         <label htmlFor="password">Password</label>
-        <div className="password-wrapper">
+        <div className="auth-password-wrapper">
           <input
             type={showPassword ? "text" : "password"}
             id="password"
@@ -72,30 +68,33 @@ function Login() {
           />
           <button
             type="button"
-            className="toggle-password"
+            className="auth-toggle-password"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
-        {errors.password && <p className="error">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="auth-error">{errors.password.message}</p>
+        )}
 
-        {/* Options */}
-        <div className="login-options">
+        <div className="auth-options">
           <Link to="/forgotPass">Forgot Password?</Link>
         </div>
 
-        {/* Submit */}
-        <button type="submit" className="login-btn" disabled={isSubmitting}>
+        <button
+          type="submit"
+          className="auth-submit-btn"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
 
-        {/* Signup */}
-        <p className="signup-text">
-          Don't have an account? <Link to="/register">Sign up</Link>
+        <p className="auth-text">
+          Don’t have an account? <Link to="/register">Sign up</Link>
         </p>
       </form>
-    </div>
+    </>
   );
 }
 
