@@ -130,12 +130,18 @@ const resendverificationemail = asyncHandler(async (req, res) => {
   }
 
   // if user exist create the tokens
-  const { token, hashedToken, tokenExpiry } =
-    await userToVerify.generateVerificationToken();
+  const token = userToVerify.generateToken("verification");
   // save in db
-  userToVerify.verificationToken = hashedToken;
-  userToVerify.verificationTokenExpiry = tokenExpiry;
-  const name = userToVerify.name;
+  if (
+    !userToVerify.verificationToken ||
+    !userToVerify.verificationTokenExpiry
+  ) {
+    throw new ApiError(400, "User registration is failed", [
+      "Verification token generation failed",
+      "Verifcation Token expiry failed",
+    ]);
+  }
+  const name=userToVerify.name;
   // save the user
   await userToVerify.save();
   // send email to User
@@ -262,7 +268,7 @@ const resetPass = asyncHandler(async (req, res) => {
   // get token from req.params
   const { token } = req.params;
   // get password from req.body
-  const { password , confirmPass} = req.body;
+  const { password, confirmPass } = req.body;
 
   if (!token) {
     throw new ApiError(404, "Token not found");
