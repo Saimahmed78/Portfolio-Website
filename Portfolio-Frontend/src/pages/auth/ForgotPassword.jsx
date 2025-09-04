@@ -5,7 +5,6 @@ import apiClient from "../../../service/apiClient";
 import { forgotPassSchema } from "../../schemas/authSchema";
 import { useState } from "react";
 import Confetti from "react-confetti";
-import "./styles/forgotPassword.css";
 
 function ForgotPassword() {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -40,22 +39,14 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="forgotPass-wrapper">
+    <>
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
-      <h1 className="forgotPass-title">Forgot Password</h1>
-      <p className="forgotPass-subtitle">
-        Enter your email below so we can send you a password reset link.
-      </p>
 
       <form
-        className={isSubmitting ? "forgotPass-form loading" : "forgotPass-form"}
+        className={`auth-form ${isSubmitting ? "loading" : ""}`}
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <p className="forgotPass-guideline">
-          📧 Enter your email to receive a reset password link
-        </p>
-
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -69,13 +60,13 @@ function ForgotPassword() {
 
         <button
           type="submit"
-          className="forgotPass-submit-btn"
+          className="auth-submit-btn"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Sending..." : "Send"}
         </button>
       </form>
-    </div>
+    </>
   );
 }
 
