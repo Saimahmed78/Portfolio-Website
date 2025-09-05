@@ -1,7 +1,6 @@
 import { Outlet } from "react-router";
-import Navbar from "./component/navbar";
-import "./styles/global.css";
 import { Toaster } from "react-hot-toast";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
