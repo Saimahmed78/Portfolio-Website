@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import OpenInboxButton from "../../component/openEmailButton";
 import toast from "react-hot-toast";
 
-export default function VerifyEmailPage() {
+export default function EmailVerificationNoticePage() {
   const [cooldown, setCooldown] = useState(0); // remaining seconds
   const navigate = useNavigate();
   const email = localStorage.getItem("email");

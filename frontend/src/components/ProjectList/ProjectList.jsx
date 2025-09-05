@@ -1,7 +1,7 @@
 import "../styles/projects.css";
 import { Link } from "react-router";
 
-export function Projectcomp({ details }) {
+export function ProjectComp({ details }) {
   console.log("✅ Loaded project links:", details.map((p) => p.link));
 
   return (

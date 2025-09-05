@@ -6,7 +6,7 @@ import apiClient from "../../../service/apiClient";
 import { resendVerifySchema } from "../../schemas/authSchema";
 import { useNavigate } from "react-router";
 
-function ResendVerification() {
+function ResendVerificationEmailPage() {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const {
@@ -87,4 +87,4 @@ function ResendVerification() {
   );
 }
 
-export default ResendVerification;
+export default ResendVerificationEmailPage;

@@ -1,4 +1,4 @@
-import { CTAButton } from "../component/buttons";
+import { CtaButton } from "../component/Button";
 import "../styles/home.css";
 import profileImg from "../assets/Profile Image.jpg";
 
@@ -13,8 +13,8 @@ export function Home() {
           problems through code and constantly push myself to learn and
           improve.
         </p>
-        <CTAButton className="cta-button" to="/project">Project</CTAButton>
-        <CTAButton className="cta-button" to="/about">About me</CTAButton>
+        <CtaButton className="cta-button" to="/project">Project</CtaButton>
+        <CtaButton className="cta-button" to="/about">About me</CtaButton>
       </div>
 
       <div className="hero-right">

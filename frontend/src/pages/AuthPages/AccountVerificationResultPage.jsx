@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import Confetti from "react-confetti";
 import apiClient from "../../../service/apiClient";
 
-function AccountVerification() {
+function AccountVerificationResultPage() {
   const [loading, setLoading] = useState(true);
   const [verified, setVerified] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -79,4 +79,4 @@ function AccountVerification() {
   );
 }
 
-export default AccountVerification;
+export default AccountVerificationResultPage;

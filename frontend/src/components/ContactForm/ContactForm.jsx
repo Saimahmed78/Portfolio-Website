@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useContactform } from "../hooks/contactform.js";
-import "../styles/contact.css";
+import { useContactform } from "../hooks/useContactForm.js";
 export function ContactForm() {
   const [form, setForm] = useState({
     firstName: "",

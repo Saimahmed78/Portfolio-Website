@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-import { ContactForm } from "../component/contactform.jsx";
+import { ContactForm } from "../component/Contactform.jsx";
 import "../styles/contact.css";
 
 export function ContactPage() {

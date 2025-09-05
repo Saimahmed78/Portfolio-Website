@@ -1,8 +1,8 @@
 // pages/projectDetails.jsx
 
 import { useParams } from "react-router";
-import { ProjectInfoComp } from "../component/projectInfoComp";
-import { projectDetails } from "../hooks/Projectdetails";
+import { ProjectInfoComp } from "../component/ProjectInfoComp";
+import { ProjectDetails } from "../hooks/ProjectDetails";
 import "../styles/projectInfo.css";
 
 function ProjectInfo() {
@@ -11,7 +11,7 @@ function ProjectInfo() {
 
   if (!id) return <div>❌ Project projectId is missing!</div>;
 
-  const p = projectDetails.find((project) => project.id === id);
+  const p = ProjectDetails.find((project) => project.id === id);
 
   if (!p) return <div>🚫 Project Not Found for ID: {id}</div>;
 

@@ -9,7 +9,8 @@
 
 .about-card {
   background: rgb(255 255 255 / 5%); /* translucent glass */
-  backdrop-filter: blur(14px);
+
+  /* backdrop-filter: blur(14px); */
   padding: 2rem 2.5rem;
   border-radius: 1.2rem;
   box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
