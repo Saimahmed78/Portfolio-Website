@@ -1,4 +1,4 @@
-.skills-page {
+.skillsPage {
   padding: 2rem;
   font-family: Inter, sans-serif;
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-.page-title {
+.pageTitle {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 2.5rem;
@@ -17,7 +17,7 @@
   text-shadow: 0 0 10px rgb(96 165 250 / 30%);
 }
 
-.skills-grid {
+.skillsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
@@ -26,7 +26,7 @@
   padding: 0 1rem;
 }
 
-.skill-section {
+.skillSection {
   background: rgb(255 255 255 / 6%);
   backdrop-filter: blur(14px);
   padding: 2rem;
@@ -37,12 +37,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.skill-section:hover {
+.skillSection:hover {
   transform: scale(1.03);
   box-shadow: 0 12px 40px rgb(0 0 0 / 60%);
 }
 
-.skill-section h2 {
+.skillSectionTitle {
   margin-bottom: 1.2rem;
   font-size: 1.5rem;
   color: #93c5fd;
@@ -50,13 +50,13 @@
   padding-left: 0.75rem;
 }
 
-.skill-list {
+.skillList {
   list-style: none;
   padding-left: 0;
   margin: 0;
 }
 
-.skill-list li {
+.skillListItem {
   margin-bottom: 1rem;
   line-height: 1.6;
   font-size: 1.05rem;
@@ -71,18 +71,18 @@
   transition: background 0.3s ease;
 }
 
-.skill-list li:hover {
+.skillListItem:hover {
   background: rgb(255 255 255 / 7%);
 }
 
-.skill-list li span {
+.skillListItemSpan {
   font-weight: 700;
   font-size: 1.1rem;
   color: #3b82f6;
 }
 
-/* Soft Skills (No span handling needed) */
-.skill-list.soft li {
+/* Soft Skills */
+.skillSoft .skillListItem {
   font-size: 1rem;
   color: #cbd5e1;
   font-style: italic;
@@ -92,27 +92,26 @@
   line-height: 1.7;
 }
 
-
-@media (max-width :480px) {
-  .page-title {
+@media (max-width: 480px) {
+  .pageTitle {
     font-size: 2rem;
   }
-  .skills-page{
+  .skillsPage {
     padding: 1.5rem;
   }
-  .skills-grid{
+  .skillsGrid {
     padding: 0;
   }
 
-  .skill-section {
+  .skillSection {
     padding: 1.5rem;
   }
 
-  .skill-section h2 {
+  .skillSectionTitle {
     font-size: 1.25rem;
   }
 
-  .skill-list li {
+  .skillListItem {
     font-size: 0.95rem;
   }
 }
