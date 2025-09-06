@@ -1,11 +1,12 @@
-import countdown from "../assets/countdown timer.png";
-import ebook from "../assets/Ebook Store.png";
-import calculator from "../assets/Simple Calculator.png";
-import tipCalculator from "../assets/Tip Calculator.png";
-import markdown from "../assets/MarkDown previwer.png";
-import quoteGenerator from "../assets/Quote Generator.png";
-import Clock from "../assets/SmartClock.png";
-import { Projectcomp } from "../component/projectList";
+import countdown from "../../assets/screenshots/countdown-timer.png";
+import ebook from "../../assets/screenshots/ebook-store.png";
+import calculator from "../../assets/screenshots/simple-calculator.png";
+import tipCalculator from "../../assets/screenshots/tip-calculator.png";
+import markdown from "../../assets/screenshots/markdown-previwer.png";
+import quoteGenerator from "../../assets/screenshots/quote-generator.png";
+import Clock from "../../assets/screenshots/smart-clock.png";
+import  ProjectComp  from "../../components/ProjectList/ProjectList";
+
 export function Project() {
   const Projects = [
     {
@@ -39,10 +40,8 @@ export function Project() {
   ];
 
   return (
-    <>
-      <div>
-        <Projectcomp details={Projects} />
-      </div>
-    </>
+    
+      <ProjectComp details={Projects} />
+    
   );
 }
