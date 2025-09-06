@@ -1,13 +1,13 @@
-import AuthFormLayout from "../layouts/AuthFormLayout";
-import AuthStatusLayout from "../layouts/AuthStatusLayout";
-import AccountVerification from "../pages/auth/AccountVerification";
-import ChangePass from "../pages/auth/changePassword";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import Login from "../pages/auth/Login";
-import RegisterUser from "../pages/auth/Register";
-import ResendVerification from "../pages/auth/ResendVerification";
-import ResetPassword from "../pages/auth/ResetPassword";
-import VerifyEmailPage from "../pages/auth/verifyEmailPage";
+import AuthFormLayout from "../layouts/Auth/AuthFormLayout";
+import AuthStatusLayout from "../layouts/Auth/AuthStatusLayout";
+import AccountVerification from "../pages/AuthPages/AccountVerificationResultPage";
+import ChangePass from "../pages/AuthPages/ChangePasswordPage";
+import ForgotPassword from "../pages/AuthPages/ForgotPasswordPage";
+import Login from "../pages/AuthPages/LoginPage";
+import RegisterUser from "../pages/AuthPages/RegisterPage";
+import ResendVerification from "../pages/AuthPages/ResendVerificationEmailPage";
+import ResetPassword from "../pages/AuthPages/ResetPasswordPage";
+import VerifyEmailPage from "../pages/AuthPages/EmailVerificationNoticePage";
 
 export const authRoutes = [
   // Auth forms layout
@@ -43,7 +43,10 @@ export const authRoutes = [
       {
         path: "resetPass/:token",
         element: (
-          <AuthFormLayout title="Reset Password" subtitle="Change your password here">
+          <AuthFormLayout
+            title="Reset Password"
+            subtitle="Change your password here"
+          >
             <ResetPassword />
           </AuthFormLayout>
         ),
@@ -51,7 +54,10 @@ export const authRoutes = [
       {
         path: "changePass",
         element: (
-          <AuthFormLayout title="Change Password" subtitle="Change your password here">
+          <AuthFormLayout
+            title="Change Password"
+            subtitle="Change your password here"
+          >
             <ChangePass />
           </AuthFormLayout>
         ),

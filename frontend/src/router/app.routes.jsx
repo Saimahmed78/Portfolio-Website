@@ -1,9 +1,9 @@
-import { About } from "../pages/AboutMe";
-import { ContactPage } from "../pages/ContactPage";
-import { Home } from "../pages/Home";
-import { Project } from "../pages/ProjectPage";
-import ProjectInfo from "../pages/ProjectDetails";
-import { Skills } from "../pages/Skills";
+import { About } from "../pages/AboutMePage/AboutMePage";
+import { ContactPage } from "../pages/ContactPage/ContactPage";
+import { Home } from "../pages/HomePage/HomePage";
+import { Project } from "../pages/ProjectListPage/ProjectListPage";
+import ProjectInfo from "../pages/ProjectDetailsPage/ProjectDetailsPage";
+import { Skills } from "../pages/SkillsPage/SkillsPage";
 
 export const appRoutes = [
   {
