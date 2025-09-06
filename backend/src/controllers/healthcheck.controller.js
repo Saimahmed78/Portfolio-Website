@@ -1,7 +1,6 @@
 import ApiResponse from "../utils/ApiResponse.js";
-import asyncHandler from "../utils/asynchandler.js";
 import mongoose from "mongoose";
-
+import asyncHandler from "../utils/asyncHandler.js";
 export const healthCheck = asyncHandler(async (_req, res) => {
   let dbStatus = "unknown";
   let dbInfo = {};

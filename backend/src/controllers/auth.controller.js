@@ -1,8 +1,8 @@
-import asyncHandler from "../utils/asynchandler.js";
+import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import * as AuthService from "../services/auth.service.js";
-import * as MailService from "../services/mail.service.js";
+import * as MailService from "../services/mail/mail.service.js";
 
 // POST /api/v1/auth/register
 export const registerUser = asyncHandler(async (req, res) => {
