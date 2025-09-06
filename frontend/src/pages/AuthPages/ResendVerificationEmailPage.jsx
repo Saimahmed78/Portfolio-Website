@@ -6,9 +6,10 @@ import apiClient from "../../../service/apiClient";
 import { resendVerifySchema } from "../../schemas/authSchema";
 import { useNavigate } from "react-router";
 
-function ResendVerificationEmailPage() {
+export default function ResendVerificationEmailPage() {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -27,20 +28,19 @@ function ResendVerificationEmailPage() {
         setSuccess(true);
         reset();
         navigate("/resendVerifyEmail");
-
-        // Save current timestamp in localStorage
         localStorage.setItem("lastResendTimestamp", Date.now().toString());
       } else {
         toast.error("Something went wrong from the server ❌");
       }
     } catch (error) {
-      console.error("Error in resend: ", error);
-      toast.error(error?.message || "Something went wrong in resend request");
+      toast.error(
+        error?.message || "Something went wrong in resend request ❌",
+      );
     }
   };
 
   return (
-    <>
+    <div className="auth-container">
       {success ? (
         <>
           <h1 className="auth-title">✅ Email Sent!</h1>
@@ -52,7 +52,8 @@ function ResendVerificationEmailPage() {
         <>
           <h1 className="auth-title">Resend Verification</h1>
           <p className="auth-subtitle">
-            Didn’t receive the verification email? Enter your email below and we’ll send it again.
+            Didn’t receive the verification email? Enter your email below and
+            we’ll send it again.
           </p>
 
           <form
@@ -67,24 +68,29 @@ function ResendVerificationEmailPage() {
               placeholder="Enter your email here"
               autoComplete="email"
               {...register("email")}
-                  aria-invalid={Boolean(errors.email) || undefined}
-                  aria-describedby={errors.email ? "email-error" : undefined}
-                  className={`form-input ${errors.email ? "form-input--error" : ""}`}
+              aria-invalid={Boolean(errors.email) || undefined}
+              aria-describedby={errors.email ? "email-error" : undefined}
+              className={`form-input ${
+                errors.email ? "form-input--error" : ""
+              }`}
             />
-            {errors.email && <p className="auth-error">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="auth-error">{errors.email.message}</p>
+            )}
 
             <button
               type="submit"
+              className="auth-submit-btn"
               disabled={isSubmitting}
             >
-                {isSubmitting && <span className="spinner" aria-hidden="true" />}
-                <span>{isSubmitting ? "Sending..." : "Send Verification Email"}</span>
+              {isSubmitting && <span className="spinner" aria-hidden="true" />}
+              <span>
+                {isSubmitting ? "Sending..." : "Send Verification Email"}
+              </span>
             </button>
           </form>
         </>
       )}
-    </>
+    </div>
   );
 }
-
-export default ResendVerificationEmailPage;
