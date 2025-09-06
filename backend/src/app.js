@@ -2,10 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import dbConnection from "./db/dbConnection.js";
 import { ApiError } from "./utils/ApiError.js";
-import healthCheck from "./controllers/healthcheck.Controllers.js";
-import userRoutes from "./routes/auth.Routes.js";
+import dbConnection from "./infrastructure/db/connection.js";
+import userRoutes from "./routes/auth.routes.js";
+import healthCheck from "./controllers/healthcheck.controller.js";
 
 dotenv.config({
   path: ".env", // relative path is /home/saimahmed/Desktop/Folder/.env
@@ -22,11 +22,11 @@ app.use(
   }),
 );
 
-dbConnection();
+dbConnection()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users", userRoutes  )
 app.use("/api/v1/healthCheck", healthCheck);
 app.use((err, req, res, next) => {
   console.error("💥 Error Middleware Triggered:", err);
