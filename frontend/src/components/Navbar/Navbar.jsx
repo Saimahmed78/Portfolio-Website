@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import "../styles/navbar.css";
+import styles from "./Navbar.module.css";
 import { FaBars, FaTimes, FaRocket } from "react-icons/fa";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <div className="logo">
-          <FaRocket className="logo-icon" /> My Portfolio
+    <nav className={styles.navbar}>
+      <div className={styles["navbar-container"]}>
+        <div className={styles.logo}>
+          <FaRocket className={styles["logo-icon"]} /> My Portfolio
         </div>
 
-        <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+        <ul className={`${styles["nav-links"]} ${isOpen ? styles.open : ""}`}>
           <li>
             <a href="/about">About</a>
           </li>
@@ -29,7 +28,7 @@ function Navbar() {
           </li>
         </ul>
 
-        <div className="hamburger" onClick={toggleMenu}>
+        <div className={styles.hamburger} onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </div>
       </div>

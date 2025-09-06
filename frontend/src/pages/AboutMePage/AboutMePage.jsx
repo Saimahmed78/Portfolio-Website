@@ -1,21 +1,21 @@
-import "../styles/about.css"
+import styles from "./AboutMePage.module.css";
 
 export function About() {
   return (
-    <div className="about-container">
+    <div className={styles["about-container"]}>
       {/* 🔹 Introduction Card */}
-      <section className="about-card">
-        <h1 className="section-title">👋 Introduction</h1>
+      <section className={styles["about-card"]}>
+        <h1 className={styles["section-title"]}>👋 Introduction</h1>
         <p>
           Hi, I’m <strong>Saim Ahmed</strong> — a MERN stack developer with a deep curiosity for how websites work under the hood. I love building real-world applications that solve meaningful problems and expand my understanding. I believe in learning by doing — not just tutorials, but real, hands-on projects.
         </p>
       </section>
 
       {/* 🔹 Skills Card */}
-      <section className="about-card">
-        <h2 className="section-title">🛠 Skills</h2>
+      <section className={styles["about-card"]}>
+        <h2 className={styles["section-title"]}>🛠 Skills</h2>
         <h3>Main Stack</h3>
-        <ul className="skill-tags">
+        <ul className={styles["skill-tags"]}>
           <li>Frontend</li>
           <li>Backend</li>
         </ul>
@@ -25,17 +25,17 @@ export function About() {
       </section>
 
       {/* 🔹 Education Card */}
-      <section className="about-card">
-        <h2 className="section-title">🎓 Education</h2>
+      <section className={styles["about-card"]}>
+        <h2 className={styles["section-title"]}>🎓 Education</h2>
         <p>
           I'm currently pursuing my <strong>4th semester</strong> in <strong>BS Software Engineering</strong> at <strong>Riphah International University, Faisalabad Campus</strong>. While studying, I actively build real-world applications, constantly improving my MERN stack skills. I approach every website like a software engineer — with scalability and thoughtful architecture in mind.
         </p>
       </section>
 
       {/* 🔹 Projects Card */}
-      <section className="about-card">
-        <h2 className="section-title">📂 Project Highlights</h2>
-        <ul className="project-list">
+      <section className={styles["about-card"]}>
+        <h2 className={styles["section-title"]}>📂 Project Highlights</h2>
+        <ul className={styles["project-list"]}>
           <li>⏱ Digital Timer</li>
           <li>📚 eBook Store (API integrated)</li>
           <li>📝 Markdown Previewer</li>

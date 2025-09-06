@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
-import apiClient from "../../../service/apiClient";
+import { useParams, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+import apiClient from "../../../services/apiClient";
 import { resetPassSchema } from "../../schemas/authSchema";
+import formStyles from "../../layouts/Auth/AuthFormLayout.module.css"; // form-specific styles
 
 function ResetPassword() {
   const {
@@ -16,8 +16,8 @@ function ResetPassword() {
     reset,
   } = useForm({
     resolver: zodResolver(resetPassSchema),
-    mode: "onBlur", // validate on blur
-    reValidateMode: "onChange", // remove error on typing
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
   const [loading, setLoading] = useState(false);
   const { token } = useParams();
@@ -31,7 +31,7 @@ function ResetPassword() {
       const response = await apiClient.resetPass(
         token,
         data.newPass,
-        data.confirmPass,
+        data.confirmPass
       );
 
       if (response.statuscode >= 200 && response.statuscode < 300) {
@@ -49,36 +49,53 @@ function ResetPassword() {
   };
 
   return (
-    <>
+    <form
+      className={formStyles["auth-form"]}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >
+      <label htmlFor="oldPass">Old Password</label>
+      <input
+        type="password"
+        id="oldPass"
+        {...register("oldPass")}
+        className={formStyles.input}
+      />
+      {errors.oldPass && (
+        <p className={formStyles["auth-error"]}>{errors.oldPass.message}</p>
+      )}
 
-      <form className="auth-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <label htmlFor="oldPass">Old Password</label>
-        <input type="password" id="oldPass" {...register("oldPass")} />
-        {errors.oldPass && (
-          <p className="auth-error">{errors.oldPass.message}</p>
-        )}
+      <label htmlFor="newPass">New Password</label>
+      <input
+        type="password"
+        id="newPass"
+        {...register("newPass")}
+        className={formStyles.input}
+      />
+      {errors.newPass && (
+        <p className={formStyles["auth-error"]}>{errors.newPass.message}</p>
+      )}
 
-        <label htmlFor="newPass">New Password</label>
-        <input type="password" id="newPass" {...register("newPass")} />
-        {errors.newPass && (
-          <p className="auth-error">{errors.newPass.message}</p>
-        )}
+      <label htmlFor="confirmPass">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPass"
+        {...register("confirmPass")}
+        className={formStyles.input}
+      />
+      {errors.confirmPass && (
+        <p className={formStyles["auth-error"]}>{errors.confirmPass.message}</p>
+      )}
 
-        <label htmlFor="confirmPass">Confirm Password</label>
-        <input type="password" id="confirmPass" {...register("confirmPass")} />
-        {errors.confirmPass && (
-          <p className="auth-error">{errors.confirmPass.message}</p>
-        )}
-
-        <button
-          type="submit"
-          className="auth-submit-btn"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Sending..." : "Send"}
-        </button>
-      </form>
-    </>
+      <button
+        type="submit"
+        className={formStyles["auth-submit-btn"]}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Sending..." : "Send"}
+      </button>
+    </form>
   );
 }
+
 export default ResetPassword;

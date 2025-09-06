@@ -2,8 +2,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useParams } from "react-router";
-import apiClient from "../../../service/apiClient";
+import apiClient from "../../../services/apiClient";
+
 import { changePassSchema } from "../../schemas/authSchema";
+import layoutStyles from "../../layouts/Auth/AuthFormLayout.module.css"; // form-related styles
+
 
 // Zod schema for password change
 
@@ -40,7 +43,12 @@ function ChangePass() {
   };
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={`${layoutStyles["auth-form"]} ${
+        isSubmitting ? layoutStyles.loading : ""
+      }`}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <label htmlFor="oldPass">Old Password</label>
       <input
         type="password"
@@ -48,7 +56,9 @@ function ChangePass() {
         placeholder="Enter your Old Password"
         {...register("oldPass")}
       />
-      {errors.oldPass && <p className="auth-error">{errors.oldPass.message}</p>}
+      {errors.oldPass && (
+        <p className={layoutStyles["auth-error"]}>{errors.oldPass.message}</p>
+      )}
 
       <label htmlFor="newPass">New Password</label>
       <input
@@ -57,7 +67,9 @@ function ChangePass() {
         placeholder="Enter your New Password"
         {...register("newPass")}
       />
-      {errors.newPass && <p className="auth-error">{errors.newPass.message}</p>}
+      {errors.newPass && (
+        <p className={layoutStyles["auth-error"]}>{errors.newPass.message}</p>
+      )}
 
       <label htmlFor="confirmPass">Confirm Password</label>
       <input
@@ -67,10 +79,16 @@ function ChangePass() {
         {...register("confirmPass")}
       />
       {errors.confirmPass && (
-        <p className="auth-error">{errors.confirmPass.message}</p>
+        <p className={layoutStyles["auth-error"]}>
+          {errors.confirmPass.message}
+        </p>
       )}
 
-      <button type="submit" className="auth-btn" disabled={isSubmitting}>
+      <button
+        type="submit"
+        className={layoutStyles["auth-btn"]}
+        disabled={isSubmitting}
+      >
         {isSubmitting ? "Sending..." : "Send"}
       </button>
     </form>

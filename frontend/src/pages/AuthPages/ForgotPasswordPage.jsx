@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import apiClient from "../../../service/apiClient";
+import apiClient from "../../../services/apiClient";
 import { forgotPassSchema } from "../../schemas/authSchema";
 import { useState } from "react";
 import Confetti from "react-confetti";
+import layoutStyles from "../../layouts/Auth/AuthFormLayout.module.css"; // form-related styles
+import sharedStyles from "../../layouts/Auth/AuthShared.module.css"; // form-related styles
+
 
 function ForgotPassword() {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -43,7 +46,9 @@ function ForgotPassword() {
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
 
       <form
-        className={`auth-form ${isSubmitting ? "loading" : ""}`}
+        className={`${layoutStyles["auth-form"]} ${
+          isSubmitting ? layoutStyles.loading : ""
+        }`}
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
@@ -55,12 +60,12 @@ function ForgotPassword() {
           {...register("email")}
         />
         {errors.email && (
-          <p className="forgotPass-error">{errors.email.message}</p>
+          <p className={layoutStyles["auth-error"]}>{errors.email.message}</p>
         )}
 
         <button
           type="submit"
-          className="auth-submit-btn"
+          className={sharedStyles["auth-submit-btn"]}
           disabled={isSubmitting}
         >
           {isSubmitting ? "Sending..." : "Send"}

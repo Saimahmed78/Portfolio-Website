@@ -1,16 +1,19 @@
-import  "../styles/skills.css"
+import styles from "../../pages/SkillsPage/SkillsPage.module.css";
+
 export function SkillCategory({ title, skills, isSoft }) {
+  const sectionClass = `${styles.skillSection} ${isSoft ? styles.skillSoft : ""}`;
+  
   return (
-    <div className="skill-section">
-      <h2>{title}</h2>
-      <ul className={`skill-list ${isSoft ? "soft" : ""}`}>
+    <div className={sectionClass}>
+      <h2 className={styles.skillSectionTitle}>{title}</h2>
+      <ul className={styles.skillList}>
         {skills.map((skill, index) => (
-          <li key={index}>
+          <li key={index} className={styles.skillListItem}>
             {typeof skill === "string" ? (
               skill
             ) : (
               <>
-                <span>{skill.name}</span> – {skill.description}
+                <span className={styles.skillListItemSpan}>{skill.name}</span> – {skill.description}
               </>
             )}
           </li>

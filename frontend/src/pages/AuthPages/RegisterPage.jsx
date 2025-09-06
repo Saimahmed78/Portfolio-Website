@@ -3,9 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import apiClient from "../../../service/apiClient";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import apiClient from "../../../services/apiClient";
 import { registerSchema } from "../../schemas/authSchema";
+
+import layoutStyles from "../../layouts/Auth/AuthFormLayout.module.css"; // form-related styles
+import sharedStyles from "../../layouts/Auth/AuthShared.module.css"; // form-related styles
 
 function RegisterUser() {
   const [showPassword, setShowPassword] = useState(false);
@@ -49,76 +52,71 @@ function RegisterUser() {
   };
 
   return (
-    <>
-      <form
-        className={`auth-form ${isSubmitting ? "loading" : ""}`}
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-      >
-        {/* Name */}
-        <label htmlFor="name">Name</label>
+    <form
+      className={`${layoutStyles["auth-form"]} ${
+        isSubmitting ? layoutStyles.loading : ""
+      }`}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >
+      <label htmlFor="name">Name</label>
       <input
         id="name"
         type="text"
         {...register("name")}
         placeholder="Enter your name"
-        autoComplete="name"
-        aria-invalid={!!errors.name}
       />
-      <p className="register-error">{errors.name?.message || " "}</p>
+      <p className={layoutStyles["auth-error"]}>
+        {errors.name?.message || " "}
+      </p>
 
-        {/* Email */}
-        <label htmlFor="email">Email</label>
+      <label htmlFor="email">Email</label>
       <input
         id="email"
         type="email"
         {...register("email")}
         placeholder="Enter your email"
-        autoComplete="email"
-        aria-invalid={!!errors.email}
       />
-      <p className="register-error">{errors.email?.message || " "}</p>
+      <p className={layoutStyles["auth-error"]}>
+        {errors.email?.message || " "}
+      </p>
 
-        {/* Password */}
-        <label htmlFor="password">Password</label>
-        <div className="auth-password-wrapper">
-          <input
-            id="password"
+      <label htmlFor="password">Password</label>
+      <div className={layoutStyles["auth-password-wrapper"]}>
+        <input
+          id="password"
           type={showPassword ? "text" : "password"}
-            {...register("password")}
+          {...register("password")}
           placeholder="Enter your password"
-          autoComplete="new-password"
-          aria-invalid={!!errors.password}
-          />
-          <button
-            type="button"
-            className="auth-toggle-password"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
-        </div>
-        <p className="auth-error">{errors.password?.message || " "}</p>
-
-        {/* Forgot link */}
-        <p className="auth-options">
-          <Link to="/forgotPass">Forgot Password?</Link>
-        </p>
-
-        {/* Submit */}
+        />
         <button
-          type="submit"
-          className="auth-submit-btn"
-          disabled={isSubmitting}
+          type="button"
+          className={layoutStyles["auth-toggle-password"]}
+          onClick={() => setShowPassword(!showPassword)}
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
+      </div>
+      <p className={layoutStyles["auth-error"]}>
+        {errors.password?.message || " "}
+      </p>
 
-        <p className="auth-text">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
-    </>
+      <p className={layoutStyles["auth-options"]}>
+        <Link to="/forgotPass">Forgot Password?</Link>
+      </p>
+
+      <button
+        type="submit"
+        className={sharedStyles["auth-submit-btn"]}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
+      </button>
+
+      <p className={layoutStyles["auth-text"]}>
+        Already have an account? <Link to="/login">Login</Link>
+      </p>
+    </form>
   );
 }
 

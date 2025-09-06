@@ -1,10 +1,10 @@
 import { Outlet } from "react-router";
-import "./AuthShared.css";
-import "./StatusLayout.css";
+import "./AuthShared.module.css";
+import "./AuthStatusLayout.module.css";
 export default function AuthStatusLayout() {
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className={styles["auth-container"]}>
+      <div className={styles["auth-card"]}>
         <Outlet />
       </div>
     </div>

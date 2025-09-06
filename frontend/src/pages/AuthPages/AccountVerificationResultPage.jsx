@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import Confetti from "react-confetti";
-import apiClient from "../../../service/apiClient";
+import apiClient from "../../../services/apiClient";
 
-function AccountVerificationResultPage() {
+import styles from "../../layouts/Auth/AuthShared.module.css"; // shared layout + card styles
+
+export default function AccountVerificationResultPage() {
   const [loading, setLoading] = useState(true);
   const [verified, setVerified] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -46,18 +48,18 @@ function AccountVerificationResultPage() {
 
       {loading ? (
         <>
-          <div className="auth-spinner" />
-          <h2>Verifying your account...</h2>
-          <p style={{ color: "white" }}>
+          <div className={styles["auth-spinner"]} />
+          <h2 className={styles["auth-title"]}>Verifying your account...</h2>
+          <p className={styles["auth-hint"]}>
             Please wait while we confirm your details.
           </p>
         </>
       ) : verified ? (
         <>
-          <h2 className="auth-title">✅ Account Verified!</h2>
-          <p className="success">{successMessage}</p>
+          <h2 className={styles["auth-title"]}>✅ Account Verified!</h2>
+          <p className={styles.success}>{successMessage}</p>
           <button
-            className="auth-btn auth-btn-primary"
+            className={`${styles["auth-btn"]} ${styles["auth-btn-primary"]}`}
             onClick={() => navigate("/login")}
           >
             Go to Login
@@ -65,10 +67,10 @@ function AccountVerificationResultPage() {
         </>
       ) : (
         <>
-          <h2 className="auth-title">❌ Verification Failed 😭</h2>
-          <p className="fail">{errorMessage}</p>
+          <h2 className={styles["auth-title"]}>❌ Verification Failed 😭</h2>
+          <p className={styles.fail}>{errorMessage}</p>
           <button
-            className="auth-btn auth-btn-primary"
+            className={`${styles["auth-btn"]} ${styles["auth-btn-primary"]}`}
             onClick={() => navigate("/resendVerifyEmail")}
           >
             Resend Verification Email
@@ -79,4 +81,3 @@ function AccountVerificationResultPage() {
   );
 }
 
-export default AccountVerificationResultPage;
