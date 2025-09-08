@@ -1,9 +1,6 @@
 // src/components/ErrorBoundary.jsx
 
-import React from "react";
-
 const ErrorBoundary = () => {
-//   console.error("Caught by ErrorBoundary:");
 
   return (
     <div style={{ padding: "2rem", textAlign: "center" }}>

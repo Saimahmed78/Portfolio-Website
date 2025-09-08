@@ -7,10 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import apiClient from "../../../services/apiClient";
 import { registerSchema } from "../../schemas/authSchema";
 
-import layoutStyles from "../../layouts/Auth/AuthFormLayout.module.css"; // form-related styles
-import sharedStyles from "../../layouts/Auth/AuthShared.module.css"; // form-related styles
-
-function RegisterUser() {
+export default function RegisterUser() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
@@ -26,25 +23,15 @@ function RegisterUser() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await apiClient.register(
-        data.name,
-        data.email,
-        data.password,
-      );
-
-      const successMsg = response?.data || "Account Created Successfully ✅";
-      toast.success(successMsg);
+      const response = await apiClient.register(data.name, data.email, data.password);
+      toast.success(response?.data || "Account Created ✅");
       reset();
       navigate("/verifyEmail");
       localStorage.setItem("email", data.email);
       localStorage.setItem("name", data.name);
     } catch (error) {
-      const msg =
-        error?.response?.data?.message ||
-        error?.errors?.[0] ||
-        "Registration failed. Please try again.";
+      const msg = error?.response?.data?.message || "Registration failed.";
       toast.error(msg);
-
       if (error?.statusCode === 409) {
         setError("email", { type: "manual", message: msg });
       }
@@ -53,71 +40,73 @@ function RegisterUser() {
 
   return (
     <form
-      className={`${layoutStyles["auth-form"]} ${
-        isSubmitting ? layoutStyles.loading : ""
-      }`}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
+      className={`relative flex flex-col gap-4 w-full max-w-md p-8 bg-[#1e293b] rounded-2xl shadow-xl animate-fadeIn
+      ${isSubmitting ? "before:absolute before:top-0 before:left-[-100%] before:w-full before:h-[3px] before:bg-gradient-to-r before:from-blue-500 before:via-cyan-400 before:to-yellow-400 before:animate-flow" : ""}`}
     >
-      <label htmlFor="name">Name</label>
+      {/* Name */}
+      <label className="text-sm font-medium text-slate-200">Name</label>
       <input
-        id="name"
         type="text"
-        {...register("name")}
         placeholder="Enter your name"
+        {...register("name")}
+        className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 transition"
       />
-      <p className={layoutStyles["auth-error"]}>
-        {errors.name?.message || " "}
-      </p>
+      <p className="text-red-500 text-xs mt-[-4px]">{errors.name?.message || " "}</p>
 
-      <label htmlFor="email">Email</label>
+      {/* Email */}
+      <label className="text-sm font-medium text-slate-200">Email</label>
       <input
-        id="email"
         type="email"
-        {...register("email")}
         placeholder="Enter your email"
+        {...register("email")}
+        className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 transition"
       />
-      <p className={layoutStyles["auth-error"]}>
-        {errors.email?.message || " "}
-      </p>
+      <p className="text-red-500 text-xs mt-[-4px]">{errors.email?.message || " "}</p>
 
-      <label htmlFor="password">Password</label>
-      <div className={layoutStyles["auth-password-wrapper"]}>
+      {/* Password */}
+      <label className="text-sm font-medium text-slate-200">Password</label>
+      <div className="relative">
         <input
-          id="password"
           type={showPassword ? "text" : "password"}
-          {...register("password")}
           placeholder="Enter your password"
+          {...register("password")}
+          className="w-full px-3 py-2 pr-10 rounded-lg border border-slate-600 bg-slate-800 text-white focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 transition"
         />
         <button
           type="button"
-          className={layoutStyles["auth-toggle-password"]}
           onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-100"
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
-      <p className={layoutStyles["auth-error"]}>
-        {errors.password?.message || " "}
+      <p className="text-red-500 text-xs mt-[-4px]">{errors.password?.message || " "}</p>
+
+      {/* Forgot Password */}
+      <p className="flex justify-end text-xs text-slate-300">
+        <Link className="text-blue-500 hover:text-blue-600" to="/forgotPass">
+          Forgot Password?
+        </Link>
       </p>
 
-      <p className={layoutStyles["auth-options"]}>
-        <Link to="/forgotPass">Forgot Password?</Link>
-      </p>
-
+      {/* Submit */}
       <button
         type="submit"
-        className={sharedStyles["auth-submit-btn"]}
         disabled={isSubmitting}
+        className="w-full px-4 py-2 bg-blue-500 rounded-lg font-semibold text-white hover:bg-blue-600 disabled:bg-slate-600 disabled:cursor-not-allowed disabled:animate-pulse transition"
       >
         {isSubmitting ? "Submitting..." : "Submit"}
       </button>
 
-      <p className={layoutStyles["auth-text"]}>
-        Already have an account? <Link to="/login">Login</Link>
+      {/* Already have account */}
+      <p className="text-sm text-slate-300 text-center">
+        Already have an account?{" "}
+        <Link className="text-blue-500 hover:text-blue-600 font-semibold" to="/login">
+          Login
+        </Link>
       </p>
     </form>
   );
 }
-
-export default RegisterUser;

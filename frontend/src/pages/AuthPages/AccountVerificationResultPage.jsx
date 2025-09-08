@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router";
 import Confetti from "react-confetti";
 import apiClient from "../../../services/apiClient";
 
-import styles from "../../layouts/Auth/AuthShared.module.css"; // shared layout + card styles
-
 export default function AccountVerificationResultPage() {
   const [loading, setLoading] = useState(true);
   const [verified, setVerified] = useState(false);
@@ -25,11 +23,11 @@ export default function AccountVerificationResultPage() {
         if (response?.success) {
           setVerified(true);
           setSuccessMessage(
-            response.data || "Your account has been verified successfully 🎉",
+            response.data || "Your account has been verified successfully 🎉"
           );
         } else {
           setErrorMessage(
-            response?.data || "Something went wrong from the server ❌",
+            response?.data || "Something went wrong from the server ❌"
           );
         }
       } catch (error) {
@@ -43,41 +41,40 @@ export default function AccountVerificationResultPage() {
   }, [token]);
 
   return (
-    <>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-[#0f2027] via-[#203a43] to-[#2c5364] font-inter px-5">
       {verified && <Confetti recycle={false} numberOfPieces={2400} />}
 
-      {loading ? (
-        <>
-          <div className={styles["auth-spinner"]} />
-          <h2 className={styles["auth-title"]}>Verifying your account...</h2>
-          <p className={styles["auth-hint"]}>
-            Please wait while we confirm your details.
-          </p>
-        </>
-      ) : verified ? (
-        <>
-          <h2 className={styles["auth-title"]}>✅ Account Verified!</h2>
-          <p className={styles.success}>{successMessage}</p>
-          <button
-            className={`${styles["auth-btn"]} ${styles["auth-btn-primary"]}`}
-            onClick={() => navigate("/login")}
-          >
-            Go to Login
-          </button>
-        </>
-      ) : (
-        <>
-          <h2 className={styles["auth-title"]}>❌ Verification Failed 😭</h2>
-          <p className={styles.fail}>{errorMessage}</p>
-          <button
-            className={`${styles["auth-btn"]} ${styles["auth-btn-primary"]}`}
-            onClick={() => navigate("/resendVerifyEmail")}
-          >
-            Resend Verification Email
-          </button>
-        </>
-      )}
-    </>
+      <div className="bg-[#1e293b] rounded-2xl shadow-2xl p-8 max-w-md w-full text-center animate-fadeIn">
+        {loading ? (
+          <>
+            <div className="w-12 h-12 border-4 border-white border-t-pink-500 rounded-full mx-auto animate-spin mb-4"></div>
+            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">Verifying your account...</h2>
+            <p className="text-gray-300">Please wait while we confirm your details.</p>
+          </>
+        ) : verified ? (
+          <>
+            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">✅ Account Verified!</h2>
+            <p className="text-green-500 font-bold text-lg mb-4 animate-fadeIn">{successMessage}</p>
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-6 py-3 rounded-lg shadow transition-transform transform hover:-translate-y-1"
+            >
+              Go to Login
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">❌ Verification Failed 😭</h2>
+            <p className="text-red-500 font-bold text-lg mb-4 animate-fadeIn">{errorMessage}</p>
+            <button
+              onClick={() => navigate("/resendVerifyEmail")}
+              className="bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-6 py-3 rounded-lg shadow transition-transform transform hover:-translate-y-1"
+            >
+              Resend Verification Email
+            </button>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
-

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import OpenInboxButton from "../../components/OpenInboxButton/OpenInboxButton";
 import toast from "react-hot-toast";
-import styles from "../../layouts/Auth/AuthShared.module.css"; // shared layout + card styles
 
 export default function EmailVerificationNoticePage() {
   const [cooldown, setCooldown] = useState(0);
@@ -10,7 +9,6 @@ export default function EmailVerificationNoticePage() {
   const email = localStorage.getItem("email");
   const COOLDOWN = 60;
 
-  // Check last resend timestamp
   useEffect(() => {
     const lastClick = localStorage.getItem("lastResendTimestamp");
     if (lastClick) {
@@ -22,7 +20,6 @@ export default function EmailVerificationNoticePage() {
     }
   }, []);
 
-  // Countdown timer
   useEffect(() => {
     if (cooldown <= 0) return;
     const interval = setInterval(() => {
@@ -40,29 +37,33 @@ export default function EmailVerificationNoticePage() {
   };
 
   return (
-    <div className={styles["auth-container"]}>
-      <div className={styles["auth-card"]}>
-        <h1 className={styles["auth-title"]}>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-[#0f172a] px-5 font-inter animate-fadeIn">
+      <div className="bg-[#1e293b] rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-blue-500 mb-2">
           We’ve sent you a verification email 📩
         </h1>
-        <p className={styles["auth-subtitle"]}>
+        <p className="text-gray-300 mb-6">
           Please confirm your email to activate your account.
         </p>
 
         <OpenInboxButton email={email} />
 
-        <p className={styles["auth-hint"]}>
-          If you don't see the email, check your spam or junk folder. It might
-          be hiding there!
+        <p className="text-gray-400 mt-4">
+          If you don't see the email, check your spam or junk folder. It might be hiding there!
         </p>
-        <p className={styles["auth-hint"]}>
+        <p className="text-gray-400">
           Didn’t get the email? No problem—it happens.
         </p>
 
         <button
           onClick={handleResend}
-          className={`${styles["auth-btn"]} ${styles["auth-btn-primary"]}`}
           disabled={cooldown > 0}
+          className={`mt-6 px-6 py-3 rounded-lg font-semibold text-white shadow transition-transform transform hover:-translate-y-1 
+            ${
+              cooldown > 0
+                ? "bg-gray-500 cursor-not-allowed animate-pulse"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
         >
           {cooldown > 0
             ? `Please wait ${cooldown}s...`

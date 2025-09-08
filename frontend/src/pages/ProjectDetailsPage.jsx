@@ -1,7 +1,6 @@
 import { useParams } from "react-router";
 import { ProjectInfoComp } from "../../components/ProjectInfoComp/ProjectInfoComp";
-import { projectDetails } from "../../data/projectDetails";
-import styles from "./ProjectDetailsPage.module.css"; // CSS module
+import { projectDetails } from "../data/projectDetails";
 
 function ProjectInfo() {
   const { id } = useParams();
