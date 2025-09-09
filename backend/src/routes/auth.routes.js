@@ -10,17 +10,19 @@ import {
 } from "../validators/auth.validators.js";
 import validateRequest from "../middlewares/validateRequest.js";
 import {
-  changePass,
-  deleteAccount,
-  forgotPass,
   loginUser,
-  logOut,
-  resendverificationemail,
-  resetPass,
-  userRegister,
-  verifyUser,
-} from "../controllers/auth.controllers.js";
-import isloggedIn from "../middlewares/isLoggedIn.middleware.js";
+  logoutUser,
+  resendVerification,
+  registerUser,
+  verifyAccount,
+} from "../controllers/auth.controller.js";
+import {
+  changePassword,
+  forgotPassword,
+  resetPassword,
+} from "../controllers/password.controller.js";
+import { deleteAccount } from "../controllers/user.controller.js";
+import isloggedIn from "../middlewares/isLoggedIn.js";
 
 const router = Router();
 
@@ -28,31 +30,36 @@ router.post(
   "/register",
   userRegistrationvalidators(),
   validateRequest,
-  userRegister,
+  registerUser,
 );
-router.get("/verify/:token", verifyUser);
+router.get("/verify/:token", verifyAccount);
 router.post(
-  "/resendVerifyEmail",
+  "/resendVerification",
   resendVerifcationEmailValidators(),
   validateRequest,
-  resendverificationemail,
+  resendVerification
 );
-
+``
 router.post("/login", userloginValidators(), validateRequest, loginUser);
-router.get("/logOut", isloggedIn, logOut);
-router.post("/forgotPass", forgotPassValidators(), validateRequest, forgotPass);
+router.get("/logout", isloggedIn, logoutUser);
+router.post(
+  "/forgotPass",
+  forgotPassValidators(),
+  validateRequest,
+  forgotPassword,
+);
 router.post(
   "/resetPass/:token",
   resetPassValidators(),
   validateRequest,
-  resetPass,
+  resetPassword,
 );
 router.post(
   "/changePass",
   isloggedIn,
   changePassValidators(),
   validateRequest,
-  changePass,
+  changePassword,
 );
 router.post(
   "/deleteAccount",
