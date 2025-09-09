@@ -5,7 +5,7 @@ import {
   resetPasswordEmailContent,
   changePasswordEmailContent,
   accountDeletionEmailContent,
-} from "./mail.templates.js";
+} from "./mail.template.js";
 
 import { sendMail} from "../../infrastructure/mail/mail.transporter.js";
 

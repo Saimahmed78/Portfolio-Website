@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import bcrypt from "bcryptjs";
 import { ApiError } from "../utils/ApiError.js";
 import User from "../models/user.model.js";
 
@@ -13,8 +12,8 @@ const cookieOptionsBase = {
 
 export async function register({ name, email, password }) {
   const existing = await User.findOne({ email });
-  if (existing) throw new ApiError(409, "Validation failed", ["User already exists"]);
-
+  if (existing)
+    throw new ApiError(409, "Verification failed", "User already exists");
   const user = await User.create({ name, email, password });
   const verificationToken = user.generateToken("verification");
   if (!user.verificationToken || !user.verificationTokenExpiry) {
