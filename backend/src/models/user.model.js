@@ -100,8 +100,6 @@ userSchema.methods.generateAccessToken = function () {
 userSchema.methods.generateToken = function (type) {
   const token = crypto.randomBytes(32).toString("hex");
   const hashed = crypto.createHash("sha256").update(token).digest("hex");
-  console.log("Generated token:", token); // Log the raw token for debugging
-  console.log("Hashed token:", hashed); // Log the hashed token for debugging"
   if (type === "verification") {
     this.verificationToken = hashed;
     this.verificationTokenExpiry = Date.now() + 1000 * 60 * 60; // 1 hour
@@ -121,7 +119,6 @@ userSchema.set("toJSON", {
     delete ret.refreshToken;
     delete ret.accessToken;
     delete ret.verificationToken;
-    delete ret.resetPasswordToken;
     delete ret.forgotPasswordToken;
     return ret;
   },

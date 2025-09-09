@@ -1,5 +1,5 @@
 import { ApiError } from "../utils/ApiError.js";
-import User from "../models/user.models.js";
+import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 const isLoggedIn = async (req, res, next) => {
   //    check if cookies has accessToken
@@ -7,7 +7,6 @@ const isLoggedIn = async (req, res, next) => {
 
   // if yes then return next
   if (accessToken) {
-    console.log("Access Token found");
     try {
       const decodedData = jwt.verify(
         accessToken,
@@ -15,7 +14,6 @@ const isLoggedIn = async (req, res, next) => {
       );
       req.user = decodedData;
     } catch (err) {
-      console.error("Access Token not found");
       throw new ApiError(404, "Token is invalid", err);
     }
     return next();
@@ -23,9 +21,7 @@ const isLoggedIn = async (req, res, next) => {
 
   // if not call refresh access Token m
   const refreshToken = req.cookies?.RefreshToken;
-  console.log("Refresh Token found", refreshToken);
   if (!refreshToken) {
-    console.log("Refresh Token not found");
     throw new ApiError(404, "User is logged Out please login again. ");
   }
 
