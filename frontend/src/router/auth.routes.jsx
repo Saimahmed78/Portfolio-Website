@@ -7,7 +7,7 @@ import Login from "../pages/AuthPages/LoginPage";
 import RegisterUser from "../pages/AuthPages/RegisterPage";
 import ResendVerification from "../pages/AuthPages/ResendVerificationEmailPage";
 import ResetPassword from "../pages/AuthPages/ResetPasswordPage";
-import VerifyEmailPage from "../pages/AuthPages/EmailVerificationNoticePage";
+import EmailVerificationNoticePage from "../pages/AuthPages/EmailVerificationNoticePage";
 
 export const authRoutes = [
   // Auth forms layout
@@ -64,14 +64,7 @@ export const authRoutes = [
       },
       {
         path: "resendVerifyEmail",
-        element: (
-          <AuthFormLayout
-            title="✅ Email Sent!"
-            subtitle="Please check your inbox for the verification email."
-          >
-            <ResendVerification />
-          </AuthFormLayout>
-        ),
+        element: <ResendVerification />,
       },
     ],
   },
@@ -81,11 +74,7 @@ export const authRoutes = [
     children: [
       {
         path: "verifyEmail",
-        element: (
-          <AuthStatusLayout>
-            <VerifyEmailPage />
-          </AuthStatusLayout>
-        ),
+        element: <EmailVerificationNoticePage />,
       },
       {
         path: "verify/:token",
