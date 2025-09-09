@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
-import { ProjectInfoComp } from "../../components/ProjectInfoComp/ProjectInfoComp";
-import { projectDetails } from "../data/projectDetails";
+import { ProjectInfoComp } from "../components/ProjectInfoComp.jsx";
+import { projectDetails } from "../data/projectDetails.js";
 
 function ProjectInfo() {
   const { id } = useParams();

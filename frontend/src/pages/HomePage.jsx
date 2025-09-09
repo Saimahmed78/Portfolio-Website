@@ -1,17 +1,15 @@
-import { CtaButton } from "../../components/Button/Button";
-import profileImg from "../../assets/images/profile-image.jpg";
+import { CtaButton } from "../components/Button";
+import profileImg from "../assets/images/profile-image.jpg";
 
 // Base button classes
 const baseBtnClasses =
   "px-6 py-3 bg-[#ff4e50] text-white font-bold rounded-lg hover:scale-105 hover:bg-[#ff7375] transition duration-300 ease-in-out max-[480px]:w-[80%] max-[480px]:max-w-[260px]";
 
 // Animation helper classes
-const slideLeft =
-  "animate-[slide-fade-in-left_1.2s_ease-out_forwards] opacity-0 max-[480px]:opacity-100";
-const slideRight =
-  "animate-[slide-fade-in-right_1.2s_ease-out_forwards] opacity-0 max-[480px]:opacity-100";
+const slideLeft = "animate-[slide-fade-in-left_1.2s_ease-out_forwards]";
+const slideRight = "animate-[slide-fade-in-right_1.2s_ease-out_forwards]";
 const fadeUp = (delay = "0s") =>
-  `animate-[fade-in-up_1s_ease-out_${delay}_forwards] opacity-0 max-[480px]:opacity-100`;
+  `animate-[fade-in-up_1s_ease-out_${delay}_forwards]`;
 
 export function Home() {
   return (

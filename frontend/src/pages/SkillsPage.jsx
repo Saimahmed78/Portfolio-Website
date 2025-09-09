@@ -1,5 +1,5 @@
 import { frontendSkills, backendSkills, softSkills } from "../data/skills.js";
-import { SkillCategory } from "../../components/Skill/Skill.jsx";
+import { SkillCategory } from "../components/Skill.jsx";
 
 export function Skills() {
   return (

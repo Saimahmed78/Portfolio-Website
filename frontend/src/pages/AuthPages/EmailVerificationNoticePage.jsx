@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import OpenInboxButton from "../../components/OpenInboxButton/OpenInboxButton";
+import OpenInboxButton from "../../components/OpenInboxButton.jsx";
 import toast from "react-hot-toast";
 
 export default function EmailVerificationNoticePage() {

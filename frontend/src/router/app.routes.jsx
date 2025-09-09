@@ -1,9 +1,9 @@
-import { About } from "../pages/AboutMePage/AboutMePage";
-import { ContactPage } from "../pages/ContactPage/ContactPage";
-import { Home } from "../pages/HomePage/HomePage";
-import { Project } from "../pages/ProjectListPage/ProjectListPage";
-import ProjectInfo from "../pages/ProjectDetailsPage/ProjectDetailsPage";
-import { Skills } from "../pages/SkillsPage/SkillsPage";
+import { About } from "../pages/AboutMePage.jsx";
+import { ContactPage } from "../pages/ContactPage.jsx";
+import { Home } from "../pages/HomePage.jsx";
+import { Project } from "../pages/ProjectListPage.jsx";
+import ProjectInfo from "../pages/ProjectDetailsPage.jsx";
+import { Skills } from "../pages/SkillsPage.jsx";
 
 export const appRoutes = [
   {
