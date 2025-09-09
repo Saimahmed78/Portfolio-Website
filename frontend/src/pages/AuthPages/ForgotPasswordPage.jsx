@@ -37,36 +37,36 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-[#0f172a] px-5 font-inter animate-fadeIn">
-      {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        className={`bg-[#1e293b] p-8 rounded-2xl shadow-2xl w-full max-w-md flex flex-col gap-4 relative overflow-hidden
-          ${isSubmitting ? "before:absolute before:top-0 before:left-[-100%] before:w-full before:h-1 before:bg-gradient-to-r before:from-blue-500 before:via-cyan-400 before:to-yellow-400 before:animate-flow" : ""}`}
-      >
-        <label className="text-gray-300 font-medium text-sm" htmlFor="email">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email here"
-          {...register("email")}
-          className="px-4 py-3 rounded-lg border border-gray-500 bg-[#334155] text-white text-base transition-all focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 outline-none"
-        />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className={`bg-[#1e293b] p-8 rounded-2xl shadow-2xl w-full max-w-md flex flex-col gap-4 relative overflow-hidden
+          ${
+            isSubmitting
+              ? "before:absolute before:top-0 before:left-[-100%] before:w-full before:h-1 before:bg-gradient-to-r before:from-blue-500 before:via-cyan-400 before:to-yellow-400 before:animate-flow"
+              : ""
+          }`}
+    >
+      <label className="text-gray-300 font-medium text-sm" htmlFor="email">
+        Email
+      </label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email here"
+        {...register("email")}
+        className="px-4 py-3 rounded-lg border border-gray-500 bg-[#334155] text-white text-base transition-all focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 outline-none"
+      />
         {errors.email && <p className="text-red-500 text-sm mt-[-6px]">{errors.email.message}</p>}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`mt-4 px-6 py-3 rounded-lg font-semibold text-white shadow transition-transform transform hover:-translate-y-1
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className={`mt-4 px-6 py-3 rounded-lg font-semibold text-white shadow transition-transform transform hover:-translate-y-1
             ${isSubmitting ? "bg-gray-500 cursor-not-allowed animate-pulse" : "bg-blue-500 hover:bg-blue-600"}`}
-        >
-          {isSubmitting ? "Sending..." : "Send"}
-        </button>
-      </form>
-    </div>
+      >
+        {isSubmitting ? "Sending..." : "Send"}
+      </button>
+    </form>
   );
 }
