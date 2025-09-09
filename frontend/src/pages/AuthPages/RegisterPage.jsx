@@ -27,13 +27,14 @@ export default function RegisterUser() {
       toast.success(response?.data || "Account Created ✅");
       reset();
       navigate("/verifyEmail");
+      localStorage.setItem("lastResendTimestamp", Date.now().toString());
       localStorage.setItem("email", data.email);
       localStorage.setItem("name", data.name);
     } catch (error) {
-      const msg = error?.response?.data?.message || "Registration failed.";
+      const msg = error?.errors?.[0] || "Registration failed.";
       toast.error(msg);
       if (error?.statusCode === 409) {
-        setError("email", { type: "manual", message: msg });
+        setError("email", { type: "manual", message: "Email already exists" });
       }
     }
   };
@@ -42,9 +43,13 @@ export default function RegisterUser() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className={`relative flex flex-col gap-4 w-full max-w-md p-8 bg-[#1e293b] rounded-2xl shadow-xl animate-fadeIn
-      ${isSubmitting ? "before:absolute before:top-0 before:left-[-100%] before:w-full before:h-[3px] before:bg-gradient-to-r before:from-blue-500 before:via-cyan-400 before:to-yellow-400 before:animate-flow" : ""}`}
+      className="relative flex flex-col gap-4 w-full max-w-md p-8 bg-[#1e293b] rounded-2xl shadow-xl animate-fadeIn overflow-hidden"
     >
+      {/* Top loading line */}
+      {isSubmitting && (
+        <div className="absolute top-0 left-[-100%] w-full h-[3px] bg-gradient-to-r from-[#4cafef] via-blue-600 to-[#4cafef] animate-slide z-10" />
+      )}
+
       {/* Name */}
       <label className="text-sm font-medium text-slate-200">Name</label>
       <input
@@ -53,7 +58,9 @@ export default function RegisterUser() {
         {...register("name")}
         className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 transition"
       />
-      <p className="text-red-500 text-xs mt-[-4px]">{errors.name?.message || " "}</p>
+      <p className="text-slate-100 text-base mt-[-4px]">
+        {errors.name?.message || " "}
+      </p>
 
       {/* Email */}
       <label className="text-sm font-medium text-slate-200">Email</label>
@@ -63,7 +70,9 @@ export default function RegisterUser() {
         {...register("email")}
         className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 transition"
       />
-      <p className="text-red-500 text-xs mt-[-4px]">{errors.email?.message || " "}</p>
+      <p className="text-slate-100 text-base mt-[-4px]">
+        {errors.email?.message || " "}
+      </p>
 
       {/* Password */}
       <label className="text-sm font-medium text-slate-200">Password</label>
@@ -82,13 +91,8 @@ export default function RegisterUser() {
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
-      <p className="text-red-500 text-xs mt-[-4px]">{errors.password?.message || " "}</p>
-
-      {/* Forgot Password */}
-      <p className="flex justify-end text-xs text-slate-300">
-        <Link className="text-blue-500 hover:text-blue-600" to="/forgotPass">
-          Forgot Password?
-        </Link>
+      <p className="text-slate-100 text-base mt-[-4px]">
+        {errors.password?.message || " "}
       </p>
 
       {/* Submit */}
@@ -103,7 +107,10 @@ export default function RegisterUser() {
       {/* Already have account */}
       <p className="text-sm text-slate-300 text-center">
         Already have an account?{" "}
-        <Link className="text-blue-500 hover:text-blue-600 font-semibold" to="/login">
+        <Link
+          className="text-blue-500 hover:text-blue-600 font-semibold"
+          to="/login"
+        >
           Login
         </Link>
       </p>
