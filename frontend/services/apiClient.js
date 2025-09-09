@@ -53,7 +53,7 @@ class ApiClient {
 
   // Resend verification email
   async resendVerifyEmail(email) {
-    return this.customFetch("/users/resendVerifyEmail", {
+    return this.customFetch("/users/resendVerification", {
       method: "POST",
       body: JSON.stringify({ email }),
     });
