@@ -21,11 +21,12 @@ export const registerUser = asyncHandler(async (req, res) => {
 
 // GET /api/v1/auth/verify/:token
 export const verifyAccount = asyncHandler(async (req, res) => {
+
   const { token } = req.params;
-  await AuthService.verifyEmail(token);
+  const { email, name } = await AuthService.verifyEmail(token);
   await MailService.sendVerificationConfirmationEmail({
-    email: res.locals?.verifiedEmail,
-    name: res.locals?.verifiedName,
+    email,
+    name,
   });
   return res
     .status(200)
