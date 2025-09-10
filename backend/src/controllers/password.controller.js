@@ -8,6 +8,7 @@ import * as MailService from "../services/mail/mail.service.js";
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const { name, resetURL } = await PasswordService.forgotPassword(email);
+
   await MailService.sendPasswordResetEmail({ name, email, resetURL });
   return res
     .status(200)
@@ -18,10 +19,12 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 export const resetPassword = asyncHandler(async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
-  await PasswordService.resetPassword({ token, newPassword: password });
-  await MailService.sendPasswordResetConfirmationEmail(
-    res.locals?.resetEmailPayload,
-  );
+
+  const { email, name } = await PasswordService.resetPassword({
+    token,
+    newPassword: password,
+  });
+  await MailService.sendPasswordResetConfirmationEmail({ email, name });
   return res
     .status(200)
     .json(new ApiResponse(200, "Password changed successfully"));
