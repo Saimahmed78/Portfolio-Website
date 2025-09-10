@@ -1,5 +1,49 @@
 @import "tailwindcss";
 
+/* === Loading top bar slide === */
+@keyframes slide {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 0%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.animate-slide {
+  animation: slide 1s linear infinite;
+}
+
+/* === Fade In === */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+/* === Pulse === */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+}
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
+
 body {
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
 }
