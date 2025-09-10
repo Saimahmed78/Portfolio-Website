@@ -13,18 +13,17 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendMail = async ({ email, subject, text, html }) => {
+export const sendMail = async ({ email, subject, mailGenContent }) => {
   const mailOptions = {
     from: `Portfolio Project 👻 <${process.env.FROM_EMAIL}>`,
     to: email,
     subject,
-    text,
-    html,
+    ...mailGenContent,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-  } catch (error) {
+      } catch (error) {
     throw error;
   }
 };
