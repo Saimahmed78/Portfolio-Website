@@ -14,28 +14,46 @@ function Navbar() {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-8 font-medium text-gray-700">
-          <li>
-            <a href="/about" className="hover:text-blue-600 transition">
-              About
+        <div className="hidden md:flex items-center gap-8">
+          <ul className="flex gap-8 font-medium text-gray-700">
+            <li>
+              <a href="/about" className="hover:text-blue-600 transition">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="/project" className="hover:text-blue-600 transition">
+                Projects
+              </a>
+            </li>
+            <li>
+              <a href="/skills" className="hover:text-blue-600 transition">
+                Skills
+              </a>
+            </li>
+            <li>
+              <a href="/contact" className="hover:text-blue-600 transition">
+                Contact
+              </a>
+            </li>
+          </ul>
+
+          {/* Sign Up & Login Buttons */}
+          <div className="flex gap-4 ml-6">
+            <a
+              href="/register"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+            >
+              Sign Up
             </a>
-          </li>
-          <li>
-            <a href="/project" className="hover:text-blue-600 transition">
-              Projects
+            <a
+              href="/login"
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition"
+            >
+              Login
             </a>
-          </li>
-          <li>
-            <a href="/skills" className="hover:text-blue-600 transition">
-              Skills
-            </a>
-          </li>
-          <li>
-            <a href="/contact" className="hover:text-blue-600 transition">
-              Contact
-            </a>
-          </li>
-        </ul>
+          </div>
+        </div>
 
         {/* Hamburger Button */}
         <div
@@ -67,6 +85,21 @@ function Navbar() {
           <li>
             <a href="/contact" className="hover:text-blue-600 transition">
               Contact
+            </a>
+          </li>
+          {/* Mobile Sign Up & Login Buttons */}
+          <li className="flex gap-4 mt-2">
+            <a
+              href="/register"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition flex-1 text-center"
+            >
+              Sign Up
+            </a>
+            <a
+              href="/login"
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition flex-1 text-center"
+            >
+              Login
             </a>
           </li>
         </ul>
