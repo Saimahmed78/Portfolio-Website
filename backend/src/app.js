@@ -16,17 +16,17 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-    methods: ["PUT", "DELETE", "DELETE", "OPTIONS", "GET"],
+    methods: ["PUT", "DELETE", "OPTIONS", "GET"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
     exposedHeaders: ["Set-Cookie", "*"],
   }),
 );
 
-dbConnection()
+dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api/v1/users", userRoutes  )
+app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/healthCheck", healthCheck);
 app.use((err, req, res, next) => {
   console.error("💥 Error Middleware Triggered:", err);
