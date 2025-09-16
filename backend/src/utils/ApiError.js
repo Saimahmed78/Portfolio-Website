@@ -2,8 +2,7 @@ class ApiError extends Error {
   constructor(statusCode, message, errors = [], stack = "") {
     super(message);
     this.statusCode = statusCode;
-    this.message = message;
-    this.success = statusCode >= 200 && statusCode < 300;
+    this.success = false;
     this.errors = errors;
 
     if (stack) {
