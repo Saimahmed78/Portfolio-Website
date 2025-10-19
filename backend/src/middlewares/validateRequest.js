@@ -6,15 +6,15 @@ const validateRequest = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  const extractederrors = [];
+  const extractedErrors = [];
   errors.array().map((err) => {
-    extractederrors.push({
+    extractedErrors.push({
       [err.path]: err.msg,
     });
   });
   return res
     .status(200)
-    .json(new ApiError(400, "Validation failed", extractederrors));
+    .json(new ApiError(400, "Validation failed", extractedErrors));
 };
 
 export default validateRequest;
