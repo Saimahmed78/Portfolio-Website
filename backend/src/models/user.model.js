@@ -21,7 +21,6 @@ const userSchema = new Schema(
       trim: true,
       lowercase: true,
       unique: true,
-      required: [true, "Username is required"],
       sparse: true,
       minlength: [3, "Username must be at least 3 characters long"],
       maxlength: [30, "Username cannot exceed 30 characters"],
@@ -128,8 +127,12 @@ userSchema.methods.generateToken = function (type) {
 
   if (type === "verification") {
     this.hashed_verification_token = hashed;
-    this.hashed_verification_token_expiry = Date.now() + 1000 * 60 * 60; // 1 hr
+    this.hashed_verification_token_expiry = Date.now() + 1000 * 60 * 15; // 15 min
   }
+  console.log(
+    "this.hashed_verification_token_expiry:",
+    this.hashed_verification_token_expiry,
+  );
   if (type === "forgot") {
     this.hashed_forgotpass_token = hashed;
     this.hashed_forgotpass_token_expiry = Date.now() + 1000 * 60 * 15; // 15 min
