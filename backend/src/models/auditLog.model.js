@@ -4,33 +4,41 @@ const { Schema } = mongoose;
 
 const auditLogSchema = new Schema(
   {
-    log_id: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-    },
-
     event_type: {
       type: String,
       required: true,
       enum: [
-        "LOGIN_SUCCESS",
-        "LOGIN_FAILURE",
+        "REGISTRATION",
+        "LOGIN",
         "LOGOUT",
+        "ACCOUNT_LOCKED",
+        "ACCOUNT_UNLOCKED",
+        "PASSWORD_CHANGE",
         "TOKEN_REFRESH",
         "TOKEN_REVOKE",
+        "DELETE_ACCOUNT",
         "PASSWORD_RESET",
         "MFA_VERIFIED",
         "FAILED_MFA",
         "SUSPICIOUS_ACTIVITY",
-        "EMAIL_VERIFICATION",
+        "VERIFICATION_SUCCESS",
         "DEVICE_ADDED",
         "ROLE_CHANGED",
       ],
     },
+    status: {
+      type: String,
+      enum: ["SUCCESS", "FAILURE"],
+      required: true,
+    },
 
     user_id: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    performed_by: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -44,8 +52,13 @@ const auditLogSchema = new Schema(
     },
 
     ip_address: { type: String },
-    reason: { type: String, default: null }, // optional, e.g., failure reason
-    device_info: { type: Object, default: {} }, // user-agent, OS, browser
+    location: String,
+    device_info: {
+      os: { type: Schema.Types.Mixed, default: {} },
+      browser: { type: Schema.Types.Mixed, default: {} },
+      user_agent: { type: String, default: "" },
+    },
+
     metadata: { type: Schema.Types.Mixed, default: {} }, // any extra JSON
   },
   {
@@ -57,7 +70,7 @@ auditLogSchema.index({ user_id: 1 });
 // Event type queries
 auditLogSchema.index({ event_type: 1 });
 // Recent logs first
-auditLogSchema.index({ timestamp: -1 });
+auditLogSchema.index({ createdAt: -1 });
 
 const AuditLog = mongoose.model("AuditLog", auditLogSchema);
 
