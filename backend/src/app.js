@@ -40,6 +40,21 @@ app.use((err, req, res, next) => {
     });
   }
 
+  if (err.name === "ValidationError") {
+    const fields = Object.keys(err.errors);
+    return res.status(400).json({
+      success: false,
+      message: `Missing required fields: ${fields.join(", ")}`,
+    });
+  }
+
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    
+    return res.status(400).json({
+      success: false,
+      message: "Invalid JSON format",
+    });
+  }
   res.status(500).json({
     success: false,
     message: "Internal Server Error",
