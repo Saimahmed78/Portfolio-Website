@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import Session from "../models/session.model.js";
 const isLoggedIn = async (req, res, next) => {
   //    check if cookies has accessToken
   const accessToken = req.cookies?.AccessToken;
@@ -36,17 +37,17 @@ const isLoggedIn = async (req, res, next) => {
   if (!loggedinUser) {
     throw new ApiError(404, "User not found");
   }
-  if (!(loggedinUser.refreshToken == refreshToken)) {
+  if (!(loggedinUser.refresh_token == refreshToken)) {
     throw new ApiError(400, "Refresh token is fake");
   }
-  const newAccessToken = loggedinUser.generateAccessToken();
+  const newAccessToken = loggedinUser.generateaccessToken();
   const accessTokenCookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 1 * 60 * 1000,
   };
-  res.cookie("AccessToken", newAccessToken, accessTokenCookieOptions);
+  res.cookie("accessToken", newAccessToken, accessTokenCookieOptions);
 
   req.user = jwt.decode(newAccessToken);
 
