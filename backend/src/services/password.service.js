@@ -1,4 +1,3 @@
-
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { ApiError } from "../utils/ApiError.js";
@@ -27,14 +26,14 @@ export async function resetPassword({ token, newPassword }) {
 
   const hashed = crypto.createHash("sha256").update(token).digest("hex");
   const user = await User.findOne({
-    forgotPasswordToken: hashed,
-    forgotPasswordExpiry: { $gt: Date.now() },
+    hashed_forgotpass_token: hashed,
+    hashed_forgotpass_token_expiry: { $gt: Date.now() },
   });
   if (!user) throw new ApiError(404, "Reset link is expired or invalid");
 
-  user.forgotPasswordToken = undefined;
-  user.forgotPasswordExpiry = undefined;
-  user.password = newPassword;
+  user.hashed_forgotpass_token = undefined;
+  user.hashed_forgotpass_token_expiry = undefined;
+  user.hashed_password = newPassword;
   await user.save();
 
   // Make payload available for email service
