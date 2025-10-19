@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { collectTelemetry } from "../middlewares/collectTelemetry.js";
+import { collectTelemetry } from "../utils/collectTelemetry.js";
 import LastDevice from "../models/lastDevice.model.js";
 import Notification from "../models/notification.model.js";
 import AuditLog from "../models/auditLog.model.js";
