@@ -3,12 +3,6 @@ const { Schema } = mongoose;
 
 const sessionSchema = new Schema(
   {
-    token_id: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true, // primary key equivalent
-    },
     user_id: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -16,11 +10,16 @@ const sessionSchema = new Schema(
       ref: "User",
     },
     device_id: {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
       ref: "LastDevice",
       index: true, // foreign key reference to last_devices
     },
+    refresh_token: {
+      type: String,
+      required: true,
+    },
+
     issued_at: {
       type: Date,
       default: Date.now,
