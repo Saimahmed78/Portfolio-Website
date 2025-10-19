@@ -1,53 +1,37 @@
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
-const notificationSchema = new Schema(
-  {
-    notif_id: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true, // primary key equivalent
-    },
-
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      index: true, // fast lookup by user
-    },
-    channel: {
-      type: String,
-      enum: ["EMAIL", "SMS"],
-      required: true,
-    },
-    type: {
-      type: String,
-      enum: ["VERIFICATION", "RESET", "ALERT", "MFA"],
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["SENT", "FAILED", "DELIVERED"],
-      default: "SENT",
-    },
-    attempt_count: {
-      type: Number,
-      default: 0,
-    },
-    last_attempt_at: {
-      type: Date,
-      default: null,
-    },
-    error_message: {
-      type: String,
-      default: null,
-    },
+const notificationSchema = new Schema({
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  type: { type: String, enum: ["email", "sms", "push"], required: true },
+  purpose: {
+    type: String,
+    enum: [
+      "REGISTRATION",
+      "VERIFICATION",
+      "WELCOME",
+      "PASSWORD_RESET",
+      "ALERT",
+      "OTHER",
+    ],
+    required: true,
   },
-  {
-    timestamps: { createdAt: "created_at", updatedAt: "updated_at" }, // maps spec field created_at
+  recipient: { type: String, required: true }, // email or phone
+  subject: String,
+  body_preview: String, // first 100 chars of body
+  status: {
+    type: String,
+    enum: ["QUEUED", "SENT", "DELIVERED", "FAILED", "BOUNCED"],
+    default: "QUEUED",
   },
-);
+  provider: { type: String, default: "Brevo" },
+  message_id: { type: String }, // Brevo message ID for webhook mapping
+  created_at: { type: Date, default: Date.now },
+  sent_at: Date,
+  updated_at: Date,
+  error_message: String, // if failed
+});
 
 const Notification = mongoose.model("Notification", notificationSchema);
 
