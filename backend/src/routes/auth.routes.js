@@ -6,7 +6,7 @@ import {
   changePassValidators,
   resetPassValidators,
   userloginValidators,
-  userRegistrationvalidators,
+  userRegistrationValidators,
 } from "../validators/auth.validators.js";
 import validateRequest from "../middlewares/validateRequest.js";
 import {
@@ -28,7 +28,7 @@ const router = Router();
 
 router.post(
   "/register",
-  userRegistrationvalidators(),
+  userRegistrationValidators(),
   validateRequest,
   registerUser,
 );
@@ -39,7 +39,7 @@ router.post(
   validateRequest,
   resendVerification
 );
-``
+
 router.post("/login", userloginValidators(), validateRequest, loginUser);
 router.get("/logout", isloggedIn, logoutUser);
 router.post(
@@ -69,4 +69,4 @@ router.post(
   deleteAccount,
 );
 
-export default router;
+export default router; 
