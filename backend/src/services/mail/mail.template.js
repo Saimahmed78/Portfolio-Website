@@ -4,7 +4,7 @@ const mailGenerator = new Mailgen({
   theme: "default",
   product: {
     name: "Portfolio Project",
-    link: "https://your-portfolio-link.com",
+    link: "https://www.saim-portfolio-website.shop",
   },
 });
 
@@ -20,7 +20,11 @@ export const emailVerificationContent = (username, verificationURL) =>
       intro: "Welcome! We're thrilled to have you onboard.",
       action: {
         instructions: "Please verify your account by clicking below:",
-        button: { color: "#22BC66", text: "Verify Account", link: verificationURL },
+        button: {
+          color: "#22BC66",
+          text: "Verify Account",
+          link: verificationURL,
+        },
       },
       outro: "Need help? Just reply to this email.",
     },
@@ -42,7 +46,11 @@ export const forgotPasswordEmailContent = (username, resetPassUrl) =>
       intro: "We received a request to reset your password.",
       action: {
         instructions: "Click below to reset your password:",
-        button: { color: "#22BC66", text: "Reset Password", link: resetPassUrl },
+        button: {
+          color: "#22BC66",
+          text: "Reset Password",
+          link: resetPassUrl,
+        },
       },
       outro: "If you didn't request this, please ignore.",
     },
@@ -71,6 +79,7 @@ export const accountDeletionEmailContent = (username) =>
     body: {
       name: username,
       intro: "Your account has been successfully deleted.",
-      outro: "Sorry to see you go. If this was a mistake, contact support ASAP.",
+      outro:
+        "Sorry to see you go. If this was a mistake, contact support ASAP.",
     },
   });
