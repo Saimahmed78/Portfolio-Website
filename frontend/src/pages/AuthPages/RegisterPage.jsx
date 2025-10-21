@@ -23,7 +23,11 @@ export default function RegisterUser() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await apiClient.register(data.name, data.email, data.password);
+      const response = await apiClient.register(
+        data.name,
+        data.email,
+        data.password,
+      );
       toast.success(response?.data || "Account Created ✅");
       reset();
       navigate("/verifyEmail");
@@ -31,9 +35,17 @@ export default function RegisterUser() {
       localStorage.setItem("email", data.email);
       localStorage.setItem("name", data.name);
     } catch (error) {
-      const msg = error?.errors?.[0] || "Registration failed.";
-      toast.error(msg);
-      if (error?.statusCode === 409) {
+      const backendErrors = error?.response?.data?.errors;
+
+      if (backendErrors && backendErrors.length > 0) {
+        // Display the first error message in toast
+        const firstErrorMsg = Object.values(backendErrors[0])[0];
+        toast.error(firstErrorMsg);
+      } else {
+        toast.error("Registration failed. Please try again.");
+      }
+
+      if (error?.response?.status === 409) {
         setError("email", { type: "manual", message: "Email already exists" });
       }
     }
