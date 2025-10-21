@@ -1,5 +1,4 @@
 import AuthFormLayout from "../layouts/Auth/AuthFormLayout";
-import AuthStatusLayout from "../layouts/Auth/AuthStatusLayout";
 import AccountVerification from "../pages/AuthPages/AccountVerificationResultPage";
 import ChangePass from "../pages/AuthPages/ChangePasswordPage";
 import ForgotPassword from "../pages/AuthPages/ForgotPasswordPage";
@@ -79,9 +78,7 @@ export const authRoutes = [
       {
         path: "verify/:token",
         element: (
-          <AuthStatusLayout>
             <AccountVerification />
-          </AuthStatusLayout>
         ),
       },
     ],
