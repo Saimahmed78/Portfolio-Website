@@ -13,7 +13,7 @@ const validateRequest = (req, res, next) => {
     });
   });
   return res
-    .status(200)
+    .status(400)
     .json(new ApiError(400, "Validation failed", extractedErrors));
 };
 
