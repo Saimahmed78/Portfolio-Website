@@ -11,6 +11,7 @@ const auditLogSchema = new Schema(
         "REGISTRATION",
         "LOGIN",
         "LOGOUT",
+        "VERIFICATION_RESEND",
         "ACCOUNT_LOCKED",
         "ACCOUNT_UNLOCKED",
         "PASSWORD_CHANGE",
