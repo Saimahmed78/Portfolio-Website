@@ -36,7 +36,6 @@ const auditLogSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
     },
     performed_by: {
       type: Schema.Types.ObjectId,
