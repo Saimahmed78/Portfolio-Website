@@ -41,18 +41,7 @@ const userRegistrationValidators = () => {
       .withMessage("Password must contain at least one special character")
       .blacklist("<>\"'%;)(&+"),
 
-    // ----------------- CONFIRM PASSWORD -----------------
-    body("confirmPass")
-      .trim()
-      .notEmpty()
-      .withMessage("Confirm Password is required")
-      .custom((value, { req }) => {
-        if (value !== req.body.password) {
-          throw new Error("Both passwords must match");
-        }
-        return true;
-      })
-      .blacklist("<>\"'%;)(&+"),
+   
   ];
 };
 const resendVerifcationEmailValidators = () => {
