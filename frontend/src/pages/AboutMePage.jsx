@@ -1,88 +1,55 @@
+import { FaUser, FaCode, FaGraduationCap, FaFolderOpen } from "react-icons/fa";
+
 export function About() {
   return (
-    <div className="max-w-5xl mx-auto p-6 flex flex-col gap-8">
-      {/* 🔹 Introduction Card */}
-      <section className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-xl border border-white/10 transition-transform hover:-translate-y-2 hover:shadow-2xl">
-        <h1 className="text-2xl md:text-3xl mb-4 text-blue-400 drop-shadow-md">
-          👋 Introduction
-        </h1>
-        <p className="text-gray-200">
-          Hi, I’m <strong>Saim Ahmed</strong> — a MERN stack developer obsessed
-          with understanding websites under the hood. I build real-world
-          applications that solve meaningful problems. My mantra:{" "}
-          <em>learn by doing</em>, not just tutorials.
-        </p>
-      </section>
+    <div className="section animate-fadeIn" style={{ paddingTop: "100px", paddingBottom: "40px" }}>
+      <div className="section-label">Get to know me</div>
+      <h1 className="section-title">About <span className="hero-title-accent">Me</span></h1>
+      <p className="section-sub">
+        I’m a developer obsessed with understanding how things work under the hood. 
+        I build real-world applications that solve meaningful problems, driven by a philosophy of learning by doing.
+      </p>
 
-      {/* 🔹 Skills Card */}
-      <section className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-xl border border-white/10 transition-transform hover:-translate-y-2 hover:shadow-2xl">
-        <h2 className="text-2xl md:text-3xl mb-4 text-blue-400 drop-shadow-md">
-          🛠 Skills
-        </h2>
-        <h3 className="text-gray-200 font-semibold mb-2">Main Stack</h3>
-        <ul className="flex flex-wrap gap-3 mb-4">
-          {[
-            "Frontend",
-            "Backend",
-            "MongoDB",
-            "React.js",
-            "Node.js",
-            "REST APIs",
-          ].map((skill) => (
-            <li
-              key={skill}
-              className="bg-blue-400/20 text-blue-200 px-4 py-1 rounded-full border border-blue-500/30 font-medium text-sm transition hover:scale-105 hover:bg-blue-400/30"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
-        <p className="text-gray-200">
-          Experienced across full stack: responsive interfaces using{" "}
-          <strong>HTML, CSS, JS, React.js, TanStack Router, Bootstrap</strong>{" "}
-          and backend services using <strong>Node, MongoDB, PostgreSQL</strong>.
-          I’ve mastered advanced JS topics like{" "}
-          <em>event loop, execution order, polyfills, and async patterns</em>.
-        </p>
-      </section>
+      <div className="features-grid mt-10">
+        {/* Introduction */}
+        <div className="feature-card">
+          <div className="feature-icon"><FaUser /></div>
+          <h2 className="feature-title">Introduction</h2>
+          <p className="feature-desc">
+            Hi, I’m <strong>Saim Ahmed</strong>. I specialize in the MERN stack and am deeply passionate about 
+            crafting seamless, full-stack web applications. I believe in writing code that is not only functional 
+            but also beautiful and maintainable.
+          </p>
+        </div>
 
-      {/* 🔹 Education Card */}
-      <section className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-xl border border-white/10 transition-transform hover:-translate-y-2 hover:shadow-2xl">
-        <h2 className="text-2xl md:text-3xl mb-4 text-blue-400 drop-shadow-md">
-          🎓 Education
-        </h2>
-        <p className="text-gray-200">
-          Currently pursuing my <strong>4th semester</strong> in{" "}
-          <strong>BS Software Engineering</strong> at{" "}
-          <strong>Riphah International University, Faisalabad Campus</strong>.
-          Alongside studies, I actively build real-world applications with
-          scalability and architecture in mind.
-        </p>
-      </section>
+        {/* Education */}
+        <div className="feature-card">
+          <div className="feature-icon"><FaGraduationCap /></div>
+          <h2 className="feature-title">Education</h2>
+          <p className="feature-desc">
+            Currently pursuing my <strong>4th semester</strong> in <strong>BS Software Engineering</strong> at 
+            <strong> Riphah International University, Faisalabad Campus</strong>. Alongside my academic studies, 
+            I actively engineer real-world applications with scalability and system architecture in mind.
+          </p>
+        </div>
 
-      {/* 🔹 Projects Card */}
-      <section className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-xl border border-white/10 transition-transform hover:-translate-y-2 hover:shadow-2xl">
-        <h2 className="text-2xl md:text-3xl mb-4 text-blue-400 drop-shadow-md">
-          📂 Projects
-        </h2>
-        <ul className="flex flex-col gap-2 mt-2">
-          {[
-            "Digital Timer",
-            "eBook Store (API integrated)",
-            "Markdown Previewer",
-            "Simple Calculator",
-            "Tip Calculator",
-            "Custom Auth Backend (Node + MongoDB)",
-          ].map((project) => (
-            <li
-              key={project}
-              className="bg-white/4 text-gray-200 p-2 rounded-md border border-white/10 transition hover:bg-white/7"
-            >
-              {project}
-            </li>
-          ))}
-        </ul>
-      </section>
+        {/* Skills Summary */}
+        <div className="feature-card">
+          <div className="feature-icon"><FaCode /></div>
+          <h2 className="feature-title">Core Skills</h2>
+          <p className="feature-desc mb-4">
+            Experienced across the full stack: responsive interfaces using React.js and Tailwind, 
+            and scalable backend services using Node.js and MongoDB. 
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {["React.js", "Node.js", "MongoDB", "REST APIs"].map((skill) => (
+              <span key={skill} className="text-xs px-2 py-1 rounded bg-[var(--accent-glow)] text-[var(--accent-primary)] border border-[var(--accent-glow-heavy)]">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

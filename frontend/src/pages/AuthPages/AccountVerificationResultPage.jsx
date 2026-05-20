@@ -3,6 +3,17 @@ import { useNavigate, useParams } from "react-router";
 import Confetti from "react-confetti";
 import apiClient from "../../../services/apiClient";
 
+// ─── SVG Logo Icon ────────────────────────────────────────────────────────────
+const LogoIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="8" height="4" rx="2" fill="white" fillOpacity="0.9" />
+    <rect x="3" y="10" width="8" height="4" rx="2" fill="white" fillOpacity="0.6" />
+    <rect x="3" y="17" width="8" height="4" rx="2" fill="white" fillOpacity="0.35" />
+    <rect x="14" y="3" width="7" height="18" rx="2" fill="white" fillOpacity="0.2" />
+    <rect x="14" y="3" width="7" height="7" rx="2" fill="white" fillOpacity="0.7" />
+  </svg>
+);
+
 export default function AccountVerificationResultPage() {
   const [loading, setLoading] = useState(true);
   const [verified, setVerified] = useState(false);
@@ -41,36 +52,57 @@ export default function AccountVerificationResultPage() {
   }, [token]);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-[#0f2027] via-[#203a43] to-[#2c5364] font-inter px-5">
-      {verified && <Confetti recycle={false} numberOfPieces={2400} />}
+    <div className="modal-overlay">
+      {verified && <Confetti recycle={false} numberOfPieces={2400} gravity={0.15} />}
 
-      <div className="bg-[#1e293b] rounded-2xl shadow-2xl p-8 max-w-md w-full text-center animate-fadeIn">
+      <div className="modal text-center animate-fadeIn">
+        <div className="modal-logo-wrap">
+          <div className="modal-logo-icon"><LogoIcon size={26} /></div>
+        </div>
+
         {loading ? (
           <>
-            <div className="w-12 h-12 border-4 border-white border-t-pink-500 rounded-full mx-auto animate-spin mb-4"></div>
-            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">Verifying your account...</h2>
-            <p className="text-gray-300">Please wait while we confirm your details.</p>
+            <div className="loader" style={{ margin: '2rem auto' }}></div>
+            <h2 className="modal-title">Verifying account...</h2>
+            <p className="modal-sub">Please wait while we confirm your details.</p>
           </>
         ) : verified ? (
           <>
-            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">✅ Account Verified!</h2>
-            <p className="text-green-500 font-bold text-lg mb-4 animate-fadeIn">{successMessage}</p>
+            <h2 className="modal-title">Verification Success! ✅</h2>
+            <p className="modal-sub" style={{ color: 'var(--accent-secondary)', fontWeight: '600' }}>
+              {successMessage}
+            </p>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
+              Your account is now fully active. You can now log in and start creating polls.
+            </p>
             <button
               onClick={() => navigate("/login")}
-              className="bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-6 py-3 rounded-lg shadow transition-transform transform hover:-translate-y-1"
+              className="btn-submit"
             >
               Go to Login
             </button>
           </>
         ) : (
           <>
-            <h2 className="text-2xl font-bold text-[#3b82f6] mb-2">❌ Verification Failed 😭</h2>
-            <p className="text-red-500 font-bold text-lg mb-4 animate-fadeIn">{errorMessage}</p>
+            <h2 className="modal-title" style={{ color: 'var(--accent-danger)' }}>Verification Failed ❌</h2>
+            <p className="modal-sub">
+              {errorMessage}
+            </p>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
+              The verification link may have expired or is invalid. Try resending the verification email.
+            </p>
             <button
               onClick={() => navigate("/resendVerifyEmail")}
-              className="bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold px-6 py-3 rounded-lg shadow transition-transform transform hover:-translate-y-1"
+              className="btn-submit"
             >
               Resend Verification Email
+            </button>
+            <button 
+              onClick={() => navigate("/login")}
+              className="btn-ghost"
+              style={{ marginTop: '1rem', width: '100%', border: 'none' }}
+            >
+              Back to Sign in
             </button>
           </>
         )}

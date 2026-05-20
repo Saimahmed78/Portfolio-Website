@@ -9,13 +9,13 @@ const registerSchema = z.object({
   email: z.string().min(1, "Email is required ").email("Invalid email address"),
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .max(19, "Password should be less than 20 characters"),
 });
 
 const resetPassSchema = z
   .object({
-    newPass: z.string().min(6, "New password must be at least 6 characters"),
+    newPass: z.string().min(8, "New password must be at least 8 characters"),
     confirmPass: z
       .string()
       .min(6, "Confirm password must be at least 6 characters"),

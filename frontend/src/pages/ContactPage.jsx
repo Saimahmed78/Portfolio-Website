@@ -5,59 +5,66 @@ import { ContactForm } from "../components/ContactForm";
 
 export function ContactPage() {
   return (
-    <section className="flex flex-col mt-[100px] md:flex-row gap-10 md:gap-16 p-8 md:p-12 rounded-3xl my-12 mx-auto w-[92%] max-w-[1100px] bg-white/10 backdrop-blur-lg border border-white/10 shadow-xl animate-[fade-in-up_0.8s_ease]">
-      {/* Left - Contact Form */}
-      <div className="flex-1 min-w-[300px]">
-        <h2 className="text-6xl font-bold text-white mt-12">Get in Touch</h2>
-        <ContactForm />
-      </div>
+    <div className="section animate-fadeIn" style={{ paddingTop: "100px", paddingBottom: "80px" }}>
+      <div className="section-label">Get in Touch</div>
+      <h1 className="section-title">Contact <span className="hero-title-accent">Me</span></h1>
+      <p className="section-sub">
+        I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+      </p>
 
-      {/* Right - Contact Info */}
-      <div className="flex-1 min-w-[300px] border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-10">
-        <h2 className="text-2xl font-semibold text-gray-100 mb-6">
-          Contact Information
-        </h2>
+      <div className="features-grid mt-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+        {/* Left - Contact Form */}
+        <div className="feature-card" style={{ gridColumn: "span 2" }}>
+          <h2 className="feature-title mb-6">Send a Message</h2>
+          <ContactForm />
+        </div>
 
-        <div className="flex flex-col gap-6 text-gray-300">
-          <p className="flex items-center gap-4 text-base hover:text-white transition">
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="text-blue-400 text-lg"
-            />
-            <a href="mailto:softwareengineer278@gmail.com">
-              softwareengineer278@gmail.com
-            </a>
-          </p>
+        {/* Right - Contact Info */}
+        <div className="feature-card">
+          <h2 className="feature-title mb-6">Contact Information</h2>
 
-          <p className="flex items-center gap-4 text-base hover:text-white transition">
-            <FontAwesomeIcon icon={faPhone} className="text-blue-400 text-lg" />
-            <span>+92 312 3456789</span>
-          </p>
+          <div className="flex flex-col gap-6 text-[var(--text-secondary)]">
+            <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="text-[var(--accent-primary)] text-lg"
+              />
+              <a href="mailto:softwareengineer278@gmail.com">
+                softwareengineer278@gmail.com
+              </a>
+            </p>
 
-          <p className="flex items-center gap-4 text-base hover:text-white transition">
-            <FontAwesomeIcon
-              icon={faGithub}
-              className="text-blue-400 text-lg"
-            />
-            <a href="https://github.com/Saimahmed78" target="_blank">
-              github.com/Saimahmed78
-            </a>
-          </p>
+            <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
+              <FontAwesomeIcon icon={faPhone} className="text-[var(--accent-primary)] text-lg" />
+              <span>+92 312 3456789</span>
+            </p>
 
-          <p className="flex items-center gap-4 text-base hover:text-white transition">
-            <FontAwesomeIcon
-              icon={faLinkedin}
-              className="text-blue-400 text-lg"
-            />
-            <a
-              href="https://www.linkedin.com/in/saim-ahmed-722b802ba"
-              target="_blank"
-            >
-              linkedin.com/in/saim-ahmed
-            </a>
-          </p>
+            <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
+              <FontAwesomeIcon
+                icon={faGithub}
+                className="text-[var(--accent-primary)] text-lg"
+              />
+              <a href="https://github.com/Saimahmed78" target="_blank" rel="noreferrer">
+                github.com/Saimahmed78
+              </a>
+            </p>
+
+            <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
+              <FontAwesomeIcon
+                icon={faLinkedin}
+                className="text-[var(--accent-primary)] text-lg"
+              />
+              <a
+                href="https://www.linkedin.com/in/saim-ahmed-722b802ba"
+                target="_blank"
+                rel="noreferrer"
+              >
+                linkedin.com/in/saim-ahmed
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

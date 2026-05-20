@@ -5,9 +5,22 @@ import toast from "react-hot-toast";
 import Confetti from "react-confetti";
 import apiClient from "../../../services/apiClient";
 import { forgotPassSchema } from "../../schemas/authSchema";
+import FormLoader from "../../components/FormLoader.jsx";
+
+// ─── SVG Logo Icon ────────────────────────────────────────────────────────────
+const LogoIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="8" height="4" rx="2" fill="white" fillOpacity="0.9" />
+    <rect x="3" y="10" width="8" height="4" rx="2" fill="white" fillOpacity="0.6" />
+    <rect x="3" y="17" width="8" height="4" rx="2" fill="white" fillOpacity="0.35" />
+    <rect x="14" y="3" width="7" height="18" rx="2" fill="white" fillOpacity="0.2" />
+    <rect x="14" y="3" width="7" height="7" rx="2" fill="white" fillOpacity="0.7" />
+  </svg>
+);
 
 export default function ForgotPassword() {
   const [showConfetti, setShowConfetti] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -37,36 +50,50 @@ export default function ForgotPassword() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-      className={`bg-[#1e293b] p-8 rounded-2xl shadow-2xl w-full max-w-md flex flex-col gap-4 relative overflow-hidden
-          ${
-            isSubmitting
-              ? "before:absolute before:top-0 before:left-[-100%] before:w-full before:h-1 before:bg-gradient-to-r before:from-blue-500 before:via-cyan-400 before:to-yellow-400 before:animate-flow"
-              : ""
-          }`}
-    >
-      <label className="text-gray-300 font-medium text-sm" htmlFor="email">
-        Email
-      </label>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email here"
-        {...register("email")}
-        className="px-4 py-3 rounded-lg border border-gray-500 bg-[#334155] text-white text-base transition-all focus:border-blue-500 focus:bg-[#1e293b] focus:ring-1 focus:ring-blue-500 outline-none"
-      />
-        {errors.email && <p className="text-red-500 text-sm mt-[-6px]">{errors.email.message}</p>}
+    <div className="modal-overlay">
+      {showConfetti && <Confetti recycle={false} numberOfPieces={500} gravity={0.15} />}
+      
+      <div className="modal animate-fadeIn">
+        <div className="modal-logo-wrap">
+          <div className="modal-logo-icon"><LogoIcon size={26} /></div>
+        </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={`mt-4 px-6 py-3 rounded-lg font-semibold text-white shadow transition-transform transform hover:-translate-y-1
-            ${isSubmitting ? "bg-gray-500 cursor-not-allowed animate-pulse" : "bg-blue-500 hover:bg-blue-600"}`}
-      >
-        {isSubmitting ? "Sending..." : "Send"}
-      </button>
-    </form>
+        <h2 className="modal-title">Reset Password</h2>
+        <p className="modal-sub">Enter your email and we'll send you a link to reset your password.</p>
+
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          {isSubmitting && <FormLoader message="Sending reset link…" />}
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="name@company.com"
+              {...register("email")}
+              className={`form-input ${errors.email ? 'border-accent-danger' : ''}`}
+            />
+            {errors.email && <p className="form-error">{errors.email.message}</p>}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="btn-submit"
+            style={{ marginTop: '1rem' }}
+          >
+            {isSubmitting ? "Sending..." : "Send Reset Link"}
+          </button>
+        </form>
+
+        <button 
+          onClick={() => navigate("/login")}
+          className="btn-ghost"
+          style={{ marginTop: '1.5rem', width: '100%', border: 'none' }}
+        >
+          Back to Sign in
+        </button>
+      </div>
+    </div>
   );
 }

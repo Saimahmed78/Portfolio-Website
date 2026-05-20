@@ -5,10 +5,25 @@ import toast from "react-hot-toast";
 import apiClient from "../../../services/apiClient";
 import { resendVerifySchema } from "../../schemas/authSchema";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import FormLoader from "../../components/FormLoader.jsx";
+
+// ─── SVG Logo Icon ────────────────────────────────────────────────────────────
+const LogoIcon = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="8" height="4" rx="2" fill="white" fillOpacity="0.9" />
+    <rect x="3" y="10" width="8" height="4" rx="2" fill="white" fillOpacity="0.6" />
+    <rect x="3" y="17" width="8" height="4" rx="2" fill="white" fillOpacity="0.35" />
+    <rect x="14" y="3" width="7" height="18" rx="2" fill="white" fillOpacity="0.2" />
+    <rect x="14" y="3" width="7" height="7" rx="2" fill="white" fillOpacity="0.7" />
+  </svg>
+);
 
 export default function ResendVerificationEmailPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const [email, setEmail] = useState(location.state?.email || "");
   const {
     register,
     handleSubmit,
@@ -16,7 +31,7 @@ export default function ResendVerificationEmailPage() {
     reset,
   } = useForm({
     resolver: zodResolver(resendVerifySchema),
-    defaultValues: { email: "" },
+    defaultValues: { email: email },
   });
 
   const onSubmit = async (data) => {
@@ -26,7 +41,6 @@ export default function ResendVerificationEmailPage() {
         toast.success("Verification Email sent successfully ✅");
         reset();
         navigate("/verifyEmail");
-
         localStorage.setItem("lastResendTimestamp", Date.now().toString());
       } else {
         toast.error("Something went wrong from the server ❌");
@@ -39,57 +53,50 @@ export default function ResendVerificationEmailPage() {
   };
 
   return (
-    <>
-    {/* Top loading line */}
-      {isSubmitting && (
-        <div className="absolute top-0 left-[-100%] w-full h-[3px] bg-gradient-to-r from-[#4cafef] via-blue-600 to-[#4cafef] animate-slide z-10" />
-      )}
-    <div className="flex flex-col justify-center items-center min-h-screen bg-[#0f172a] px-5 font-inter animate-fadeIn">
-      <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-blue-500 mb-2">
-          Resend Verification
-        </h1>
-        <p className="text-gray-300 mb-6 text-sm">
-            Didn’t receive the verification email? Enter your email below and we’ll send it again.
+    <div className="modal-overlay">
+      <div className="modal animate-fadeIn">
+        <div className="modal-logo-wrap">
+          <div className="modal-logo-icon"><LogoIcon size={26} /></div>
+        </div>
+
+        <h2 className="modal-title">Resend Verification</h2>
+        <p className="modal-sub">
+          Didn't receive the email? Enter your email address below and we'll send a new verification link.
         </p>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="bg-[#1e293b] p-6 rounded-2xl shadow-2xl flex flex-col gap-4 relative overflow-hidden"
-          noValidate
-        >
-          <label htmlFor="email" className="text-gray-300 font-medium text-sm">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email here"
-            autoComplete="email"
-            {...register("email")}
-            aria-invalid={Boolean(errors.email) || undefined}
-            aria-describedby={errors.email ? "email-error" : undefined}
-            className={`px-4 py-3 rounded-lg border text-white text-base bg-[#334155] border-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all ${
-              errors.email ? "border-red-500" : ""
-            }`}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-[-4px]" id="email-error">
-              {errors.email.message}
-            </p>
-          )}
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          {isSubmitting && <FormLoader message="Sending verification email…" />}
+
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="name@company.com"
+              {...register("email")}
+              className={`form-input ${errors.email ? 'border-accent-danger' : ''}`}
+            />
+            {errors.email && <p className="form-error">{errors.email.message}</p>}
+          </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`mt-4 px-6 py-3 rounded-lg font-semibold text-white shadow transition-transform transform hover:-translate-y-1
-                ${isSubmitting ? "bg-gray-500 cursor-not-allowed animate-pulse" : "bg-blue-500 hover:bg-blue-600"}`}
+            className="btn-submit"
+            style={{ marginTop: '1rem' }}
           >
             {isSubmitting ? "Sending..." : "Send Verification Email"}
           </button>
         </form>
+
+        <button 
+          onClick={() => navigate("/login")}
+          className="btn-ghost"
+          style={{ marginTop: '1.5rem', width: '100%', border: 'none' }}
+        >
+          Back to Sign in
+        </button>
       </div>
     </div>
-    </>
   );
 }
