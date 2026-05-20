@@ -4,20 +4,33 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.js";
 import dbConnection from "./infrastructure/db/connection.js";
-import userRoutes from "./routes/auth.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 import healthCheck from "./controllers/healthcheck.controller.js";
+import { apiLimiter } from "./middlewares/rateLimiter.js";
 
 dotenv.config({
-  path: ".env", // relative path is /home/saimahmed/Desktop/Folder/.env
+  path: ".env",
 });
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      const allowedOrigins = [process.env.CLIENT_URL?.trim()];
+      const isLocal = origin.includes("localhost") || origin.includes("127.0.0.1") || /^http:\/\/192\.168\./.test(origin);
+      
+      if (allowedOrigins.includes(origin) || isLocal) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
-    methods: ["PUT", "DELETE", "OPTIONS", "GET"],
-    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    methods: ["PUT", "DELETE", "OPTIONS", "GET", "POST", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept", "x-device-model"],
     exposedHeaders: ["Set-Cookie", "*"],
   }),
 );
@@ -26,8 +39,11 @@ dbConnection();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api/v1/users", userRoutes);
+
+// Mount the authentication routes at /api/v1/auth
+app.use("/api/v1/auth", apiLimiter, authRoutes);
 app.use("/api/v1/healthCheck", healthCheck);
+
 app.use((err, req, res, next) => {
   console.error("💥 Error Middleware Triggered:", err);
 
@@ -49,7 +65,6 @@ app.use((err, req, res, next) => {
   }
 
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
-    
     return res.status(400).json({
       success: false,
       message: "Invalid JSON format",

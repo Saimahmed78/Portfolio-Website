@@ -21,13 +21,19 @@ import {
   forgotPassword,
   resetPassword,
 } from "../controllers/password.controller.js";
-import { deleteAccount } from "../controllers/user.controller.js";
-import isloggedIn from "../middlewares/isLoggedIn.js";
+import { deleteAccount, getProfile, updateIdentity, updatePreferences, uploadAvatar } from "../controllers/user.controller.js";
+import { getActiveSessions, revokeSession, revokeAllOtherSessions } from "../controllers/session.controller.js";
+import isLoggedIn from "../middlewares/auth.middleware.js";
+import { upload } from "../middlewares/upload.middleware.js";
+import { authLimiter } from "../middlewares/rateLimiter.js";
 
 const router = Router();
 
+router.get("/getMe", isLoggedIn, getProfile);
+
 router.post(
   "/register",
+  authLimiter,
   userRegistrationValidators(),
   validateRequest,
   registerUser,
@@ -40,8 +46,8 @@ router.post(
   resendVerification
 );
 
-router.post("/login", userloginValidators(), validateRequest, loginUser);
-router.get("/logout", isloggedIn, logoutUser);
+router.post("/login", authLimiter, userloginValidators(), validateRequest, loginUser);
+router.get("/logout", isLoggedIn, logoutUser);
 router.post(
   "/forgotPass",
   forgotPassValidators(),
@@ -56,17 +62,25 @@ router.post(
 );
 router.post(
   "/changePass",
-  isloggedIn,
+  isLoggedIn,
   changePassValidators(),
   validateRequest,
   changePassword,
 );
 router.post(
   "/deleteAccount",
-  isloggedIn,
-  accountDeletionValidators,
+  isLoggedIn,
+  accountDeletionValidators(),
   validateRequest,
   deleteAccount,
 );
+
+router.patch("/updateIdentity", isLoggedIn, updateIdentity);
+router.patch("/updatePreferences", isLoggedIn, updatePreferences);
+router.post("/profile/avatar", isLoggedIn, upload.single("avatar"), uploadAvatar);
+
+router.get("/sessions", isLoggedIn, getActiveSessions);
+router.delete("/sessions/revoke-all", isLoggedIn, revokeAllOtherSessions);
+router.delete("/sessions/:sessionId", isLoggedIn, revokeSession);
 
 export default router; 

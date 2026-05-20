@@ -29,18 +29,20 @@ const userSchema = new Schema(
         "Username can only contain letters, numbers, and underscore",
       ],
     },
-    profile_image: { type: String, trim: true, default: "" },
+    profileImage: { type: String, trim: true, default: "" },
     bio: {
       type: String,
       trim: true,
       maxlength: [200, "Bio cannot exceed 200 characters"],
       default: "",
     },
-    phone_number: {
+    phoneNumber: {
       type: String,
       trim: true,
       match: [/^\+?[1-9]\d{7,14}$/, "Please enter a valid phone number"],
     },
+    timezone: { type: String, default: "PKT" },
+    dateFormat: { type: String, default: "DD/MM/YYYY" },
     email: {
       type: String,
       trim: true,
@@ -49,34 +51,34 @@ const userSchema = new Schema(
       unique: true,
       match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
     },
-    hashed_password: {
+    hashedPassword: {
       type: String,
       trim: true,
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters long"],
     },
 
-    lock_until: Date,
+    lockUntil: Date,
 
-    last_login_at: { type: Date, default: null },
-    last_failed_at: { type: Date, default: null },
-    last_password_change_at: { type: Date, default: null },
-    hashed_verification_token_expiry: { type: Date, default: null },
-    email_verification_sent_at: { type: Date, default: null },
-    hashed_forgotpass_token_expiry: { type: Date, default: null },
+    lastLoginAt: { type: Date, default: null },
+    lastFailedAt: { type: Date, default: null },
+    passwordChangedAt: { type: Date, default: null },
+    hashedVerificationTokenExpiry: { type: Date, default: null },
+    emailVerificationsentAt: { type: Date, default: null },
+    hashedForgotPassTokenExpiry: { type: Date, default: null },
 
-    mfa_enabled: { type: Boolean, default: false },
-    is_locked: { type: Boolean, default: false },
-    email_verified: { type: Boolean, default: false },
-    phone_verified: { type: Boolean, default: false },
+    mfaEnabled: { type: Boolean, default: false },
+    isLocked: { type: Boolean, default: false },
+    emailVerified: { type: Boolean, default: false },
+    phoneVerified: { type: Boolean, default: false },
 
-    hashed_verification_token: { type: String, default: null },
-    hashed_forgotpass_token: { type: String, default: null },
+    hashedVerificationToken: { type: String, default: null },
+    hashedForgotpassToken: { type: String, default: null },
 
-    suspicious_score: { type: Number, default: 0 },
-    password_changed_count: { type: Number, default: 0 },
-    failed_login_attempts: { type: Number, default: 0 },
-    total_logins: { type: Number, default: 0 },
+    suspiciousScore: { type: Number, default: 0 },
+    passwordChangedCount: { type: Number, default: 0 },
+    failedLoginAttempts: { type: Number, default: 0 },
+    totalLogins: { type: Number, default: 0 },
 
     account_status: {
       type: String,
@@ -86,19 +88,19 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 );
-userSchema.index({ lock_until: 1 });
+userSchema.index({ lockUntil: 1 });
 
 //  Hash password before saving
 userSchema.pre("save", async function (next) {
-  if (this.isModified("hashed_password") && this.hashed_password) {
-    this.hashed_password = await bcrypt.hash(this.hashed_password, 10);
+  if (this.isModified("hashedPassword") && this.hashedPassword) {
+    this.hashedPassword = await bcrypt.hash(this.hashedPassword, 10);
   }
   next();
 });
 
 //  Instance Methods
 userSchema.methods.isPasswordCorrect = function (password) {
-  return bcrypt.compare(password, this.hashed_password);
+  return bcrypt.compare(password, this.hashedPassword);
 };
 
 userSchema.methods.generateRefreshToken = function () {
@@ -126,16 +128,16 @@ userSchema.methods.generateToken = function (type) {
   const hashed = crypto.createHash("sha256").update(token).digest("hex");
 
   if (type === "verification") {
-    this.hashed_verification_token = hashed;
-    this.hashed_verification_token_expiry = Date.now() + 1000 * 60 * 15; // 15 min
+    this.hashedVerificationToken = hashed;
+    this.hashedVerificationTokenExpiry = Date.now() + 1000 * 60 * 15; // 15 min
   }
-  console.log(
-    "this.hashed_verification_token_expiry:",
-    this.hashed_verification_token_expiry,
-  );
+  // console.log(
+  //   "this.hashedVerificationTokenExpiry:",
+  //   this.hashedVerificationTokenExpiry,
+  // );
   if (type === "forgot") {
-    this.hashed_forgotpass_token = hashed;
-    this.hashed_forgotpass_token_expiry = Date.now() + 1000 * 60 * 15; // 15 min
+    this.hashedForgotpassToken = hashed;
+    this.hashedForgotPassTokenExpiry = Date.now() + 1000 * 60 * 15; // 15 min
   }
   return token; // send raw token to user
 };

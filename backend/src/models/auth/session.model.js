@@ -15,7 +15,7 @@ const sessionSchema = new Schema(
       ref: "LastDevice",
       index: true, // foreign key reference to last_devices
     },
-    refresh_token: {
+    hashedRefreshToken: {
       type: String,
       required: true,
     },

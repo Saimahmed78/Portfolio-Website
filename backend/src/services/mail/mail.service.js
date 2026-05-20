@@ -5,6 +5,8 @@ import {
   resetPasswordEmailContent,
   changePasswordEmailContent,
   accountDeletionEmailContent,
+  pollCreationEmailContent,
+  pollResultsPublishedEmailContent,
 } from "./mail.template.js";
 
 import { sendMail} from "../../infrastructure/mail/mail.transporter.js";
@@ -54,5 +56,21 @@ export async function sendAccountDeletionEmail({ email, name }) {
     email,
     subject: "Account Deleted",
     mailGenContent: accountDeletionEmailContent(name),
+  });
+}
+
+export async function sendPollCreationEmail({ email, name, pollTitle, pollLink }) {
+  return sendMail({
+    email,
+    subject: "Your Poll has been Created Successfully!",
+    mailGenContent: pollCreationEmailContent(name, pollTitle, pollLink),
+  });
+}
+
+export async function sendPollResultsPublishedEmail({ email, name, pollTitle, resultsLink }) {
+  return sendMail({
+    email,
+    subject: `Results Published: ${pollTitle}`,
+    mailGenContent: pollResultsPublishedEmailContent(name, pollTitle, resultsLink),
   });
 }

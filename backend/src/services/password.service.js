@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { ApiError } from "../utils/ApiError.js";
-import User from "../models/user.model.js";
+import User from "../models/auth/user.model.js";
 
 const isProd = process.env.NODE_ENV === "production";
 const clearCookieOptions = {
@@ -26,14 +26,16 @@ export async function resetPassword({ token, newPassword }) {
 
   const hashed = crypto.createHash("sha256").update(token).digest("hex");
   const user = await User.findOne({
-    hashed_forgotpass_token: hashed,
-    hashed_forgotpass_token_expiry: { $gt: Date.now() },
+    hashedForgotpassToken: hashed,
+    hashedForgotPassTokenExpiry: { $gt: Date.now() },
   });
   if (!user) throw new ApiError(404, "Reset link is expired or invalid");
 
-  user.hashed_forgotpass_token = undefined;
-  user.hashed_forgotpass_token_expiry = undefined;
-  user.hashed_password = newPassword;
+  user.hashedForgotpassToken = undefined;
+  user.hashedForgotPassTokenExpiry = undefined;
+  user.hashedPassword = newPassword;
+  user.passwordChangedAt = new Date();
+  user.passwordChangedCount = (user.passwordChangedCount || 0) + 1;
   await user.save();
 
   // Make payload available for email service
@@ -44,14 +46,16 @@ export async function changePassword({ userId, oldPass, newPass }) {
   const user = await User.findById(userId);
   if (!user) throw new ApiError(404, "User not found");
 
-  const isMatch = await bcrypt.compare(oldPass, user.password);
+  const isMatch = await user.isPasswordCorrect(oldPass);
   if (!isMatch) throw new ApiError(400, "Old password is incorrect");
 
   if (oldPass === newPass) {
     throw new ApiError(400, "New password must be different from old password");
   }
 
-  user.password = newPass;
+  user.hashedPassword = newPass;
+  user.passwordChangedAt = new Date();
+  user.passwordChangedCount = (user.passwordChangedCount || 0) + 1;
   user.refreshToken = undefined; // force re-login
   await user.save();
 
