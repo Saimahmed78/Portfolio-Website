@@ -32,72 +32,63 @@ export function ContactForm() {
 
   return (
     <>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        {/* First Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
-            First Name
-          </label>
-          <input
-            type="text"
-            placeholder="John"
-            {...register("firstName")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-700 bg-gray-900/70 text-gray-100 placeholder-gray-400 
-              focus:outline-none focus:border-blue-400 focus:shadow-[0_0_12px_rgba(94,158,255,0.6)] transition"
-          />
-          {errors.firstName && (
-            <p className="text-red-400 text-sm">{errors.firstName.message}</p>
-          )}
-        </div>
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex gap-4 max-[480px]:flex-col">
+          {/* First Name */}
+          <div className="form-group flex-1">
+            <label className="form-label">First Name</label>
+            <input
+              type="text"
+              placeholder="John"
+              {...register("firstName")}
+              className="form-input"
+            />
+            {errors.firstName && (
+              <div className="form-error">{errors.firstName.message}</div>
+            )}
+          </div>
 
-        {/* Last Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
-            Last Name
-          </label>
-          <input
-            type="text"
-            placeholder="Doe"
-            {...register("secondName")}
-            className="w-[50%] px-4 py-3 rounded-xl border border-gray-700 bg-gray-900/70 text-gray-100 placeholder-gray-400 
-              focus:outline-none focus:border-blue-400 focus:shadow-[0_0_12px_rgba(94,158,255,0.6)] transition"
-          />
-          {errors.secondName && (
-            <p className="text-red-400 text-sm">{errors.secondName.message}</p>
-          )}
+          {/* Last Name */}
+          <div className="form-group flex-1">
+            <label className="form-label">Last Name</label>
+            <input
+              type="text"
+              placeholder="Doe"
+              {...register("secondName")}
+              className="form-input"
+            />
+            {errors.secondName && (
+              <div className="form-error">{errors.secondName.message}</div>
+            )}
+          </div>
         </div>
 
         {/* Email */}
-        <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
-            Email
-          </label>
+        <div className="form-group">
+          <label className="form-label">Email</label>
           <input
             type="email"
             placeholder="you@example.com"
             {...register("email")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-700 bg-gray-900/70 text-gray-100 placeholder-gray-400 
-              focus:outline-none focus:border-blue-400 focus:shadow-[0_0_12px_rgba(94,158,255,0.6)] transition"
+            className="form-input"
           />
           {errors.email && (
-            <p className="text-red-400 text-sm">{errors.email.message}</p>
+            <div className="form-error">{errors.email.message}</div>
           )}
         </div>
 
         {/* Message */}
-        <div>
-          <label className="block text-sm font-medium text-gray-200 mb-1">
-            Message
-          </label>
+        <div className="form-group">
+          <label className="form-label">Message</label>
           <textarea
             rows={5}
             placeholder="Type your message..."
             {...register("message")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-700 bg-gray-900/70 text-gray-100 placeholder-gray-400 
-              focus:outline-none focus:border-blue-400 focus:shadow-[0_0_12px_rgba(94,158,255,0.6)] transition"
+            className="form-input"
+            style={{ resize: "vertical", padding: "0.8rem 1rem" }}
           />
           {errors.message && (
-            <p className="text-red-400 text-sm">{errors.message.message}</p>
+            <div className="form-error">{errors.message.message}</div>
           )}
         </div>
 
@@ -105,16 +96,14 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mt-4 px-6 py-3 rounded-2xl font-semibold text-white 
-            bg-gradient-to-r from-blue-500 to-indigo-600 
-            shadow-lg hover:shadow-xl hover:scale-[1.02] transition-transform"
+          className="btn-submit mt-2"
         >
           {isSubmitting ? "Sending..." : "Send Message"}
         </button>
       </form>
 
       {isSubmitSuccessful && (
-        <p className="mt-4 text-green-400 font-medium">
+        <p className="mt-4 text-[var(--accent-success)] font-medium text-sm">
           Message sent successfully!
         </p>
       )}

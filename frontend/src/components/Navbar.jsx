@@ -1,110 +1,104 @@
-import { useState } from "react";
-import { FaBars, FaTimes, FaRocket } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaRocket } from "react-icons/fa";
+import { Link, useLocation } from "react-router";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavClick = (e, targetId) => {
+    setIsOpen(false);
+    if (location.pathname === "/") {
+      e.preventDefault();
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", `/#${targetId}`);
+      }
+    }
+  };
 
   return (
-    <nav className="bg-white border-b border-gray-300 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <>
+      <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
         {/* Logo */}
-        <div className="flex items-center text-xl font-bold text-gray-800 gap-2">
-          <FaRocket className="text-blue-600 text-2xl" /> My Portfolio
-        </div>
+        <Link 
+          to="/" 
+          className="nav-logo relative z-50" 
+          onClick={(e) => {
+            if (location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.history.pushState(null, "", "/");
+              setIsOpen(false);
+            }
+          }}
+        >
+          <div className="nav-logo-icon">
+            <FaRocket className="text-white text-sm" />
+          </div>
+          My Portfolio
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <ul className="flex gap-8 font-medium text-gray-700">
-            <li>
-              <a href="/about" className="hover:text-blue-600 transition">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="/project" className="hover:text-blue-600 transition">
-                Projects
-              </a>
-            </li>
-            <li>
-              <a href="/skills" className="hover:text-blue-600 transition">
-                Skills
-              </a>
-            </li>
-            <li>
-              <a href="/contact" className="hover:text-blue-600 transition">
-                Contact
-              </a>
-            </li>
-          </ul>
+          <div className="nav-links">
+            <Link to="/#about" className="nav-link" onClick={(e) => handleNavClick(e, "about")}>About</Link>
+            <Link to="/#project" className="nav-link" onClick={(e) => handleNavClick(e, "project")}>Projects</Link>
+            <Link to="/#skills" className="nav-link" onClick={(e) => handleNavClick(e, "skills")}>Skills</Link>
+            <Link to="/#contact" className="nav-link" onClick={(e) => handleNavClick(e, "contact")}>Contact</Link>
+          </div>
 
-          {/* Sign Up & Login Buttons */}
-          <div className="flex gap-4 ml-6">
-            <a
-              href="/register"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-              Sign Up
-            </a>
-            <a
-              href="/login"
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition"
-            >
-              Login
-            </a>
+          <div className="nav-actions ml-4">
+            <Link to="/login" className="btn-nav">Login</Link>
+            <Link to="/register" className="btn-nav btn-nav-primary">Sign Up</Link>
           </div>
         </div>
 
-        {/* Hamburger Button */}
-        <div
-          className="md:hidden text-2xl cursor-pointer select-none"
+        {/* CSS Animated Hamburger Button */}
+        <button
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative z-50 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition bg-transparent border-none outline-none cursor-pointer"
           onClick={toggleMenu}
+          aria-label="Toggle menu"
         >
-          {isOpen ? <FaTimes /> : <FaBars />}
+          <span className={`block w-6 h-[2px] bg-current transform transition duration-300 ease-in-out absolute ${isOpen ? 'rotate-45' : '-translate-y-2'}`} />
+          <span className={`block w-6 h-[2px] bg-current transform transition duration-300 ease-in-out absolute ${isOpen ? 'opacity-0' : 'opacity-100'}`} />
+          <span className={`block w-6 h-[2px] bg-current transform transition duration-300 ease-in-out absolute ${isOpen ? '-rotate-45' : 'translate-y-2'}`} />
+        </button>
+      </nav>
+
+      {/* Slide-Down Mobile Drawer */}
+      <div 
+        className={`fixed inset-0 z-40 bg-[var(--bg-void)] pt-24 px-6 flex flex-col md:hidden transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}
+      >
+        <div className="noise-overlay"></div>
+        <div className="flex flex-col gap-6 text-center text-lg relative z-10">
+          <Link to="/#about" className="nav-link text-xl" onClick={(e) => handleNavClick(e, "about")}>About</Link>
+          <Link to="/#project" className="nav-link text-xl" onClick={(e) => handleNavClick(e, "project")}>Projects</Link>
+          <Link to="/#skills" className="nav-link text-xl" onClick={(e) => handleNavClick(e, "skills")}>Skills</Link>
+          <Link to="/#contact" className="nav-link text-xl" onClick={(e) => handleNavClick(e, "contact")}>Contact</Link>
+        </div>
+        
+        <div className="flex flex-col gap-4 mt-10 px-4 relative z-10">
+          <Link to="/login" className="btn-primary py-3" style={{ background: "transparent", border: "1px solid var(--border-card)" }} onClick={() => setIsOpen(false)}>
+            Login
+          </Link>
+          <Link to="/register" className="btn-primary py-3" onClick={() => setIsOpen(false)}>
+            Sign Up
+          </Link>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <ul className="flex flex-col gap-4 bg-white border-t border-gray-200 px-6 py-4 md:hidden">
-          <li>
-            <a href="/about" className="hover:text-blue-600 transition">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="/project" className="hover:text-blue-600 transition">
-              Projects
-            </a>
-          </li>
-          <li>
-            <a href="/skills" className="hover:text-blue-600 transition">
-              Skills
-            </a>
-          </li>
-          <li>
-            <a href="/contact" className="hover:text-blue-600 transition">
-              Contact
-            </a>
-          </li>
-          {/* Mobile Sign Up & Login Buttons */}
-          <li className="flex gap-4 mt-2">
-            <a
-              href="/register"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition flex-1 text-center"
-            >
-              Sign Up
-            </a>
-            <a
-              href="/login"
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition flex-1 text-center"
-            >
-              Login
-            </a>
-          </li>
-        </ul>
-      )}
-    </nav>
+    </>
   );
 }
 
