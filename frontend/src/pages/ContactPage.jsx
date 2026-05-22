@@ -36,7 +36,7 @@ export function ContactPage() {
 
             <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
               <FontAwesomeIcon icon={faPhone} className="text-[var(--accent-primary)] text-lg" />
-              <span>+92 312 3456789</span>
+              <span>+92 311 9860468</span>
             </p>
 
             <p className="flex items-center gap-4 text-base hover:text-[var(--text-primary)] transition">
