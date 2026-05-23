@@ -139,7 +139,7 @@ function FullStackProjectCard({ project }) {
       style={style}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      className="group relative flex flex-col md:flex-row overflow-hidden rounded-2xl bg-[var(--bg-card)] w-full"
+      className="group relative flex flex-col md:flex-row gap-4 md:gap-8 overflow-hidden rounded-2xl bg-[var(--bg-card)] w-full"
     >
       {/* Top Accent Line */}
       <div
@@ -148,7 +148,7 @@ function FullStackProjectCard({ project }) {
       />
 
       {/* Image — Left covering ~30% */}
-      <div className="md:w-[30%] shrink-0 overflow-hidden bg-[var(--bg-base)] relative rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none m-3.5 mb-0 md:mb-3.5 flex items-center">
+      <div className="md:w-[35%] shrink-0 overflow-hidden bg-[var(--bg-base)] relative rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none m-3.5 mb-0 md:mb-3.5 flex ">
         <div className="w-full relative" style={{ aspectRatio: "16/9" }}>
           <img
             src={project.image || "https://via.placeholder.com/800x450?text=Image+Not+Found"}

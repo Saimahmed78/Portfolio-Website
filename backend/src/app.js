@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { ApiError } from "./utils/ApiError.js";
 import dbConnection from "./infrastructure/db/connection.js";
 import authRoutes from "./routes/auth.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 import healthCheck from "./controllers/healthcheck.controller.js";
 import { apiLimiter } from "./middlewares/rateLimiter.js";
 
@@ -42,6 +43,7 @@ app.use(cookieParser());
 
 // Mount the authentication routes at /api/v1/auth
 app.use("/api/v1/auth", apiLimiter, authRoutes);
+app.use("/api/v1/contact", contactRoutes);
 app.use("/api/v1/healthCheck", healthCheck);
 
 app.use((err, req, res, next) => {

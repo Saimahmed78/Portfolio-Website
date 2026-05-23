@@ -7,6 +7,7 @@ import {
   accountDeletionEmailContent,
   pollCreationEmailContent,
   pollResultsPublishedEmailContent,
+  contactInquiryEmailContent,
 } from "./mail.template.js";
 
 import { sendMail} from "../../infrastructure/mail/mail.transporter.js";
@@ -72,5 +73,16 @@ export async function sendPollResultsPublishedEmail({ email, name, pollTitle, re
     email,
     subject: `Results Published: ${pollTitle}`,
     mailGenContent: pollResultsPublishedEmailContent(name, pollTitle, resultsLink),
+  });
+}
+
+/**
+ * Sends a contact form inquiry to the portfolio owner's email.
+ */
+export async function sendContactEmail({ senderName, senderEmail, subject, message }) {
+  return sendMail({
+    email: process.env.OWNER_EMAIL,
+    subject: `[Portfolio Contact] ${subject}`,
+    mailGenContent: contactInquiryEmailContent({ senderName, senderEmail, subject, message }),
   });
 }

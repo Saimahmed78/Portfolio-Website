@@ -118,3 +118,27 @@ export const pollResultsPublishedEmailContent = (username, pollTitle, resultsLin
     },
   });
 
+export const contactInquiryEmailContent = ({ senderName, senderEmail, subject, message }) =>
+  generate({
+    body: {
+      name: "Saim Ahmed",
+      intro: [
+        `You have a new contact inquiry from your portfolio website.`,
+        `<strong>From:</strong> ${senderName} &lt;${senderEmail}&gt;`,
+        `<strong>Subject:</strong> ${subject}`,
+      ],
+      table: {
+        data: [
+          { field: "Name",    value: senderName },
+          { field: "Email",   value: senderEmail },
+          { field: "Subject", value: subject },
+          { field: "Message", value: message },
+        ],
+        columns: {
+          customWidth:     { field: "20%", value: "80%" },
+          customAlignment: { field: "left", value: "left" },
+        },
+      },
+      outro: "Reply directly to this email to respond to the sender.",
+    },
+  });
