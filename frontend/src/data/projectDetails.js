@@ -37,7 +37,7 @@ const projectDetails = [
       "filter/sort books",
       "connect to database.",
     ],
-    techStack: ["React", "Tailwind", "React Router"],
+    techStack: ["HTML","CSS","JavaScript"],
     conceptsUsed: ["Routing", "Component Design", "Props"],
   },
   {
@@ -66,7 +66,7 @@ const projectDetails = [
     vercel: "https://tip-calulator.vercel.app/",
     weakness: "No validation on input fields.",
     enhancementsToMake: ["Add input validation ", "animated UI."],
-    techStack: ["React", "CSS Modules"],
+    techStack: ["HTML", "CSS", "JavaScript"],
     description: "A tip calculator that helps users quickly compute appropriate tip amounts with an intuitive interface.",
     conceptsUsed: ["useState", "Input Handling", "Form Validation"],
   },
@@ -79,7 +79,7 @@ const projectDetails = [
     vercel: "https://markdown-previewer-jade-seven.vercel.app/",
     weakness: "Limited markdown support.",
     enhancementsToMake: ["Support full markdown spec", "add dark mode toggle."],
-    techStack: ["React", "Marked.js"],
+    techStack: ["HTML", "CSS", "JavaScript"],
     description: "A markdown previewer that renders markdown in real-time with syntax highlighting.",
     conceptsUsed: ["Third-party Libraries", "Live Preview", "State Syncing"],
   },
@@ -93,7 +93,7 @@ const projectDetails = [
     vercel: "https://digitalstopwatch-livid.vercel.app/",
     weakness: "Time input isn’t intuitive, no sound/alarm at end.",
     enhancementsToMake: ["Improve input UI", " add notification/alarm."],
-    techStack: ["React", "CSS"],
+    techStack: ["HTML", "CSS", "JavaScript"],
     conceptsUsed: ["Timers", "useEffect", "Cleanup Functions"],
   },
   {
@@ -106,7 +106,7 @@ const projectDetails = [
     vercel: "https://digitalclock-psi.vercel.app/",
     weakness: "Just shows time, no world clock or theme.",
     enhancementsToMake: ["Add themes", "world clock toggle", "analog mode."],
-    techStack: ["React", "Date API", "TailwindCSS"],
+    techStack: ["HTML", "CSS", "JavaScript"],
     conceptsUsed: ["Time Manipulation", "Reusable Components", "Live Updates"],
   },
   {
@@ -116,7 +116,7 @@ const projectDetails = [
     image: pollForgeImg,
     video: "",
     github: "https://github.com/Saimahmed78/Pulse-Board",
-    vercel: "",
+    vercel: "https://poll-forge-chi.vercel.app",
     weakness: "Requires external SMTP and MongoDB for local setup; currently lacks multi-tenant team workspaces.",
     enhancementsToMake: [
       "Add Multi-Tenant Team Workspaces",
@@ -132,7 +132,7 @@ const projectDetails = [
       "Node.js",
       "Socket.io",
       "Zustand",
-      "TailwindCSS"
+
     ],
     conceptsUsed: [
       "WebSockets for Real-time Analytics",
@@ -151,6 +151,73 @@ const projectDetails = [
       frontend: ["Vite React 19", "React Router v7", "Zustand"],
       backend: ["Node.js + Express", "MongoDB via Mongoose", "Socket.io", "Brevo SMTP"]
     }
+  },
+  {
+    id: "random-cat-viewer",
+    isFullStack: false,
+    isReact: true,
+    title: "Random Cat Viewer",
+    image: "",
+    github: "https://github.com/Saimahmed78/Random-Cat-Viewer",
+    vercel: "https://random-cat-generator-three.vercel.app/",
+    weakness: "Requires continuous network access to load images.",
+    enhancementsToMake: ["Add caching for offline support", "implement favorite breeds list."],
+    description: "A React-based app that fetches and displays a random cat breed on every click — built to practice component architecture, state management, and hooks.",
+    techStack: ["React.js", "Vanilla CSS", "FreeAPI"],
+    conceptsUsed: ["useEffect", "useState", "Conditional Rendering", "API Integration"],
+    features: [
+      "Fetches a random cat breed from FreeAPI on load and on demand",
+      "Displays breed image, origin, lifespan, temperament, and dog-friendliness",
+      "Animated energy level progress bar",
+      "Wikipedia link per breed",
+      "Loading state between fetches"
+    ]
+  },
+  {
+    id: "meal-recipes",
+    isFullStack: false,
+    isReact: true,
+    title: "Meal Recipes",
+    image: "",
+    github: "https://github.com/Saimahmed78/Meal-Recipes",
+    vercel: "https://meals-listing-lyart.vercel.app/",
+    weakness: "Dependent on external API rate limits.",
+    enhancementsToMake: ["Add user authentication", "allow saving custom recipes."],
+    description: "A React-based meal recipe listing app that fetches recipes and their full ingredient breakdowns from an API, displayed in an editorial dark-themed layout.",
+    techStack: ["React.js", "Vanilla CSS", "FreeAPI"],
+    conceptsUsed: ["useEffect with AbortController", "useState", "Dynamic Key Extraction", "Error Handling"],
+    features: [
+      "Editorial dark UI with a responsive recipe grid",
+      "Fetches live meal data from FreeAPI",
+      "Displays full ingredient list with measurements per recipe",
+      "Category and cuisine area tags per meal",
+      "Graceful error handling on fetch failure",
+      "Smooth image overlay and card transitions"
+    ]
+  },
+  {
+    id: "video-listing-project",
+    isFullStack: false,
+    isReact: true,
+    title: "Video Listing Project",
+    image: "",
+    github: "https://github.com/Saimahmed78/Video-Listing-Project",
+    vercel: "",
+    weakness: "Playback is not supported internally yet.",
+    enhancementsToMake: ["Embed video player", "add infinite scrolling.", "implement custom categories."],
+    description: "A React-based video listing app that fetches videos and their metadata from an API and displays them in a YouTube-style layout.",
+    techStack: ["React.js", "Vanilla CSS", "FreeAPI"],
+    conceptsUsed: ["Component Decomposition", "Skeleton Loaders", "Date Formatting", "State Management"],
+    features: [
+      "YouTube-style responsive video grid",
+      "Fetches live video data from FreeAPI",
+      "Skeleton loading cards while data is being fetched",
+      "Formatted view counts, like counts, and comment counts",
+      "Human-readable timestamps",
+      "Hover animation on video cards",
+      "Graceful error handling on fetch failure",
+      "Sticky header with search bar UI"
+    ]
   }
 ];
 

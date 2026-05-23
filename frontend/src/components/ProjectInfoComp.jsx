@@ -43,16 +43,64 @@ export function ProjectInfoComp({ project }) {
           }}>
             {project.title}
           </h1>
-          <p style={{
-            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-            fontWeight: 300,
-            lineHeight: 1.75,
-            color: 'var(--text-secondary)',
-            maxWidth: '600px',
-            margin: '0 auto',
+          <div style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '12px'
           }}>
-            {project.description || 'A modern, responsive web application built with performance and user experience at its core.'}
-          </p>
+            {project.vercel && (
+              <a 
+                href={project.vercel} 
+                target="_blank" 
+                rel="noreferrer"
+                className="btn-primary"
+                style={{
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#fff',
+                }}
+              >
+                <span>Live Demo</span>
+                <span style={{ fontSize: '1.2em', lineHeight: 1 }}>↗</span>
+              </a>
+            )}
+            {project.github && (
+              <a 
+                href={project.github} 
+                target="_blank" 
+                rel="noreferrer"
+                style={{
+                  padding: '12px 28px',
+                  background: 'var(--bg-card)',
+                  color: 'var(--text-primary)',
+                  border: '1px solid var(--border-card)',
+                  borderRadius: '100px',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--accent-primary)';
+                  e.currentTarget.style.color = 'var(--accent-primary)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-card)';
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                }}
+              >
+                <span>GitHub Repo</span>
+                <span style={{ fontSize: '1.2em', lineHeight: 1 }}>↗</span>
+              </a>
+            )}
+          </div>
         </header>
 
         {/* ══ MAIN GRID ════════════════════════════════════════════ */}

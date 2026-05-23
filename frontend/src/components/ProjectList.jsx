@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 import { Link } from "react-router";
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiArrowUpRight, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { frontendSkills, backendSkills, devOpsSkills } from "../data/skills";
 
 const allSkills = [...frontendSkills, ...backendSkills, ...devOpsSkills];
@@ -205,9 +205,66 @@ function FullStackProjectCard({ project }) {
   );
 }
 
+function ProjectCarouselSection({ title, projects }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextProject = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
+  };
+
+  const prevProject = () => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? projects.length - 1 : prevIndex - 1));
+  };
+
+  if (!projects || projects.length === 0) return null;
+
+  return (
+    <section className="w-full">
+      <h2 className="text-3xl md:text-4xl font-display font-bold text-center text-[var(--text-primary)] mb-10 tracking-tight">
+        {title}
+      </h2>
+      
+      <div className="flex items-center justify-center gap-4 md:gap-12 w-full max-w-4xl mx-auto px-4">
+        <button 
+          onClick={prevProject}
+          className="shrink-0 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-colors"
+          aria-label="Previous project"
+        >
+          <FiChevronLeft size={28} />
+        </button>
+
+        <div className="w-full max-w-lg shrink transition-opacity duration-300">
+          <ProjectCard project={projects[currentIndex]} />
+        </div>
+
+        <button 
+          onClick={nextProject}
+          className="shrink-0 w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-[var(--bg-card)] border border-[var(--border-card)] text-[var(--text-primary)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-colors"
+          aria-label="Next project"
+        >
+          <FiChevronRight size={28} />
+        </button>
+      </div>
+
+      {/* Pagination Indicators */}
+      <div className="flex justify-center gap-3 mt-8">
+        {projects.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentIndex(idx)}
+            className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-[var(--accent-primary)]' : 'bg-[var(--border-card)] hover:bg-[var(--text-muted)]'}`}
+            aria-label={`Go to project ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function ProjectComp({ details }) {
   const fullStackProjects = details.filter(p => p.isFullStack);
-  const basicProjects = details.filter(p => !p.isFullStack);
+  const reactProjects = details.filter(p => !p.isFullStack && p.isReact);
+  const basicProjects = details.filter(p => !p.isFullStack && !p.isReact);
 
   return (
     <div className="flex flex-col gap-16 w-full">
@@ -227,20 +284,12 @@ export default function ProjectComp({ details }) {
         </section>
       )}
 
+      {reactProjects.length > 0 && (
+        <ProjectCarouselSection title="React Projects" projects={reactProjects} />
+      )}
+
       {basicProjects.length > 0 && (
-        <section className="w-full">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-center text-[var(--text-primary)] mb-10 tracking-tight">
-            Basic Projects
-          </h2>
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 w-full">
-            {basicProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-              />
-            ))}
-          </div>
-        </section>
+        <ProjectCarouselSection title="Basic Projects" projects={basicProjects} />
       )}
     </div>
   );
