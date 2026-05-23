@@ -188,77 +188,6 @@ class ApiClient {
     });
   }
 
-  // create Poll
-  async createPoll(pollData) {
-    return this.customFetch("/app/polls/create", {
-      method: "POST",
-      body: JSON.stringify(pollData),
-    });
-  }
-
-  async getAllPolls() {
-    return this.customFetch("/app/polls/getPolls", {
-      method: "GET",
-    });
-  }
-
-  async getSubmissions() {
-    return this.customFetch("/app/polls/submissions", {
-      method: "GET",
-    });
-  }
-
-  async getPollById(id) {
-    return this.customFetch(`/app/polls/getPoll/${id}`, {
-      method: "GET",
-    });
-  }
-
-  async submitResponseAuth(id, data) {
-    return this.customFetch(`/app/polls/${id}/response`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      skipRedirect: true,
-    });
-  }
-
-  async submitResponsePublic(id, data) {
-    return this.customFetch(`/app/polls/${id}/response/public`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  }
-
-  async deletePoll(id) {
-    return this.customFetch(`/app/polls/${id}`, {
-      method: "DELETE",
-    });
-  }
-
-  async getPollAnalytics(id) {
-    return this.customFetch(`/app/polls/${id}/analytics`, {
-      method: "GET",
-    });
-  }
-
-  async getPollResults(id) {
-    return this.customFetch(`/app/polls/${id}/results`, {
-      method: "GET",
-    });
-  }
-
-  async publishResults(id) {
-    return this.customFetch(`/app/polls/${id}/publish`, {
-      method: "POST",
-    });
-  }
-
-  async notifySubmitters(id) {
-    return this.customFetch(`/app/polls/${id}/notify`, {
-      method: "POST",
-    });
-  }
-
   async uploadAvatar(formData) {
     return this.customFetch("/auth/profile/avatar", {
       method: "POST",
@@ -269,15 +198,14 @@ class ApiClient {
     });
   }
 
-  async uploadPollFile(formData) {
-    return this.customFetch("/app/polls/upload", {
+  async contact(data) {
+    return this.customFetch("/contact/submit", {
       method: "POST",
-      body: formData,
-      headers: {
-        "Content-Type": null,
-      },
+      body: JSON.stringify(data),
     });
   }
+
+
 }
 
 const apiClient = new ApiClient();

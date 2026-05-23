@@ -1,105 +1,55 @@
-import { useState } from "react";
+import { ContactForm } from "./ContactForm";
 
 export function ProjectInfoComp({ project }) {
-  const [form, setForm]         = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus]     = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
-  const [feedback, setFeedback] = useState('');
-
-  const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    setFeedback('');
-    try {
-      const res  = await fetch('http://localhost:5000/api/v1/contact', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Something went wrong.');
-      setStatus('success');
-      setFeedback(data.message || 'Message sent successfully!');
-      setForm({ name: '', email: '', subject: '', message: '' });
-    } catch (err) {
-      setStatus('error');
-      setFeedback(err.message);
-    }
-  };
-
-  /* ─── shared input style ─────────────────────────── */
-  const inputStyle = {
-    background:    'var(--bg-base)',
-    border:        '1px solid var(--border-card)',
-    borderRadius:  'var(--radius-btn)',
-    padding:       '14px 18px',
-    fontSize:      '0.95rem',
-    color:         'var(--text-primary)',
-    fontFamily:    'var(--font-body)',
-    outline:       'none',
-    width:         '100%',
-    transition:    'border-color 0.2s',
-  };
-  const labelStyle = {
-    fontSize:      '0.72rem',
-    fontWeight:    700,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    color:         'var(--text-muted)',
-  };
-  const focusBorder  = (e) => (e.target.style.borderColor = 'var(--accent-primary)');
-  const blurBorder   = (e) => (e.target.style.borderColor = 'var(--border-card)');
-
   return (
     <div style={{
-      width:       '100%',
-      minHeight:   '100vh',
-      background:  'var(--bg-void)',
-      paddingTop:  '96px',
+      width: '100%',
+      minHeight: '100vh',
+      background: 'var(--bg-void)',
+      paddingTop: '96px',
       paddingBottom: '80px',
-      fontFamily:  'var(--font-body)',
-      color:       'var(--text-primary)',
+      fontFamily: 'var(--font-body)',
+      color: 'var(--text-primary)',
     }}>
       <div style={{
         maxWidth: '1200px',
-        margin:   '0 auto',
-        padding:  '0 clamp(1.5rem, 5vw, 4rem)',
-        display:  'flex',
+        margin: '0 auto',
+        padding: '0 clamp(1.5rem, 5vw, 4rem)',
+        display: 'flex',
         flexDirection: 'column',
-        gap:      '80px',
+        gap: '80px',
       }}>
 
         {/* ══ HEADER ══════════════════════════════════════════════ */}
         <header style={{ textAlign: 'center', paddingTop: '40px' }}>
           <p style={{
-            fontSize:      '0.72rem',
-            fontWeight:    600,
+            fontSize: '0.72rem',
+            fontWeight: 600,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            color:         'var(--accent-primary)',
-            marginBottom:  '20px',
+            color: 'var(--accent-primary)',
+            marginBottom: '20px',
           }}>
             Project Case Study
           </p>
           <h1 style={{
-            fontFamily:    'var(--font-display)',
-            fontSize:      'clamp(2.8rem, 7vw, 5.5rem)',
-            fontWeight:    800,
-            lineHeight:    1.05,
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
+            fontWeight: 800,
+            lineHeight: 1.05,
             letterSpacing: '-0.03em',
-            color:         'var(--text-primary)',
-            marginBottom:  '24px',
+            color: 'var(--text-primary)',
+            marginBottom: '24px',
           }}>
             {project.title}
           </h1>
           <p style={{
-            fontSize:     'clamp(1rem, 2vw, 1.2rem)',
-            fontWeight:   300,
-            lineHeight:   1.75,
-            color:        'var(--text-secondary)',
-            maxWidth:     '600px',
-            margin:       '0 auto',
+            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+            fontWeight: 300,
+            lineHeight: 1.75,
+            color: 'var(--text-secondary)',
+            maxWidth: '600px',
+            margin: '0 auto',
           }}>
             {project.description || 'A modern, responsive web application built with performance and user experience at its core.'}
           </p>
@@ -107,10 +57,10 @@ export function ProjectInfoComp({ project }) {
 
         {/* ══ MAIN GRID ════════════════════════════════════════════ */}
         <div style={{
-          display:             'grid',
+          display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap:                 '32px',
-          alignItems:          'start',
+          gap: '32px',
+          alignItems: 'start',
         }}>
 
           {/* ── LEFT: Mockups ─────────────────────── */}
@@ -155,25 +105,25 @@ export function ProjectInfoComp({ project }) {
 
             {/* Desktop browser frame */}
             <div style={{
-              width:        '100%',
-              aspectRatio:  '16/10',
-              background:   '#000',
+              width: '100%',
+              aspectRatio: '16/10',
+              background: '#000',
               borderRadius: '12px',
-              border:       '1px solid var(--border-card)',
-              overflow:     'hidden',
-              display:      'flex',
+              border: '1px solid var(--border-card)',
+              overflow: 'hidden',
+              display: 'flex',
               flexDirection: 'column',
-              boxShadow:    '0 16px 48px rgba(0,0,0,0.6)',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.6)',
             }}>
               <div style={{
-                height:       '36px',
-                background:   'var(--bg-card)',
+                height: '36px',
+                background: 'var(--bg-card)',
                 borderBottom: '1px solid var(--border-card)',
-                display:      'flex',
-                alignItems:   'center',
-                padding:      '0 14px',
-                gap:          '8px',
-                flexShrink:   0,
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0 14px',
+                gap: '8px',
+                flexShrink: 0,
               }}>
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#FF5F57', display: 'block' }} />
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#FEBC2E', display: 'block' }} />
@@ -291,75 +241,7 @@ export function ProjectInfoComp({ project }) {
             </div>
 
             {/* Right — contact form */}
-            <form onSubmit={handleSubmit} style={{ padding: 'clamp(2rem, 5vw, 3.5rem)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-
-              {/* Name + Email */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <label style={labelStyle}>Name</label>
-                  <input type="text" name="name" value={form.name} onChange={handleChange} placeholder="John Doe" required style={inputStyle} onFocus={focusBorder} onBlur={blurBorder} />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <label style={labelStyle}>Email</label>
-                  <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="john@example.com" required style={inputStyle} onFocus={focusBorder} onBlur={blurBorder} />
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={labelStyle}>Subject</label>
-                <input type="text" name="subject" value={form.subject} onChange={handleChange} placeholder="Project inquiry..." required style={inputStyle} onFocus={focusBorder} onBlur={blurBorder} />
-              </div>
-
-              {/* Message */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={labelStyle}>Message</label>
-                <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell me about your project, goals, and timeline..." rows={6} required style={{ ...inputStyle, resize: 'vertical' }} onFocus={focusBorder} onBlur={blurBorder} />
-              </div>
-
-              {/* Feedback banner */}
-              {feedback && (
-                <div style={{
-                  padding:      '12px 16px',
-                  borderRadius: 'var(--radius-btn)',
-                  fontSize:     '0.88rem',
-                  fontWeight:   500,
-                  background:   status === 'success' ? 'rgba(34,197,94,0.1)'  : 'rgba(239,68,68,0.1)',
-                  border:       `1px solid ${status === 'success' ? 'rgba(34,197,94,0.35)' : 'rgba(239,68,68,0.35)'}`,
-                  color:        status === 'success' ? 'var(--accent-success)' : 'var(--accent-danger)',
-                }}>
-                  {status === 'success' ? '✓ ' : '✕ '}{feedback}
-                </div>
-              )}
-
-              {/* Submit button */}
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                style={{
-                  background:    status === 'loading' ? 'var(--text-muted)' : 'var(--accent-primary)',
-                  color:         '#fff',
-                  border:        'none',
-                  borderRadius:  'var(--radius-btn)',
-                  padding:       '16px 28px',
-                  fontSize:      '0.9rem',
-                  fontWeight:    600,
-                  fontFamily:    'var(--font-body)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  cursor:        status === 'loading' ? 'not-allowed' : 'pointer',
-                  width:         '100%',
-                  boxShadow:     '0 8px 28px var(--accent-glow-heavy)',
-                  transition:    'background 0.2s, transform 0.15s',
-                  opacity:       status === 'loading' ? 0.65 : 1,
-                }}
-                onMouseEnter={e => { if (status !== 'loading') { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-1px)'; }}}
-                onMouseLeave={e => { e.currentTarget.style.background = status === 'loading' ? 'var(--text-muted)' : 'var(--accent-primary)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-              >
-                {status === 'loading' ? 'Sending…' : 'Request a Free Consultation'}
-              </button>
-
-            </form>
+            <ContactForm />
           </div>
         </section>
 

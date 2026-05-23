@@ -9,6 +9,7 @@ import { sendContactEmail } from "../services/mail/mail.service.js";
  * Sends the contact form details to the portfolio owner's email.
  */
 export const submitContactForm = asyncHandler(async (req, res) => {
+  console.log("Sending email to sender")
   const { name, email, subject, message } = req.body;
 
   // Basic validation
