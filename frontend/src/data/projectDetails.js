@@ -6,6 +6,9 @@ import markdownPreviewerImg from "../assets/screenshots/markdown-previwer.png";
 import countdownTimerImg from "../assets/screenshots/countdown-timer.png";
 import smartClockImg from "../assets/screenshots/smart-clock.png";
 import pollForgeImg from "../assets/screenshots/poll-forge.png";
+import randomCatViewerImg from "../assets/screenshots/Cat-Listing-Desktop-view.png";
+import mealRecipesImg from "../assets/screenshots/Meal-listing-desktop-view.png";
+import videoListingImg from "../assets/screenshots/videos-listing-desktop-view.png";
 
 const projectDetails = [
   {
@@ -157,7 +160,7 @@ const projectDetails = [
     isFullStack: false,
     isReact: true,
     title: "Random Cat Viewer",
-    image: "",
+    image: randomCatViewerImg,
     github: "https://github.com/Saimahmed78/Random-Cat-Viewer",
     vercel: "https://random-cat-generator-three.vercel.app/",
     weakness: "Requires continuous network access to load images.",
@@ -178,7 +181,7 @@ const projectDetails = [
     isFullStack: false,
     isReact: true,
     title: "Meal Recipes",
-    image: "",
+    image: mealRecipesImg,
     github: "https://github.com/Saimahmed78/Meal-Recipes",
     vercel: "https://meals-listing-lyart.vercel.app/",
     weakness: "Dependent on external API rate limits.",
@@ -200,9 +203,9 @@ const projectDetails = [
     isFullStack: false,
     isReact: true,
     title: "Video Listing Project",
-    image: "",
+    image: videoListingImg,
     github: "https://github.com/Saimahmed78/Video-Listing-Project",
-    vercel: "",
+    vercel: "https://video-listing-project.vercel.app/",
     weakness: "Playback is not supported internally yet.",
     enhancementsToMake: ["Embed video player", "add infinite scrolling.", "implement custom categories."],
     description: "A React-based video listing app that fetches videos and their metadata from an API and displays them in a YouTube-style layout.",
