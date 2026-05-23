@@ -6,7 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { authRoutes } from "./router/auth.routes.jsx";
 import { appRoutes } from "./router/app.routes.jsx";
 import "./index.css";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react";
 const router = createBrowserRouter([
   {
     path: "/",
