@@ -69,7 +69,7 @@ export function Home() {
             <img
               src={profileImg}
               alt="Saim Ahmed"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
             />
           </div>
         </div>
