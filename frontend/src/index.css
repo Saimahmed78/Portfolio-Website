@@ -650,11 +650,23 @@ body {
 .features-grid {
   display: grid;
   gap: 1px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   background: var(--border-card);
   border: 1px solid var(--border-card);
   border-radius: 16px;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .feature-card {

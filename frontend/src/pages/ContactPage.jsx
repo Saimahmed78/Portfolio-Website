@@ -12,15 +12,15 @@ export function ContactPage() {
         I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
       </p>
 
-      <div className="features-grid mt-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+      <div className="features-grid mt-8">
         {/* Left - Contact Form */}
-        <div className="feature-card" style={{ gridColumn: "span 2" }}>
+        <div className="feature-card lg:col-span-2">
           <h2 className="feature-title mb-6">Send a Message</h2>
           <ContactForm />
         </div>
 
         {/* Right - Contact Info */}
-        <div className="feature-card">
+        <div className="feature-card lg:col-span-1">
           <h2 className="feature-title mb-6">Contact Information</h2>
 
           <div className="flex flex-col gap-6 text-[var(--text-secondary)]">

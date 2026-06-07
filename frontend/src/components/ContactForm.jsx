@@ -58,7 +58,7 @@ export function ContactForm() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ padding: "clamp(2rem, 5vw, 3.5rem)", display: "flex", flexDirection: "column", gap: "20px" }}>
             {/* Name + Email */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <label style={labelStyle}>Name</label>
                     <input type="text" placeholder="John Doe" {...register("name")} style={inputStyle} onFocus={focusBorder} onBlur={blurBorder} />
