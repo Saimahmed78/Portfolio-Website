@@ -19,6 +19,10 @@ const sessionSchema = new Schema(
       type: String,
       required: true,
     },
+    rotated_tokens: {
+      type: [String],
+      default: [],
+    },
 
     issued_at: {
       type: Date,

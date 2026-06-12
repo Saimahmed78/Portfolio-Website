@@ -110,7 +110,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError(404, "User does not exist");
 
   // 1. Record activity and get device info
-  const { savedDevice, auditLog } = await ActivityService.recordUserActivity({
+  const { savedDevice, auditLog, isNewDevice } = await ActivityService.recordUserActivity({
     req,
     user,
     eventType: "LOGIN",
@@ -168,6 +168,16 @@ export const loginUser = asyncHandler(async (req, res) => {
   user.lastLoginAt = new Date();
   user.totalLogins = (user.totalLogins || 0) + 1;
   await user.save();
+
+  if (isNewDevice) {
+    MailService.sendNewDeviceEmail({
+      email: user.email,
+      name: user.name,
+      deviceInfo: savedDevice.user_agent || "Unknown Browser",
+      ipAddress: savedDevice.ip_address || "Unknown IP",
+      time: new Date().toLocaleString(),
+    }).catch(console.error);
+  }
 
   res.cookie("accessToken", accessToken, accessCookieOptions);
   res.cookie("refreshToken", refreshToken, refreshCookieOptions);

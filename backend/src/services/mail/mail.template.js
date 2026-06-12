@@ -142,3 +142,17 @@ export const contactInquiryEmailContent = ({ senderName, senderEmail, subject, m
       outro: "Reply directly to this email to respond to the sender.",
     },
   });
+
+export const newDeviceLoginEmailContent = (username, deviceInfo, ipAddress, time) =>
+  generate({
+    body: {
+      name: username,
+      intro: "We noticed a successful login to your account from an unrecognized device.",
+      dictionary: {
+        "Device": deviceInfo,
+        "IP Address": ipAddress,
+        "Time": time,
+      },
+      outro: "If this was you, you can safely ignore this email. If this wasn't you, please secure your account immediately.",
+    },
+  });

@@ -3,6 +3,7 @@ import User from "../models/auth/user.model.js";
 import jwt from "jsonwebtoken";
 import Session from "../models/auth/session.model.js";
 import crypto from "crypto";
+import * as ActivityService from "../services/activity.service.js";
 
 const isLoggedIn = async (req, res, next) => {
   const accessToken = req.cookies?.accessToken;
@@ -45,7 +46,34 @@ const isLoggedIn = async (req, res, next) => {
     .update(refreshToken)
     .digest("hex");
 
+  // 1. Check for Reuse Detection
+  const reusedSession = await Session.findOne({
+    user_id: decodedRefresh.id,
+    rotated_tokens: hashedRefreshToken,
+  });
+
+  if (reusedSession) {
+    await Session.updateMany(
+      { user_id: decodedRefresh.id },
+      { $set: { revoked_at: new Date(), revoked_reason: "TOKEN_REUSE_DETECTED" } }
+    );
+
+    await ActivityService.recordUserActivity({
+      req,
+      user: loggedinUser,
+      eventType: "REFRESH_TOKEN_REUSE_DETECTED",
+      status: "FAILURE",
+      metadata: { reused_token_hash: hashedRefreshToken, original_session: reusedSession._id }
+    });
+
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    throw new ApiError(401, "Security alert: Refresh token reuse detected. All sessions revoked. Please log in again.");
+  }
+
+  // 2. Find valid session with Ownership Validation
   const loggedInUserSession = await Session.findOne({
+    user_id: decodedRefresh.id,
     hashedRefreshToken,
     revoked_at: null,
     expires_at: { $gt: new Date() }
@@ -55,14 +83,38 @@ const isLoggedIn = async (req, res, next) => {
     throw new ApiError(401, "Session is expired or has been revoked");
   }
   
+  // 3. Rotation logic
   const newAccessToken = loggedinUser.generateAccessToken();
+  const newRefreshToken = loggedinUser.generateRefreshToken();
+  const newHashedRefreshToken = crypto.createHash("sha256").update(newRefreshToken).digest("hex");
+
+  loggedInUserSession.rotated_tokens.push(hashedRefreshToken);
+  loggedInUserSession.hashedRefreshToken = newHashedRefreshToken;
+  await loggedInUserSession.save();
+
+  await ActivityService.recordUserActivity({
+    req,
+    user: loggedinUser,
+    eventType: "REFRESH_TOKEN_ROTATED",
+    status: "SUCCESS",
+    metadata: { session_id: loggedInUserSession._id }
+  });
+
   const accessTokenCookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     maxAge: 60 * 60 * 1000, // 60 minutes
   };
+  const refreshCookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  };
+
   res.cookie("accessToken", newAccessToken, accessTokenCookieOptions);
+  res.cookie("refreshToken", newRefreshToken, refreshCookieOptions);
 
   req.user = jwt.decode(newAccessToken);
   next();

@@ -165,5 +165,7 @@ export async function recordUserActivity({
     severity: status === "FAILURE" ? "warning" : "info",
   }).catch(err => console.error("Telemetry failed:", err));
 
-  return { savedDevice, notification, auditLog };
+  const isNewDevice = !existingDevice;
+
+  return { savedDevice, notification, auditLog, isNewDevice };
 }

@@ -8,6 +8,7 @@ import {
   pollCreationEmailContent,
   pollResultsPublishedEmailContent,
   contactInquiryEmailContent,
+  newDeviceLoginEmailContent,
 } from "./mail.template.js";
 
 import { sendMail} from "../../infrastructure/mail/mail.transporter.js";
@@ -84,5 +85,13 @@ export async function sendContactEmail({ senderName, senderEmail, subject, messa
     email: process.env.OWNER_EMAIL,
     subject: `[Portfolio Contact] ${subject}`,
     mailGenContent: contactInquiryEmailContent({ senderName, senderEmail, subject, message }),
+  });
+}
+
+export async function sendNewDeviceEmail({ email, name, deviceInfo, ipAddress, time }) {
+  return sendMail({
+    email,
+    subject: "Security Alert: New Login from Unrecognized Device",
+    mailGenContent: newDeviceLoginEmailContent(name, deviceInfo, ipAddress, time),
   });
 }
